@@ -11,6 +11,110 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        // sites
+        DB::table('sites')->insert([
+            'id' => 1,
+            'country_id' => 192,
+            'city_id' => 524901,
+            'name' => 'Engine Russia',
+            'background' => 'http://static.engine.dev/cities/moscow_small.jpg',
+            'domain' => 'web.engine.dev'
+        ]);
+        DB::table('sites')->insert([
+            'id' => 2,
+            'country_id' => 36,
+            'city_id' => 625144,
+            'name' => 'Engine Belarus',
+            'background' => 'http://static.engine.dev/cities/minsk01.jpg',
+            'domain' => 'by.engine2.dev'
+        ]);
+
+        // countries
+        DB::table('countries')->insert([
+            'id' => 192,
+            'name' => 'Russia'
+        ]);
+        DB::table('countries')->insert([
+            'id' => 36,
+            'name' => 'Belarus'
+        ]);
+        DB::table('countries')->insert([
+            'id' => 231,
+            'name' => 'Ukraine'
+        ]);
+
+        // cities
+        DB::table('cities')->insert([
+            'id' => 625144,
+            'country_id' => 36,
+            'latitude' => 53.9000000,
+            'longitude' => 27.5666700,
+            'name' => 'Minsk',
+            'domain' => 'minsk'
+        ]);
+        DB::table('cities')->insert([
+            'id' => 524901,
+            'country_id' => 192,
+            'latitude' => 55.7522200,
+            'longitude' => 37.6155600,
+            'name' => 'Moscow',
+            'domain' => 'moscow'
+        ]);
+        DB::table('cities')->insert([
+            'id' => 498817,
+            'country_id' => 192,
+            'latitude' => 59.9386300,
+            'longitude' => 30.3141300,
+            'name' => 'Saint Petersburg',
+            'domain' => 'spb'
+        ]);
+        DB::table('cities')->insert([
+            'id' => 703448,
+            'country_id' => 231,
+            'latitude' => 50.4546600,
+            'longitude' => 30.5238000,
+            'name' => 'Kiev',
+            'domain' => 'kiev'
+        ]);
+
+        // companies_categories
+        DB::table('companies_categories')->insert([
+            'id' => 1,
+            'site_id' => 1,
+            'name' => 'Рестораны',
+            'domain' => 'restaurants',
+            'icon' => 'fa-cutlery'
+        ]);
+        DB::table('companies_categories')->insert([
+            'id' => 2,
+            'site_id' => 1,
+            'name' => 'Кафе',
+            'domain' => 'cafe',
+            'icon' => 'fa-coffee'
+        ]);
+        DB::table('companies_categories')->insert([
+            'id' => 3,
+            'site_id' => 2,
+            'name' => 'Category 1',
+            'domain' => 'category1',
+            'icon' => 'fa-coffee'
+        ]);
+
+
+
+        // companies
+        DB::table('companies')->insert([
+            'site_id' => 1,
+            'category_id' => 1,
+            'name' => 'Company 1',
+            'domain' => 'company1'
+        ]);
+
+        DB::table('companies')->insert([
+            'site_id' => 1,
+            'category_id' => 2,
+            'name' => 'Company 2',
+            'domain' => 'company2'
+        ]);
     }
 }

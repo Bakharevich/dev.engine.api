@@ -13,6 +13,29 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+/* SITE */
+Route::get('sites/getByDomain', 'Api\SiteController@getByDomain')->name('sites.getByDomain');
+Route::resource('sites', \Api\SiteController::class);
+
+/* CITIES */
+Route::get('cities/getByDomain', 'Api\CityController@getByDomain')->name('cities.getByDomain');
+Route::resource('cities', \Api\CityController::class);
+
+/* CATEGORIES */
+Route::get('companies_categories/getallbysiteid', 'Api\CompanyCategoryController@getAllBySiteId')->name('companies_categories.getAllBySiteId');
+Route::resource('companies_categories', \Api\CompanyCategoryController::class);
+
+/* COMPANIES */
+Route::get('companies/getAllByCategoryDomain', 'Api\CompanyController@getAllByCategoryDomain')->name('companies.getAllByCategoryDomain');
+Route::get('companies/getByDomain', 'Api\CompanyController@getByDomain')->name('companies.getByDomain');
+Route::resource('companies', \Api\CompanyController::class);
+
+
+/*
+Route::get('sites', function (Request $request, \App\Site $site) {
+    return response()->json($site->all(), 200);
+});
+
+Route::get('categories', function (Request $request, \App\CompanyCategory $companyCategory) {
+    return response()->json($companyCategory->all(), 200);
+});*/
