@@ -106,37 +106,64 @@ class DatabaseSeeder extends Seeder
             'icon' => 'fa-coffee'
         ]);
 
-
-
         // companies
         DB::table('companies')->insert([
+            'id' => 1,
             'site_id' => 1,
             'category_id' => 1,
             'name' => 'ТЖИ Фрайдис',
             'domain' => 'fridays',
             'description' => 'Пятница, столь любимая всеми, теперь может наступить в любой день недели, пусть даже и в понедельник. Все возможно с известным сетевым рестораном «Фрайдис», который предлагает гостям и настоящую американскую кухню, и настоящий дух свободы: давайте почувствуем себя более раскрепощенными!',
-            'latitude' => 53.900814,
-            'longitude' => 27.560304
+            'latitude' => '53.900814',
+            'longitude' => '27.560304'
         ]);
-
         DB::table('companies')->insert([
+            'id' => 2,
             'site_id' => 1,
             'category_id' => 2,
             'name' => 'Company 2',
             'domain' => 'company2',
             'description' => 'Default description for company 2',
-            'latitude' => 53.947102,
-            'longitude' => 27.689104
+            'latitude' => '53.947102',
+            'longitude' => '27.689104'
         ]);
-
         DB::table('companies')->insert([
+            'id' => 3,
             'site_id' => 1,
             'category_id' => 1,
             'name' => 'Чумацький Шлях',
             'description' => 'Ресторан “Чумацький шлях” - это уютный уголок щедрой Украины в Минске. Здесь вы окунетесь в самобытный колорит украинской культуры, почувствуете уникальный дух чумачества, не имеющего аналогов в мировой культуре. ',
             'domain' => 'chumatski-shlyah',
-            'latitude' => 53.897912,
-            'longitude' => 27.543317
+            'latitude' => '53.897912',
+            'longitude' => '27.543317'
+        ]);
+
+        // options
+        DB::table('options')->insert([
+            'id' => 1,
+            'name' => 'Беларуская',
+        ]);
+        DB::table('options')->insert([
+            'id' => 2,
+            'name' => 'Русская',
+        ]);
+        DB::table('options')->insert([
+            'id' => 3,
+            'name' => 'Европейская'
+        ]);
+
+        // company_options
+        DB::table('company_option')->insert([
+            'company_id' => 1,
+            'option_id' => 3
+        ]);
+        DB::table('company_option')->insert([
+            'company_id' => 3,
+            'option_id' => 1
+        ]);
+        DB::table('company_option')->insert([
+            'company_id' => 3,
+            'option_id' => 2
         ]);
     }
 }
