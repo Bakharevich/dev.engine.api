@@ -25,6 +25,11 @@ class CompanyCategory extends Model
         return $this->hasMany('App\Company');
     }
 
+    public function options()
+    {
+        return $this->belongsToMany('App\Options');
+    }
+
     /* Scopes */
     public function scopeOfSiteId($query, $siteId)
     {
