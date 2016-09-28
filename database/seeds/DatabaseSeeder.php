@@ -83,6 +83,8 @@ class DatabaseSeeder extends Seeder
             'site_id' => 1,
             'name' => 'Рестораны',
             'domain' => 'restaurants',
+            'description_top' => 'Верхнее описание категории Рестораны',
+            'description_bottom' => 'Нижнее описание категории Рестораны',
             'icon' => 'fa-cutlery'
         ]);
         DB::table('companies_categories')->insert([
@@ -90,6 +92,8 @@ class DatabaseSeeder extends Seeder
             'site_id' => 1,
             'name' => 'Кафе',
             'domain' => 'cafe',
+            'description_top' => 'Верхнее описание категории Кафе',
+            'description_bottom' => 'Нижнее описание категории Кафе',
             'icon' => 'fa-coffee'
         ]);
         DB::table('companies_categories')->insert([
@@ -97,6 +101,8 @@ class DatabaseSeeder extends Seeder
             'site_id' => 2,
             'name' => 'Category 1',
             'domain' => 'category1',
+            'description_top' => 'Верхнее описание категории Категория 1',
+            'description_bottom' => 'Нижнее описание категории Категоория 1',
             'icon' => 'fa-coffee'
         ]);
 
@@ -106,15 +112,31 @@ class DatabaseSeeder extends Seeder
         DB::table('companies')->insert([
             'site_id' => 1,
             'category_id' => 1,
-            'name' => 'Company 1',
-            'domain' => 'company1'
+            'name' => 'ТЖИ Фрайдис',
+            'domain' => 'fridays',
+            'description' => 'Пятница, столь любимая всеми, теперь может наступить в любой день недели, пусть даже и в понедельник. Все возможно с известным сетевым рестораном «Фрайдис», который предлагает гостям и настоящую американскую кухню, и настоящий дух свободы: давайте почувствуем себя более раскрепощенными!',
+            'latitude' => 53.900814,
+            'longitude' => 27.560304
         ]);
 
         DB::table('companies')->insert([
             'site_id' => 1,
             'category_id' => 2,
             'name' => 'Company 2',
-            'domain' => 'company2'
+            'domain' => 'company2',
+            'description' => 'Default description for company 2',
+            'latitude' => 53.947102,
+            'longitude' => 27.689104
+        ]);
+
+        DB::table('companies')->insert([
+            'site_id' => 1,
+            'category_id' => 1,
+            'name' => 'Чумацький Шлях',
+            'description' => 'Ресторан “Чумацький шлях” - это уютный уголок щедрой Украины в Минске. Здесь вы окунетесь в самобытный колорит украинской культуры, почувствуете уникальный дух чумачества, не имеющего аналогов в мировой культуре. ',
+            'domain' => 'chumatski-shlyah',
+            'latitude' => 53.897912,
+            'longitude' => 27.543317
         ]);
     }
 }

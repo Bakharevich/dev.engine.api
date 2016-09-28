@@ -18,6 +18,9 @@ class CreateCompaniesTable extends Migration
             $table->integer('site_id');
             $table->integer('category_id');
             $table->string('name');
+            $table->text('description');
+            $table->decimal('latitude');
+            $table->decimal('longitude');
             $table->string('domain');
             $table->timestamps();
 

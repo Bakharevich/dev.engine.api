@@ -17,6 +17,8 @@ class CreateCompaniesCategoriesTable extends Migration
             $table->increments('id');
             $table->integer('site_id');
             $table->string('name');
+            $table->string('description_top');
+            $table->string('description_bottom');
             $table->string('domain');
             $table->string('icon');
             $table->timestamps();
