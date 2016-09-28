@@ -6,17 +6,16 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-//use App\Repositories\CompanyCategoryRepository as CompanyCategory;
-use App\CompanyCategory;
+use App\Category;
 use Validator;
 
-class CompanyCategoryController extends Controller
+class CategoryController extends Controller
 {
-    private $companyCategory;
+    private $category;
 
-    public function __construct(CompanyCategory $companyCategory)
+    public function __construct(Category $category)
     {
-        $this->companyCategory = $companyCategory;
+        $this->category = $category;
     }
 
     /**
@@ -44,7 +43,7 @@ class CompanyCategoryController extends Controller
             return response()->json( ['error' => $validator->errors()->all()], 406 );
         }
 
-        $categories = CompanyCategory::with('country')->ofSiteId($request->input('site_id'))->get();
+        $categories = Category::with('country')->ofSiteId($request->input('site_id'))->get();
 
         return response()->json($categories);
     }

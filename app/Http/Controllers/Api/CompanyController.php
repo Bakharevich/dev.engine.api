@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Company;
-use App\CompanyCategory;
+use App\Category;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -34,7 +34,7 @@ class CompanyController extends Controller
         }
 
         // get category
-        $category = CompanyCategory::where('domain', $request->input('domain'))->where('site_id', $request->input('site_id'))->first();
+        $category = Category::where('domain', $request->input('domain'))->where('site_id', $request->input('site_id'))->first();
 
         // get companies for category
         if ($category) {

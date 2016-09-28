@@ -13,7 +13,7 @@ class CreateCompaniesCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('companies_categories', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('site_id');
             $table->string('name');
@@ -34,6 +34,6 @@ class CreateCompaniesCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies_categories');
+        Schema::dropIfExists('categories');
     }
 }

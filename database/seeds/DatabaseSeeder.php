@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // companies_categories
-        DB::table('companies_categories')->insert([
+        DB::table('categories')->insert([
             'id' => 1,
             'site_id' => 1,
             'name' => 'Рестораны',
@@ -87,7 +87,7 @@ class DatabaseSeeder extends Seeder
             'description_bottom' => 'Нижнее описание категории Рестораны',
             'icon' => 'fa-cutlery'
         ]);
-        DB::table('companies_categories')->insert([
+        DB::table('categories')->insert([
             'id' => 2,
             'site_id' => 1,
             'name' => 'Кафе',
@@ -96,7 +96,7 @@ class DatabaseSeeder extends Seeder
             'description_bottom' => 'Нижнее описание категории Кафе',
             'icon' => 'fa-coffee'
         ]);
-        DB::table('companies_categories')->insert([
+        DB::table('categories')->insert([
             'id' => 3,
             'site_id' => 2,
             'name' => 'Category 1',
