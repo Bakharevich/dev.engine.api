@@ -22,32 +22,26 @@ class CompanyController extends Controller
         //
     }
 
-    public function getAllByCategoryDomain(Request $request)
+    public function getAllByCategoryId(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'site_id' => 'required|integer',
-            'domain' => 'required|string'
+            'category_id' => 'required|integer',
+            'page' => 'integer',
+            'options' => ''
         ] );
 
         if ( $validator->fails() ) {
             return response()->json( ['error' => $validator->errors()->all()], 406 );
         }
 
-        // get category
-        $category = Category::where('domain', $request->input('domain'))->where('site_id', $request->input('site_id'))->first();
+        // set page values for paginator
+        $request->page = $request->input('page', 1);
 
         // get companies for category
-        if ($category) {
-            $companies = Company::where('category_id', $category->id)->get();
-        }
-        else {
-            $companies = [];
-            $category = [];
-        }
+        $companies = Company::where('category_id', $request->input('category_id'))->paginate(2);
 
         return response()->json([
-            'companies' => $companies,
-            'category' => $category
+            $companies
         ]);
     }
 

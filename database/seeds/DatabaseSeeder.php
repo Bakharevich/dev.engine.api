@@ -138,21 +138,36 @@ class DatabaseSeeder extends Seeder
             'longitude' => '27.543317'
         ]);
 
+        // option groups
+        DB::table('options_groups')->insert([
+            'id' => 1,
+            'name' => 'Кухня',
+        ]);
+
+        // category_option_group
+        DB::table('category_option_group')->insert([
+            'category_id' => 1,
+            'option_group_id' => 1
+        ]);
+
         // options
         DB::table('options')->insert([
             'id' => 1,
+            'group_id' => 1,
             'name' => 'Беларуская',
         ]);
         DB::table('options')->insert([
             'id' => 2,
+            'group_id' => 1,
             'name' => 'Русская',
         ]);
         DB::table('options')->insert([
             'id' => 3,
+            'group_id' => 1,
             'name' => 'Европейская'
         ]);
 
-        // company_options
+        // company_option
         DB::table('company_option')->insert([
             'company_id' => 1,
             'option_id' => 3

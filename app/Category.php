@@ -27,7 +27,12 @@ class Category extends Model
 
     public function options()
     {
-        return $this->belongsToMany('App\Options');
+        return $this->belongsToMany('App\Option');
+    }
+
+    public function options_groups()
+    {
+        return $this->belongsToMany('App\OptionGroup');
     }
 
     /* Scopes */

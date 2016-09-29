@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Category;
+use App\Company;
 use Validator;
 
 class CategoryController extends Controller
@@ -78,6 +79,28 @@ class CategoryController extends Controller
     public function show($id)
     {
         //
+    }
+
+    
+    public function getByDomain(Request $request)
+    {
+        $validator = Validator::make( $request->all(), [
+            'site_id' => 'required|integer',
+            'domain' => 'required|string'
+        ] );
+
+        if ( $validator->fails() ) {
+            return response()->json( ['error' => $validator->errors()->all()], 406 );
+        }
+
+        // get category
+        $category = Category::with('options_groups')->where('domain', $request->input('domain'))
+                            ->where('site_id', $request->input('site_id'))->first();
+        
+
+        return response()->json([
+            $category
+        ]);
     }
 
     /**

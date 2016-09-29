@@ -15,6 +15,7 @@ class CreateOptions extends Migration
     {
         Schema::create('options', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('group_id');
             $table->string('name');
             $table->timestamps();
         });
@@ -28,6 +29,16 @@ class CreateOptions extends Migration
 
             $table->timestamps();
         });
+
+//        Schema::create('category_option', function (Blueprint $table) {
+//            $table->integer('category_id')->unsigned()->index();
+//            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+//
+//            $table->integer('option_id')->unsigned()->index();
+//            $table->foreign('option_id')->references('id')->on('options')->onDelete('cascade');
+//
+//            $table->timestamps();
+//        });
     }
 
     /**
@@ -41,6 +52,7 @@ class CreateOptions extends Migration
 
         Schema::dropIfExists('options');
         Schema::dropIfExists('company_option');
+        //Schema::dropIfExists('category_option');
 
         DB::statement('SET foreign_key_checks = 1');
     }

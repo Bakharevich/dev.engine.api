@@ -22,11 +22,13 @@ Route::get('cities/getByDomain', 'Api\CityController@getByDomain')->name('cities
 Route::resource('cities', \Api\CityController::class);
 
 /* CATEGORIES */
-Route::get('categories/getallbysiteid', 'Api\CategoryController@getAllBySiteId')->name('categories.getAllBySiteId');
+Route::get('categories/getAllBySiteId', 'Api\CategoryController@getAllBySiteId')->name('categories.getAllBySiteId');
+Route::get('categories/getByDomain', 'Api\CategoryController@getByDomain')->name('categories.getByDomain');
 Route::resource('categories', \Api\CategoryController::class);
 
 /* COMPANIES */
 Route::get('companies/getAllByCategoryDomain', 'Api\CompanyController@getAllByCategoryDomain')->name('companies.getAllByCategoryDomain');
+Route::get('companies/getAllByCategoryId', 'Api\CompanyController@getAllByCategoryId')->name('companies.getAllByCategoryId');
 Route::get('companies/getByDomain', 'Api\CompanyController@getByDomain')->name('companies.getByDomain');
 Route::resource('companies', \Api\CompanyController::class);
 
