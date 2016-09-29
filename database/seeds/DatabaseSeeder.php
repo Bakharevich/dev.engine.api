@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             'city_id' => 524901,
             'name' => 'Engine Russia',
             'background' => 'http://static.engine.dev/cities/moscow_small.jpg',
-            'domain' => 'web.engine.dev'
+            'domain' => 'api.engine.dev'
         ]);
         DB::table('sites')->insert([
             'id' => 2,
