@@ -31,6 +31,8 @@
 
         </div>
         <div class="col-md-10">
+            <h1 style="margin-top: 0;">{{ $category->name }}</h1>
+
             @if ($category->description_top && Request::get('page') == 1)
                 <p>{{ $category->description_top }}</p>
             @endif
