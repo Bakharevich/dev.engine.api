@@ -14,17 +14,17 @@ class CategoryController extends Controller
 {
     public function show(Request $request, $city, $domain)
     {
-        $page = $request->input('page', 1);
+        // get category with options
+        $category = Category::with('options_groups.options')->where('domain', $domain)->where('site_id', $request->site->id)->first();
 
-        $category = Category::where('domain', $domain)->where('site_id', $request->site->id)->first();
-
+        // get company
         $companies = Company::where('category_id', $category->id)->paginate(1);
+        // get options
 
-        
+
         return view('category', [
             'category' => $category,
-            'companies' => $companies,
-            'page' => $page
+            'companies' => $companies
         ]);
     }
 }

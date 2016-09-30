@@ -20,4 +20,9 @@ class Option extends Model
     {
         return $this->belongsToMany('App\Category', "category_option", "category_id");
     }
+
+    public function option_group()
+    {
+        return $this->hasOne('App\OptionGroup');
+    }
 }

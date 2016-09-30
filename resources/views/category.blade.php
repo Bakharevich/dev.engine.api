@@ -8,9 +8,17 @@
             <li class="active">{{ $category->name }}</li>
         </ol>
 
-        @if ($category->description_top && $page == 1)
+        @if ($category->description_top && Request::get('page') == 1)
             <p>{{ $category->description_top }}</p>
         @endif
+
+        @foreach ($category->options_groups as $options_group)
+            {{ $options_group->name }}<br/><br/>
+
+            @foreach ($options_group->options as $option)
+                {{ $option->name }}<br/>
+            @endforeach
+        @endforeach
 
         @if (count($companies) > 0)
             <div class="row">
@@ -32,7 +40,7 @@
             </p>
         @endif
 
-        @if ($category->description_top && $page == 1)
+        @if ($category->description_top && Request::get('page') == 1)
             <p>{{ $category->description_bottom }}</p>
         @endif
     </div>
