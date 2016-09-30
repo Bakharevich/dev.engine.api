@@ -15,8 +15,8 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('site_id')->default(0);
-            $table->integer('category_id')->default(0);
+            $table->integer('site_id')->default(0)->index();
+            $table->integer('category_id')->default(0)->index();
             $table->string('name')->default('');
             $table->string('address')->default('');
             $table->string('tel')->default('');
@@ -27,10 +27,11 @@ class CreateCompaniesTable extends Migration
             $table->string('latitude')->default(0);
             $table->string('longitude')->default(0);
             $table->string('synonyms')->default('');
-            $table->string('domain')->default('');
+            $table->string('domain')->default('')->index();
             $table->timestamps();
 
             $table->unique(['site_id', 'domain']);
+            $table->index(['site_id', 'domain']);
         });
     }
 

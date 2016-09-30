@@ -19,7 +19,7 @@ class CreateSitesTable extends Migration
             $table->integer('city_id');
             $table->string('name');
             $table->string('background');
-            $table->string('domain');
+            $table->string('domain')->index();
             $table->timestamps();
         });
     }
