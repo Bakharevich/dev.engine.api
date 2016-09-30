@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 
+use Illuminate\Foundation\Testing\HttpException;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +17,9 @@ class CompanyController extends Controller
 {
     public function show(Request $request, $companyDomain)
     {
-        $company = Company::where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
+        // get company
+        $company = Company::with('options')->where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
+
 
         return view('company', [
             'company' => $company

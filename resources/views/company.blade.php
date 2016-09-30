@@ -13,8 +13,18 @@
 
         <h1>{{ $company->name }}</h1>
 
+        @if ($company->options)
+            <div>
+            @foreach ($company->options as $option)
+                <span class="label label-default">{{ $option->name }}</span>
+            @endforeach
+            </div>
+            <br/>
+        @endif
+
         @if ($company->description)
             <p>{{ $company->description }}</p>
+            <br/>
         @endif
 
         @if ($company->latitude && $company->longitude)
