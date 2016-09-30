@@ -1,6 +1,8 @@
 @extends('app')
 
 @section('content')
+    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+
     <div class="container" style="margin: 0 auto;">
         <ol class="breadcrumb">
             <li><a href="/">Home</a></li>
@@ -30,7 +32,7 @@
             @endif
 
         </div>
-        <div class="col-md-10">
+        <div class="col-md-7">
             <h1 style="margin-top: 0;">{{ $category->name }}</h1>
 
             @if ($category->description_top && (Request::get('page') == 1 || Request::get('page') === null) && !$selectedOptions)
@@ -40,13 +42,18 @@
             @if (count($companies) > 0)
                 <div class="row">
                     @foreach ($companies as $company)
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 text-center">
-                            <a href="http://{{ $company->domain }}.{{ \Request::get('site')->domain }}/">
-                                <div style="border: 1px solid #CCC; height: 175px;">
-                                    {{ $company->name }}
-                                </div>
-                            </a>
-                        </div>
+                        <a href="http://{{ $company->domain }}.{{ \Request::get('site')->domain }}/">
+                            <div class="col-sm-4">
+                                <img src="{{ $company->main_photo_url }}" class="img-responsive" />
+                            </div>
+                            <div class="col-sm-8">
+
+
+                                        {{ $company->name }}
+
+                                </a>
+                            </div>
+                        </a>
                     @endforeach
                 </div>
 
@@ -61,6 +68,9 @@
                 <p>{{ $category->description_bottom }}</p>
             @endif
         </div>
+        <div class="col-md-3">
+            <div id="map" style="width: 100%; height: 300px;"></div>
+        </div>
     </div>
 @stop
 
@@ -73,5 +83,22 @@
                 document.location = '/{{ Request::get('site')->city->domain }}/{{ $category->domain }}/?' + ser;
             })
         });
+    </script>
+
+    <script>
+        ymaps.ready(init);
+
+
+        var latitude = 53.90;
+        var longitude = 27.57;
+
+        function init () {
+            var myMap = new ymaps.Map("map", {
+                        center: [latitude, longitude],
+                        zoom: 10
+                    }, {
+                        searchControlProvider: 'yandex#search'
+                    });
+        }
     </script>
 @stop
