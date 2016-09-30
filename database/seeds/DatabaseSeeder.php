@@ -153,17 +153,17 @@ class DatabaseSeeder extends Seeder
         // options
         DB::table('options')->insert([
             'id' => 1,
-            'group_id' => 1,
+            'option_group_id' => 1,
             'name' => 'Беларуская',
         ]);
         DB::table('options')->insert([
             'id' => 2,
-            'group_id' => 1,
+            'option_group_id' => 1,
             'name' => 'Русская',
         ]);
         DB::table('options')->insert([
             'id' => 3,
-            'group_id' => 1,
+            'option_group_id' => 1,
             'name' => 'Европейская'
         ]);
 

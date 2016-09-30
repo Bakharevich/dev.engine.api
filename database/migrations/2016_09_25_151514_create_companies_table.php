@@ -15,13 +15,19 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('site_id');
-            $table->integer('category_id');
-            $table->string('name');
+            $table->integer('site_id')->default(0);
+            $table->integer('category_id')->default(0);
+            $table->string('name')->default('');
+            $table->string('address')->default('');
+            $table->string('tel')->default('');
+            $table->string('website')->default('');
+            $table->string('main_photo')->default('');
+            $table->string('main_photo_url')->default('');
             $table->text('description');
-            $table->string('latitude');
-            $table->string('longitude');
-            $table->string('domain');
+            $table->string('latitude')->default(0);
+            $table->string('longitude')->default(0);
+            $table->string('synonyms')->default('');
+            $table->string('domain')->default('');
             $table->timestamps();
 
             $table->unique(['site_id', 'domain']);
