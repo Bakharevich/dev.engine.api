@@ -1,7 +1,7 @@
 @if (count($companies) > 0)
     <div class="row">
         @foreach ($companies as $company)
-            <a href="http://{{ $company->domain }}./">
+            <a href="{{ $company->url }}">
                 <div class="col-sm-4">
                     <img src="{{ $company->main_photo_url }}" class="img-responsive" />
                 </div>

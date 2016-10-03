@@ -41,7 +41,7 @@
             @endif
 
             <div id="companies_list">
-            @include('category.companies')
+                @include('category.companies')
             </div>
 
             @if ($category->description_top && (Request::get('page') == 1 || Request::get('page') === null && !$selectedOptions))
