@@ -28,6 +28,7 @@ class CreateCompaniesTable extends Migration
             $table->string('longitude')->default(0);
             $table->string('synonyms')->default('');
             $table->string('domain')->default('')->index();
+            $table->string('url')->default('');
             $table->timestamps();
 
             $table->unique(['site_id', 'domain']);

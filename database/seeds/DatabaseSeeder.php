@@ -115,7 +115,8 @@ class DatabaseSeeder extends Seeder
             'domain' => 'fridays',
             'description' => 'Пятница, столь любимая всеми, теперь может наступить в любой день недели, пусть даже и в понедельник. Все возможно с известным сетевым рестораном «Фрайдис», который предлагает гостям и настоящую американскую кухню, и настоящий дух свободы: давайте почувствуем себя более раскрепощенными!',
             'latitude' => '53.900814',
-            'longitude' => '27.560304'
+            'longitude' => '27.560304',
+            'url' => 'http://fridays.api.engine.dev'
         ]);
         DB::table('companies')->insert([
             'id' => 2,
@@ -125,7 +126,8 @@ class DatabaseSeeder extends Seeder
             'domain' => 'company2',
             'description' => 'Default description for company 2',
             'latitude' => '53.947102',
-            'longitude' => '27.689104'
+            'longitude' => '27.689104',
+            'url' => 'company2'
         ]);
         DB::table('companies')->insert([
             'id' => 3,
@@ -135,7 +137,8 @@ class DatabaseSeeder extends Seeder
             'description' => 'Ресторан “Чумацький шлях” - это уютный уголок щедрой Украины в Минске. Здесь вы окунетесь в самобытный колорит украинской культуры, почувствуете уникальный дух чумачества, не имеющего аналогов в мировой культуре. ',
             'domain' => 'chumatski-shlyah',
             'latitude' => '53.897912',
-            'longitude' => '27.543317'
+            'longitude' => '27.543317',
+            'url' => 'http://chumatski-shlyah.api.engine.dev'
         ]);
 
         // option groups
