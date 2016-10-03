@@ -116,7 +116,10 @@ class DatabaseSeeder extends Seeder
             'description' => 'Пятница, столь любимая всеми, теперь может наступить в любой день недели, пусть даже и в понедельник. Все возможно с известным сетевым рестораном «Фрайдис», который предлагает гостям и настоящую американскую кухню, и настоящий дух свободы: давайте почувствуем себя более раскрепощенными!',
             'latitude' => '53.900814',
             'longitude' => '27.560304',
-            'url' => 'http://fridays.api.engine.dev'
+            'url' => 'http://fridays.api.engine.dev/',
+            'main_photo_url' => 'http://static.engine.dev/companies/fridays.jpg',
+            'address' => 'г. Минск, пр. Независимости, 22',
+            'tel' => '+375447313128'
         ]);
         DB::table('companies')->insert([
             'id' => 2,
@@ -127,7 +130,10 @@ class DatabaseSeeder extends Seeder
             'description' => 'Default description for company 2',
             'latitude' => '53.947102',
             'longitude' => '27.689104',
-            'url' => 'company2'
+            'url' => 'http://company2.api.engine.dev/',
+            'main_photo_url' => '',
+            'address' => 'Minsk',
+            'tel' => '+375291234567'
         ]);
         DB::table('companies')->insert([
             'id' => 3,
@@ -138,7 +144,10 @@ class DatabaseSeeder extends Seeder
             'domain' => 'chumatski-shlyah',
             'latitude' => '53.897912',
             'longitude' => '27.543317',
-            'url' => 'http://chumatski-shlyah.api.engine.dev'
+            'url' => 'http://chumatski-shlyah.api.engine.dev',
+            'main_photo_url' => '',
+            'address' => 'г. Минск, пр. Мясникова, 34',
+            'tel' => '+375172009091,+375291907777'
         ]);
 
         // option groups
