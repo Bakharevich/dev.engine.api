@@ -29,6 +29,7 @@ Route::resource('categories', \Api\CategoryController::class);
 /* COMPANIES */
 Route::get('companies/getAllByCategoryDomain', 'Api\CompanyController@getAllByCategoryDomain')->name('companies.getAllByCategoryDomain');
 Route::get('companies/getAllByCategoryId', 'Api\CompanyController@getAllByCategoryId')->name('companies.getAllByCategoryId');
+Route::get('companies/getHtmlByCategoryId', 'Api\CompanyController@getHtmlByCategoryId')->name('companies.getHtmlByCategoryId');
 Route::get('companies/getByDomain', 'Api\CompanyController@getByDomain')->name('companies.getByDomain');
 Route::resource('companies', \Api\CompanyController::class);
 

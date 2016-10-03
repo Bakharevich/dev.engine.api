@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
-
+use DB;
 class CompanyController extends Controller
 {
     /**
@@ -29,6 +29,10 @@ class CompanyController extends Controller
             'page' => 'integer',
             'options' => ''
         ] );
+        //DB::enableQueryLog();
+
+        $selectedOptions = $request->input('option', []);
+        //echo "<pre>"; print_r($selectedOptions); exit();
 
         if ( $validator->fails() ) {
             return response()->json( ['error' => $validator->errors()->all()], 406 );
@@ -38,10 +42,43 @@ class CompanyController extends Controller
         $request->page = $request->input('page', 1);
 
         // get companies for category
-        $companies = Company::where('category_id', $request->input('category_id'))->paginate(2);
+        $companies = Company::whereHas('options', function($query) use ($selectedOptions) {
+            // if have options, get companies with them
+            if (!empty($selectedOptions)) $query->whereIn('option_id', $selectedOptions);
+        })->where('category_id', $request->input('category_id'))->paginate(1);
 
-        return response()->json([
+
+        //print_r(DB::getQueryLog());
+
+        return response()->json(
             $companies
+        );
+    }
+
+    public function getHtmlByCategoryId(Request $request)
+    {
+        $validator = Validator::make( $request->all(), [
+            'category_id' => 'required|integer'
+        ] );
+
+        if ( $validator->fails() ) {
+            return response()->json( ['error' => $validator->errors()->all()], 406 );
+        }
+
+        $selectedOptions = $request->input('option', []);
+
+        // get company
+        $companies = Company::whereHas('options', function($query) use ($selectedOptions) {
+            // if have options, get companies with them
+            if (!empty($selectedOptions)) $query->whereIn('option_id', $selectedOptions);
+        })->where('category_id', $request->input('category_id'))->paginate(1);
+
+        // set custom link for pagination
+        $companies->setPath('');
+
+        return view('category.companies', [
+            'companies' => $companies,
+            'selectedOptions' => $selectedOptions
         ]);
     }
 
