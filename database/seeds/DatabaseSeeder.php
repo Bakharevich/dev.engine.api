@@ -149,6 +149,20 @@ class DatabaseSeeder extends Seeder
             'address' => 'г. Минск, пр. Мясникова, 34',
             'tel' => '+375172009091,+375291907777'
         ]);
+        DB::table('companies')->insert([
+            'id' => 4,
+            'site_id' => 1,
+            'category_id' => 1,
+            'name' => 'Пан Хмелю',
+            'description' => 'Просто хороший ресторан',
+            'domain' => 'pan-hmelju',
+            'latitude' => '53.901737',
+            'longitude' => '27.553953',
+            'url' => 'http://pan-hmelju.api.engine.dev',
+            'main_photo_url' => 'http://static.engine.dev/companies/pan.jpg',
+            'address' => '. Минск, ул. Интернациональная, 11',
+            'tel' => '+375172297602,+375291981690 '
+        ]);
 
         // option groups
         DB::table('options_groups')->insert([
