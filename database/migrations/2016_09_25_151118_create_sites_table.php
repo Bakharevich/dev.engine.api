@@ -18,8 +18,10 @@ class CreateSitesTable extends Migration
             $table->integer('country_id');
             $table->integer('city_id');
             $table->string('name');
-            $table->string('background');
+            $table->string('background')->default('');
+            $table->string('logo')->default('');
             $table->string('domain')->index();
+            $table->tinyInteger('menu_type')->default(1);
             $table->timestamps();
         });
     }

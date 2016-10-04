@@ -16,11 +16,13 @@ class CreateCompaniesCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('site_id')->index();
+            $table->integer('category_group_id')->index();
             $table->string('name');
             $table->string('description_top');
             $table->string('description_bottom');
             $table->string('domain')->index();
             $table->string('icon');
+            $table->string('url')->default('');
             $table->timestamps();
 
             $table->unique(['site_id', 'domain']);

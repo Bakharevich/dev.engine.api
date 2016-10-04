@@ -17,8 +17,10 @@ class DatabaseSeeder extends Seeder
             'country_id' => 192,
             'city_id' => 524901,
             'name' => 'Engine Russia',
+            'logo' => 'http://static.engine.dev/sites/chatoff-logo.png',
             'background' => 'http://static.engine.dev/cities/moscow_small.jpg',
-            'domain' => 'api.engine.dev'
+            'domain' => 'api.engine.dev',
+            'menu_type' => 2
         ]);
         DB::table('sites')->insert([
             'id' => 2,
@@ -26,7 +28,8 @@ class DatabaseSeeder extends Seeder
             'city_id' => 625144,
             'name' => 'Engine Belarus',
             'background' => 'http://static.engine.dev/cities/minsk01.jpg',
-            'domain' => 'by.engine2.dev'
+            'domain' => 'by.engine2.dev',
+            'menu_type' => 1
         ]);
 
         // countries
@@ -77,33 +80,68 @@ class DatabaseSeeder extends Seeder
             'domain' => 'kiev'
         ]);
 
-        // companies_categories
+        // categories_groups
+        DB::table('categories_groups')->insert([
+            'id' => 1,
+            'site_id' => 1,
+            'name1' => 'Развлечения',
+            'name2' => 'и досуг'
+        ]);
+        DB::table('categories_groups')->insert([
+            'id' => 2,
+            'site_id' => 1,
+            'name1' => 'Красота',
+            'name2' => ''
+        ]);
+        DB::table('categories_groups')->insert([
+            'id' => 3,
+            'site_id' => 2,
+            'name1' => 'English',
+            'name2' => ''
+        ]);
+
+        // categories
         DB::table('categories')->insert([
             'id' => 1,
             'site_id' => 1,
+            'category_group_id' => 1,
             'name' => 'Рестораны',
             'domain' => 'restaurants',
             'description_top' => 'Верхнее описание категории Рестораны',
             'description_bottom' => 'Нижнее описание категории Рестораны',
-            'icon' => 'fa-cutlery'
+            'icon' => 'fa-cutlery',
+            'url' => 'http://api.engine.dev/moscow/restaurants/'
         ]);
         DB::table('categories')->insert([
             'id' => 2,
             'site_id' => 1,
+            'category_group_id' => 1,
             'name' => 'Кафе',
             'domain' => 'cafe',
             'description_top' => 'Верхнее описание категории Кафе',
             'description_bottom' => 'Нижнее описание категории Кафе',
-            'icon' => 'fa-coffee'
+            'icon' => 'fa-coffee',
+            'url' => 'http://api.engine.dev/moscow/cafe/'
         ]);
         DB::table('categories')->insert([
             'id' => 3,
             'site_id' => 2,
+            'category_group_id' => 3,
             'name' => 'Category 1',
             'domain' => 'category1',
             'description_top' => 'Верхнее описание категории Категория 1',
             'description_bottom' => 'Нижнее описание категории Категоория 1',
             'icon' => 'fa-coffee'
+        ]);
+
+        // category_group
+        DB::table('category_category_group')->insert([
+            'category_id' => 1,
+            'category_group_id' => 1,
+        ]);
+        DB::table('category_category_group')->insert([
+            'category_id' => 2,
+            'category_group_id' => 1,
         ]);
 
         // companies
