@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Cache;
 use App\Category;
+use Route;
 
 
 class IndexController extends Controller
