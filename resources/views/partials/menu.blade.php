@@ -1,33 +1,81 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="http://{{ Request::get('site')->domain }}">{{ Request::get('site')->name }}</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <!--
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-                -->
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;Москва
+<!-- Get menu depends on option, as it has different type -->
+{{ Menu::get(Request::get('site')->id) }}
+
+@if (Request::get('site')->menu_type == 1)
+    <div class="">
+        <nav class="navbar navbar-chatoff">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand visible-xs site-menu-logo-xs" href="#">
+                        <img src="img/logo-xs-white.png" srcset="img/logo-xs-white-x2.png" width="132" height="31" />
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Москва</a></li>
-                        <li><a href="#">Санкт Петербург</a></li>
+
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav mainmenu">
+                        @foreach (Request::get('menu') as $index => $value)
+                            <li>
+                                <a href="{{ $value->url }}" class="tab" role="button" aria-expanded="false">
+                                    <span class="title">{{ $value->name }}</span>
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
-                </li>
-            </ul>
-        </div>
+                </div>
+            </div>
+        </nav>
     </div>
-</nav>
+@elseif (Request::get('site')->menu_type == 2)
+    <div class="">
+        <nav class="navbar navbar-chatoff">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand visible-xs site-menu-logo-xs" href="#">
+                        <img src="img/logo-xs-white.png" srcset="img/logo-xs-white-x2.png" width="132" height="31" />
+                    </a>
+
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav mainmenu">
+                        @foreach (Request::get('menu') as $index => $value)
+                            <li>
+                                <a href="" class="tab" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <span class="title">{{ $value->name1 }}</span>
+                                    @if ($value->name2)
+                                        <br/>
+                                        <span class="subtitle">{{ $value->name2 }}</span>
+                                    @else
+                                        <br/>
+                                        <span class="subtitle">&nbsp;</span>
+                                    @endif
+                                </a>
+
+                                @if ($value->categories)
+                                    <ul class="dropdown-menu">
+                                    @foreach ($value->categories as $category)
+                                        <li><a href="{{ $category->url }}">{{ $category->name }}</a></li>
+                                    @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+@endif

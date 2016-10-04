@@ -3,7 +3,7 @@ Route::group(['domain' => '{companyDomain}.api.engine.dev'], function() {
     Route::get('/', 'Web\CompanyController@show');
 });
 
-Route::get('/', 'Web\IndexController@index');
+Route::get('/', 'Web\IndexController@index')->name('index');
 
 //});
 Route::get('/{debugbar}', function($params) {

@@ -10,15 +10,16 @@
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css" />
 
-    <style>
-        body {
-            padding-top: 50px;
-            background: #f0f1f2
-        }
-    </style>
+    <link rel="stylesheet" href="/css/menu.css" />
 </head>
 <body>
-    @include('partials.menu')
+    @include('partials.header')
+
+    @if (Route::currentRouteName() != "index")
+        @include('partials.menu')
+    @else
+
+    @endif
 
     @yield('content')
 

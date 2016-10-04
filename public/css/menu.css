@@ -1,0 +1,47 @@
+/* Multi-column menu http://alijafarian.com/bootstrap-multi-column-dropdown-menu/ */
+
+.mainmenu .tab {
+    line-height: 1em;
+}
+.mainmenu .title {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.mainmenu .subtitle {
+    font-size: 0.8em;
+    color: #ffccc2;
+}
+
+.navbar-chatoff {
+    /*background: url(../img/bg_menu.png) left top repeat-x;*/
+    background-color: #ba1f01;
+    background: -webkit-linear-gradient(#de4528, #ba1f01); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#de4528, #ba1f01); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#de4528, #ba1f01); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#de4528, #ba1f01); /* Standard syntax */
+}
+.navbar-chatoff .navbar-nav > li > a {
+    padding-right: 12px;
+    padding-left: 12px;
+}
+
+.navbar-chatoff .navbar-nav > li > a:hover,      .navbar-chatoff .navbar-nav > li > a:focus,
+.navbar-chatoff .navbar-nav > li > A:hover SPAN, .navbar-chatoff .navbar-nav > li > a:focus SPAN {
+    color: #404040 !important;
+}
+.navbar-chatoff .navbar-nav > .open > a, .navbar-chatoff .navbar-nav > .open > a:hover, .navbar-chatoff .navbar-nav > .open > a:focus, .navbar-chatoff .navbar-nav > .open > A > SPAN.subtitle {
+    color: #404040;
+    background: -webkit-linear-gradient(#ededed, #f3f3f3); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#ededed, #f3f3f3); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ededed, #f3f3f3); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#ededed, #f3f3f3); /* Standard syntax */
+}
+.navbar-chatoff .navbar-nav > li > a {
+    /*border-right: 1px solid #cd0000;*/
+}
+.open > A > SPAN.subtitle {
+    color: #FF0000;
+}
+.navbar-chatoff .navbar-nav > li > a {
+    color: #ffffff;
+}
