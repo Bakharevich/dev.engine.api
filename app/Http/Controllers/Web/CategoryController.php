@@ -18,8 +18,6 @@ class CategoryController extends Controller
     {
         $selectedOptions = $request->input('option', []);
 
-        DB::enableQueryLog();
-
         // get category with options
         $category = Category::with('options_groups.options')->where('domain', $domain)->where('site_id', $request->site->id)->first();
 
@@ -33,9 +31,6 @@ class CategoryController extends Controller
         else {
             $companies = Company::with('options')->where('category_id', $category->id)->paginate(1);
         }
-
-        // get options
-        //echo "<pre>";print_r(DB::getQueryLog()); echo "</pre>";
 
         return view('category', [
             'category' => $category,
