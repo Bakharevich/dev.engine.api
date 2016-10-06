@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             'country_id' => 192,
             'city_id' => 524901,
             'name' => 'Engine Russia',
-            'logo' => 'http://static.engine.dev/sites/chatoff-logo.png',
+            'logo' => 'http://static.engine.dev/sites/chatoff/',
             'background' => 'http://static.engine.dev/cities/moscow_small.jpg',
             'domain' => 'api.engine.dev',
             'menu_type' => 2
@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             'country_id' => 36,
             'city_id' => 625144,
             'name' => 'Engine Belarus',
+            'logo' => 'http://static.engine.dev/sites/engine/',
             'background' => 'http://static.engine.dev/cities/minsk01.jpg',
             'domain' => 'by.engine2.dev',
             'menu_type' => 1
