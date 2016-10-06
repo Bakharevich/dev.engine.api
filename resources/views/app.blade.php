@@ -7,13 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
-
     <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css" />
 
     <link rel="stylesheet" href="/css/custom_resolutions.css" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
     <link rel="stylesheet" href="/css/menu.css" />
     <link rel="stylesheet" href="/css/header-inner.css" />
     <link rel="stylesheet" href="/css/category.css" />
+
 
 </head>
 <body>
@@ -27,6 +29,8 @@
     @endif
 
     @yield('content')
+
+    @include('partials.footer')
 
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

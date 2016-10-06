@@ -3,7 +3,7 @@
 @section('content')
     <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 
-    <div style="background-color: #f5f5f5; font-size: 0.85em; margin-bottom: 20px;">
+    <div style="background-color: #f5f5f5; font-size: 0.85em; border-bottom: 1px solid #e7e7e7;">
         <div class="container">
             <ol class="breadcrumb" style="margin-bottom: 0px;">
                 <li><a href="/">Главная</a></li>
@@ -52,34 +52,33 @@
                 </form>
             </div>
         </div>
-
-
     </div>
 
+    <div style="background-color: #FFF; padding-top: 20px; padding-bottom: 40px;">
+        <div class="container" style="margin: 0 auto;">
+            <div class="col-md-9">
+                <!--
+                <h1 style="margin-top: 0;">{{ $category->name }}</h1>
+                -->
 
-    <div class="container" style="margin: 0 auto;">
-        <div class="col-md-9">
-            <!--
-            <h1 style="margin-top: 0;">{{ $category->name }}</h1>
-            -->
+                <!--
+                @if ($category->description_top && (Request::get('page') == 1 || Request::get('page') === null) && !$selectedOptions)
+                    <p style="font-size: 0.9em; color: #222;">{{ $category->description_top }}</p>
+                @endif
+                -->
 
-            <!--
-            @if ($category->description_top && (Request::get('page') == 1 || Request::get('page') === null) && !$selectedOptions)
-                <p style="font-size: 0.9em; color: #222;">{{ $category->description_top }}</p>
-            @endif
-            -->
+                <div id="companies_list">
+                    @include('category.companies')
+                </div>
 
-            <div id="companies_list">
-                @include('category.companies')
+
+                @if ($category->description_bottom && (Request::get('page') == 1 || Request::get('page') === null && !$selectedOptions))
+                    <p style="color: #444; font-size: 0.85em;">{{ $category->description_bottom }}</p>
+                @endif
             </div>
-
-
-            @if ($category->description_bottom && (Request::get('page') == 1 || Request::get('page') === null && !$selectedOptions))
-                <p style="color: #444; font-size: 0.85em;">{{ $category->description_bottom }}</p>
-            @endif
-        </div>
-        <div class="col-md-3">
-            <div class="img-thumbnail" id="map" style="width: 100%; height: 200px;"></div>
+            <div class="col-md-3">
+                <div class="img-thumbnail" id="map" style="width: 100%; height: 200px;"></div>
+            </div>
         </div>
     </div>
 @stop

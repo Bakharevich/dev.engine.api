@@ -46,3 +46,10 @@
 .navbar-chatoff .navbar-nav > li > a {
     color: #ffffff;
 }
+
+.navbar-chatoff .navbar-toggle {
+    border-color: #CCC !important;
+}
+.navbar-toggle .icon-bar  {
+    background: #CCC;
+}

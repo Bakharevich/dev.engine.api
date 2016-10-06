@@ -1,0 +1,9 @@
+/* Footer */
+.site-footer {
+    border-top: 1px solid #e7e7e7;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9em;
+    color: #555;
+    line-height: 1.8em;
+}
