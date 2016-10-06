@@ -29,6 +29,7 @@ class CreateCompaniesTable extends Migration
             $table->string('synonyms')->default('');
             $table->string('domain')->default('')->index();
             $table->string('url')->default('');
+            $table->text('last_review')->comment('Last user review about company');
             $table->timestamps();
 
             $table->unique(['site_id', 'domain']);

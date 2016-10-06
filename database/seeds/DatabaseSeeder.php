@@ -157,8 +157,9 @@ class DatabaseSeeder extends Seeder
             'longitude' => '27.560304',
             'url' => 'http://fridays.api.engine.dev/',
             'main_photo_url' => 'http://static.engine.dev/companies/fridays.jpg',
-            'address' => 'г. Минск, пр. Независимости, 22',
-            'tel' => '+375447313128'
+            'address' => 'пр. Независимости, 22',
+            'tel' => '+375447313128',
+            'last_review' => 'You only live once, EAT WELL. Pulpo alone was life-changing, unspeakably delicious grilled morsels of perfection - impossibly tender, incredibly flavorful. Pane con tomate was mouthwatering - a must. Beetroot salad was beyond fresh and gladdens the palate with a thoughtful touch of dill. Grilled quail was quite oily and unfortunately bland - not a standout. '
         ]);
         DB::table('companies')->insert([
             'id' => 2,
@@ -171,8 +172,9 @@ class DatabaseSeeder extends Seeder
             'longitude' => '27.689104',
             'url' => 'http://company2.api.engine.dev/',
             'main_photo_url' => '',
-            'address' => 'Minsk',
-            'tel' => '+375291234567'
+            'address' => 'Street',
+            'tel' => '+375291234567',
+            'last_review' => ''
         ]);
         DB::table('companies')->insert([
             'id' => 3,
@@ -185,8 +187,9 @@ class DatabaseSeeder extends Seeder
             'longitude' => '27.543317',
             'url' => 'http://chumatski-shlyah.api.engine.dev',
             'main_photo_url' => '',
-            'address' => 'г. Минск, пр. Мясникова, 34',
-            'tel' => '+375172009091,+375291907777'
+            'address' => 'пр. Мясникова, 34',
+            'tel' => '+375172009091,+375291907777',
+            'last_review' => ''
         ]);
         DB::table('companies')->insert([
             'id' => 4,
@@ -199,8 +202,9 @@ class DatabaseSeeder extends Seeder
             'longitude' => '27.553953',
             'url' => 'http://pan-hmelju.api.engine.dev',
             'main_photo_url' => 'http://static.engine.dev/companies/pan.jpg',
-            'address' => '. Минск, ул. Интернациональная, 11',
-            'tel' => '+375172297602,+375291981690 '
+            'address' => 'ул. Интернациональная, 11',
+            'tel' => '+375172297602,+375291981690 ',
+            'last_review' => ''
         ]);
 
         // option groups
