@@ -1,5 +1,4 @@
-<!-- Get menu depends on option, as it has different type -->
-{{ Menu::get(Request::get('site')->id) }}
+
 
 @if (Request::get('site')->menu_type == 1)
     <div class="">
@@ -14,7 +13,7 @@
                     </button>
 
                     <a class="navbar-brand visible-xs site-menu-logo-xs" href="#">
-                        <img src="img/logo-xs-white.png" srcset="img/logo-xs-white-x2.png" width="132" height="31" />
+                        <img src="{{ Request::get('site')->logo }}logo-xs.png" srcset="{{ Request::get('site')->logo }}logo-xs-x2.png" width="132" height="31" />
                     </a>
 
                 </div>
@@ -42,10 +41,11 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
+                        1
                     </button>
 
                     <a class="navbar-brand visible-xs site-menu-logo-xs" href="#">
-                        <img src="img/logo-xs-white.png" srcset="img/logo-xs-white-x2.png" width="132" height="31" />
+                        <img src="{{ Request::get('site')->logo }}logo-xs.png" srcset="{{ Request::get('site')->logo }}logo-xs-x2.png" width="132" height="31" />
                     </a>
 
                 </div>
