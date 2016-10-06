@@ -3,53 +3,83 @@
 @section('content')
     <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 
-    <div class="container" style="margin: 0 auto;">
-        <ol class="breadcrumb">
-            <li><a href="/">Home</a></li>
-            <li><a href="/{{ Request::get('site')->city->domain }}/">{{ Request::get('site')->city->name }}</a></li>
-            <li class="active">{{ $category->name }}</li>
-        </ol>
+    <div style="background-color: #f5f5f5; font-size: 0.85em; margin-bottom: 20px;">
+        <div class="container">
+            <ol class="breadcrumb" style="margin-bottom: 0px;">
+                <li><a href="/">Главная</a></li>
+                <li><a href="/{{ Request::get('site')->city->domain }}/">{{ Request::get('site')->city->name }}</a></li>
+                <li class="active">{{ $category->name }}</li>
+            </ol>
 
-        <div class="col-md-2">
-            @if ($category->options_groups)
+            <div style="padding: 0px 14px;">
+                <h1 style="margin-top: 0;">{{ $category->name }}</h1>
+
+                @if ($category->description_top && (Request::get('page') == 1 || Request::get('page') === null) && !$selectedOptions)
+                    <p style="color: #222;">{{ $category->description_top }}</p>
+                @endif
+            </div>
+
+            <div style="padding: 0px 14px; margin-bottom: 13px;">
                 <form action="" method="GET" id="form_options">
-                @foreach ($category->options_groups as $options_group)
-                    <b>{{ $options_group->name }}</b>
-                        <br/>
+                    <button class="btn btn-default btn-sm one-click"><i class="fa fa-clock-o" aria-hidden="true"></i> Открыто сейчас</button>
+                    <button class="btn btn-default btn-sm one-click"><i class="fa fa-wifi" aria-hidden="true"></i> Наличие Wifi</button>
 
-                    @foreach ($options_group->options as $option)
-                    <div class="checkbox">
-                        <label>
-                            @if (!empty($selectedOptions[$option['id']]))
-                                <input name="option[{{ $option->id }}]" value="{{ $option->id }}" type="checkbox" checked> {{ $option->name }}
-                            @else
-                                <input name="option[{{ $option->id }}]" value="{{ $option->id }}" type="checkbox"> {{ $option->name }}
-                            @endif
-                        </label>
-                    </div>
-                    @endforeach
-                @endforeach
+                    @if ($category->options_groups)
+                        @foreach ($category->options_groups as $options_group)
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="{{ $options_group->icon }}" aria-hidden="true"></i> {{ $options_group->name }} <span class="caret"></span>
+                                </button>
+
+                                <ul class="dropdown-menu">
+                                @foreach ($options_group->options as $option)
+                                    <li style="padding: 3px 12px;">
+
+                                            <label style="font-weight: normal;">
+                                                @if (!empty($selectedOptions[$option['id']]))
+                                                    <input name="option[{{ $option->id }}]" value="{{ $option->id }}" type="checkbox" checked> {{ $option->name }}
+                                                @else
+                                                    <input name="option[{{ $option->id }}]" value="{{ $option->id }}" type="checkbox"> {{ $option->name }}
+                                                @endif
+                                            </label>
+
+                                    </li>
+                                @endforeach
+                                </ul>
+                            </div>
+                        @endforeach
+                    @endif
                 </form>
-            @endif
-
+            </div>
         </div>
-        <div class="col-md-7">
-            <h1 style="margin-top: 0;">{{ $category->name }}</h1>
 
+
+    </div>
+
+
+    <div class="container" style="margin: 0 auto;">
+        <div class="col-md-9">
+            <!--
+            <h1 style="margin-top: 0;">{{ $category->name }}</h1>
+            -->
+
+            <!--
             @if ($category->description_top && (Request::get('page') == 1 || Request::get('page') === null) && !$selectedOptions)
-                <p>{{ $category->description_top }}</p>
+                <p style="font-size: 0.9em; color: #222;">{{ $category->description_top }}</p>
             @endif
+            -->
 
             <div id="companies_list">
                 @include('category.companies')
             </div>
 
-            @if ($category->description_top && (Request::get('page') == 1 || Request::get('page') === null && !$selectedOptions))
-                <p>{{ $category->description_bottom }}</p>
+
+            @if ($category->description_bottom && (Request::get('page') == 1 || Request::get('page') === null && !$selectedOptions))
+                <p style="color: #444; font-size: 0.85em;">{{ $category->description_bottom }}</p>
             @endif
         </div>
         <div class="col-md-3">
-            <div id="map" style="width: 100%; height: 300px;"></div>
+            <div class="img-thumbnail" id="map" style="width: 100%; height: 200px;"></div>
         </div>
     </div>
 @stop
@@ -119,23 +149,9 @@
                 });
 
                 request.fail(function( jqXHR, textStatus ) {
-                    alert( "Request failed: " + textStatus );
+                    console.log( "Request failed: " + textStatus );
                 });
             }
-
-            // EVENTS
-            $(':checkbox').change(function(){
-                //alert($(this).html());
-                $("#companies_list").prepend('<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>');
-                var ser = $("#form_options").serialize();
-
-                //document.location = '/{{ Request::get('site')->city->domain }}/{{ $category->domain }}/?' + ser;
-                // add geoobjects
-                addObjectsToMap();
-
-                // refresh companies list
-                getCompanies();
-            });
 
             function getCompanies()
             {
@@ -165,6 +181,25 @@
                     console.log("Request failed: " + textStatus );
                 });
             }
+
+            // EVENTS
+            $(':checkbox').change(function(){
+                //alert($(this).html());
+                $("#companies_list").prepend('<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>');
+                var ser = $("#form_options").serialize();
+
+                //document.location = '/{{ Request::get('site')->city->domain }}/{{ $category->domain }}/?' + ser;
+                // add geoobjects
+                addObjectsToMap();
+
+                // refresh companies list
+                getCompanies();
+            });
+
+            $("BUTTON.one-click").click(function(e){
+                e.preventDefault();
+                $(this).toggleClass('active');
+            });
         });
 
     </script>

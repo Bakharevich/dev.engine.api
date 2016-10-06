@@ -1,0 +1,26 @@
+/* top header */
+.site-header {
+    background: #FFF;
+    padding-bottom: 25px;
+}
+.site-header-logo {
+    padding-top: 25px;
+}
+.site-header-search {
+    padding-top: 25px;
+}
+.site-header-buttons {
+    padding-top: 25px;
+}
+
+/* buttons */
+.btn-chatoff {
+    color: #b40202;
+    background-color: #fff;
+    border-color: #df1e1e;
+}
+.btn-chatoff:focus, .btn-chatoff:hover {
+    color: #b40202;
+    background-color: #e6e6e6;
+    border-color: #df1e1e;
+}

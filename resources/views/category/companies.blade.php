@@ -1,13 +1,13 @@
 @if (count($companies) > 0)
     <div class="row">
         @foreach ($companies as $company)
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <a href="{{ $company->url }}">
-                    <img src="{{ $company->main_photo_url }}" class="img-responsive" />
+                    <img src="{{ $company->main_photo_url }}" class="img-responsive img-thumbnail" />
                 </a>
             </div>
-            <div class="col-sm-8">
-                <a href="{{ $company->url }}">{{ $company->name }}</a>
+            <div class="col-sm-9">
+                <a href="{{ $company->url }}" class="category-company-name">{{ $company->name }}</a>
 
                 @if ($company->tel)
                 <p>{{ $company->tel }}</p>

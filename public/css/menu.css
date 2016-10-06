@@ -19,6 +19,7 @@
     background: -o-linear-gradient(#de4528, #ba1f01); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(#de4528, #ba1f01); /* For Firefox 3.6 to 15 */
     background: linear-gradient(#de4528, #ba1f01); /* Standard syntax */
+    margin-bottom: 0px;
 }
 .navbar-chatoff .navbar-nav > li > a {
     padding-right: 12px;

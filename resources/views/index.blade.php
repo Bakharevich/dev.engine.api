@@ -1,6 +1,13 @@
 @extends('app')
 
 @section('content')
+    <style>
+        body {
+            padding-top: 50px;
+            background: #f0f1f2;
+        }
+    </style>
+
     <div class="text-center" style="margin-bottom: 30px; padding: 195px 0px 225px 0px; background-image: url({{ Request::get('site')->background }}); background-size: cover; background-position: left top !important;">
         <h1 style="color: #FFF; font-size: 4em; margin-bottom: 35px; text-shadow: 1px 1px #000;">Все компании в Москве</h1>
 
