@@ -16,6 +16,7 @@ class CreateOptionsGroups extends Migration
         Schema::create('options_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('icon');
             $table->timestamps();
         });
 

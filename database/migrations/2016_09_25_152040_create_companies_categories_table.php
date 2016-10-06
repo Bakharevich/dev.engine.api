@@ -18,8 +18,8 @@ class CreateCompaniesCategoriesTable extends Migration
             $table->integer('site_id')->index();
             $table->integer('category_group_id')->index();
             $table->string('name');
-            $table->string('description_top');
-            $table->string('description_bottom');
+            $table->text('description_top');
+            $table->text('description_bottom');
             $table->string('domain')->index();
             $table->string('icon');
             $table->string('url')->default('');
