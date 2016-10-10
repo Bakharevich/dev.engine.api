@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
             'country_id' => 192,
             'city_id' => 524901,
             'name' => 'Engine Russia',
-            'logo' => 'http://static.engine.dev/sites/chatoff/',
-            'background' => 'http://static.engine.dev/cities/moscow_small.jpg',
+            'media_url' => 'http://static.engine.dev/chatoff/',
+            'media_path' => '/home/vagrant/sites/personal/static.engine.dev/public/chatoff/',
             'domain' => 'api.engine.dev',
             'menu_type' => 2
         ]);
@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
             'country_id' => 36,
             'city_id' => 625144,
             'name' => 'Engine Belarus',
-            'logo' => 'http://static.engine.dev/sites/engine/',
-            'background' => 'http://static.engine.dev/cities/minsk01.jpg',
+            'media_url' => 'http://static.engine.dev/engine/',
+            'media_path' => '/home/vagrant/sites/personal/static.engine.dev/public/engine/',
             'domain' => 'by.engine2.dev',
             'menu_type' => 1
         ]);
@@ -249,6 +249,15 @@ class DatabaseSeeder extends Seeder
         DB::table('company_option')->insert([
             'company_id' => 3,
             'option_id' => 2
+        ]);
+        
+        // company_reviews
+        DB::table('companies_reviews')->insert([
+            'user_id' => 0,
+            'company_id' => 1,
+            'name' => 'Ilya',
+            'review' => 'I have been there many times. And each time everything is very good and tasty.',
+            'rating' => '5.0'
         ]);
     }
 }
