@@ -30,13 +30,13 @@
                             <i class="fa fa-star rating-star" aria-hidden="true"></i>
                             <i class="fa fa-star rating-star" aria-hidden="true"></i>
                             &nbsp;
-                            12 комментариев
+                            {{ $company->amount_comments }}
                         </div>
                     </div>
                     <div class="col-sm-6">
 
                         @if ($company->address)
-                            <p>{{ $company->address }}</p>
+                            <p>{!! $company->address  !!}</p>
                         @endif
 
                         @if ($company->tel)
@@ -47,7 +47,11 @@
                         <div class="col-sm-12 category-company-description" style="margin-bottom: 1em;">{{ $company->description }}</div>
                     @endif
                     @if ($company->last_review)
-                        <div class="col-sm-12 category-company-description">{{ str_limit($company->last_review, 100) }}</div>
+                        <div class="col-sm-12 category-company-description">
+
+                                <p>{!!  str_limit($company->last_review, 100)  !!}</p>
+
+                        </div>
                     @endif
                 </div>
             </div>
