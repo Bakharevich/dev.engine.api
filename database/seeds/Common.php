@@ -24,6 +24,10 @@ class Common extends Seeder
             'id' => 231,
             'name' => 'Ukraine'
         ]);
+        DB::table('countries')->insert([
+            'id' => 77,
+            'name' => 'United Kingdom'
+        ]);
 
         // cities
         DB::table('cities')->insert([
@@ -64,7 +68,7 @@ class Common extends Seeder
             'latitude' => 51.5085300,
             'longitude' => -0.1257400,
             'name' => 'London',
-            'domain' => 'London'
+            'domain' => 'london'
         ]);
     }
 }
