@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Option extends Model
 {
+    protected $fillable = ['option_group_id', 'name'];
     /**
      * Get the companies associated with given option
      *

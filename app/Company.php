@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Company extends Model
 {
-    protected $fillable = [];
+    protected $guarded = ['id'];
 
     public function category()
     {
@@ -22,5 +22,10 @@ class Company extends Model
     public function options()
     {
         return $this->belongsToMany('App\Option')->withTimestamps();
+    }
+
+    public function photos()
+    {
+        return $this->hasMany('App\CompanyPhoto');
     }
 }
