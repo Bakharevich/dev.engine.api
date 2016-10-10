@@ -243,7 +243,7 @@ class Yelp extends Scraper {
 
     public function processPhotos($photos, $company)
     {
-        $photos = array_slice($photos, 0, 2);
+        $photos = array_slice($photos, 0, 1);
         $photos = array_reverse($photos);
 
         foreach ($photos as $url) {
@@ -253,8 +253,10 @@ class Yelp extends Scraper {
 
             $name = uniqid() . "." . $extension;
 
-            Image::make($file)->save($this->getParam('media_path') . "companies/" . $name)->resize(500, null, function($constraint) {
-                $constraint->aspectRatio();
+            Image::make($file)->save($this->getParam('media_path') . "companies/" . $name)->fit(500, null, function($constraint) {
+                //$constraint->aspectRatio();
+                //$constraint->upsize();
+                //$constraint->down
             })->save($this->getParam('media_path') . "companies/500/" . $name);
 
             // save photo
@@ -394,11 +396,16 @@ class Yelp extends Scraper {
         $reviews = [];
         if (!empty($comments[1]) && !empty($names[1])) {
             foreach ($comments[1] as $index => $value) {
+                $name   = !empty($names[1][$index]) ? $names[1][$index] : '';
+                $review = !empty($comments[1][$index]) ? $comments[1][$index] : '';
+                $date   = !empty($dates[1][$index]) ? $dates[1][$index] : '';
+                $rating = !empty($ratings[1][$index]) ? $ratings[1][$index] : '';
+
                 $reviews[] = [
-                    'name' => $names[1][$index],
-                    'review' => $comments[1][$index],
-                    'date' => $dates[1][$index],
-                    'rating' => $ratings[1][$index]
+                    'name' => $name,
+                    'review' => $review,
+                    'date' => $date,
+                    'rating' => $rating
                 ];
             }
         }
