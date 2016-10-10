@@ -42,10 +42,15 @@ class CompanyController extends Controller
         $request->page = $request->input('page', 1);
 
         // get companies for category
-        $companies = Company::whereHas('options', function($query) use ($selectedOptions) {
-            // if have options, get companies with them
-            if (!empty($selectedOptions)) $query->whereIn('option_id', $selectedOptions);
-        })->where('category_id', $request->input('category_id'))->paginate(1);
+        if (!empty($selectedOptions)) {
+            $companies = Company::whereHas('options', function ($query) use ($selectedOptions) {
+                // if have options, get companies with them
+                if (!empty($selectedOptions)) $query->whereIn('option_id', $selectedOptions);
+            })->where('category_id', $request->input('category_id'))->paginate(20);
+        }
+        else {
+            $companies = Company::with('options')->where('category_id', $request->input('category_id'))->paginate(20);
+        }
 
 
         //print_r(DB::getQueryLog());
@@ -71,7 +76,7 @@ class CompanyController extends Controller
         $companies = Company::whereHas('options', function($query) use ($selectedOptions) {
             // if have options, get companies with them
             if (!empty($selectedOptions)) $query->whereIn('option_id', $selectedOptions);
-        })->where('category_id', $request->input('category_id'))->paginate(1);
+        })->where('category_id', $request->input('category_id'))->paginate(20);
 
         // set custom link for pagination
         $companies->setPath('');
