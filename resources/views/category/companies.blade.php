@@ -10,47 +10,49 @@
 </style>
 
 @if (count($companies) > 0)
-    <div class="row">
+
         @foreach ($companies as $company)
-            <div class="col-sm-3">
-                <a href="{{ $company->url }}">
-                    <img src="{{ $company->main_photo_url }}" class="img-responsive img-thumbnail" />
-                </a>
-            </div>
-            <div class="col-sm-9">
-                <div class="col-sm-6" style="margin-bottom: 30px;">
-                    <div style="margin-bottom: 5px;">
-                        <a href="{{ $company->url }}" class="category-company-name">{{ $company->name }}</a>
-                    </div>
-
-                    <div>
-                        <i class="fa fa-star rating-star" aria-hidden="true"></i>
-                        <i class="fa fa-star rating-star" aria-hidden="true"></i>
-                        <i class="fa fa-star rating-star" aria-hidden="true"></i>
-                        <i class="fa fa-star rating-star" aria-hidden="true"></i>
-                        &nbsp;
-                        12 комментариев
-                    </div>
+            <div class="row" style="margin-bottom: 30px;">
+                <div class="col-sm-3">
+                    <a href="{{ $company->url }}">
+                        <img src="{{ $company->main_photo_url }}" class="img-responsive img-thumbnail" />
+                    </a>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-9">
+                    <div class="col-sm-6" style="margin-bottom: 30px;">
+                        <div style="margin-bottom: 5px;">
+                            <a href="{{ $company->url }}" class="category-company-name">{{ $company->name }}</a>
+                        </div>
 
-                    @if ($company->address)
-                        <p>{{ $company->address }}</p>
+                        <div>
+                            <i class="fa fa-star rating-star" aria-hidden="true"></i>
+                            <i class="fa fa-star rating-star" aria-hidden="true"></i>
+                            <i class="fa fa-star rating-star" aria-hidden="true"></i>
+                            <i class="fa fa-star rating-star" aria-hidden="true"></i>
+                            &nbsp;
+                            12 комментариев
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+
+                        @if ($company->address)
+                            <p>{{ $company->address }}</p>
+                        @endif
+
+                        @if ($company->tel)
+                            <p>{{ $company->tel }}</p>
+                        @endif
+                    </div>
+                    @if ($company->description)
+                        <div class="col-sm-12 category-company-description" style="margin-bottom: 1em;">{{ $company->description }}</div>
                     @endif
-
-                    @if ($company->tel)
-                        <p>{{ $company->tel }}</p>
+                    @if ($company->last_review)
+                        <div class="col-sm-12 category-company-description">{{ str_limit($company->last_review, 100) }}</div>
                     @endif
                 </div>
-                @if ($company->description)
-                    <div class="col-sm-12 category-company-description" style="margin-bottom: 1em;">{{ $company->description }}</div>
-                @endif
-                @if ($company->last_review)
-                    <div class="col-sm-12 category-company-description">{{ str_limit($company->last_review, 100) }}</div>
-                @endif
             </div>
         @endforeach
-    </div>
+
 
     {{ $companies->appends(['option' => $selectedOptions])->links() }}
 @else
