@@ -29,7 +29,7 @@ class CategoryController extends Controller
             })->where('category_id', $category->id)->paginate(1);
         }
         else {
-            $companies = Company::with('options')->where('category_id', $category->id)->paginate(1);
+            $companies = Company::with('options')->where('category_id', $category->id)->paginate(20);
         }
 
         return view('category', [
