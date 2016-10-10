@@ -16,11 +16,13 @@ class Yelpster extends Seeder
             'id' => 1,
             'country_id' => 77,
             'city_id' => 2643743,
-            'name' => 'Yelpster',
+            'name' => '<i class="fa fa-hand-peace-o" aria-hidden="true"></i> Yelpster',
             'media_url' => 'http://static.engine.dev/yelpster/',
             'media_path' => '/home/vagrant/sites/personal/static.engine.dev/public/yelpster/',
             'domain' => 'yelpster.dev',
-            'menu_type' => 2
+            'headline' => 'Find the best places in city',
+            'menu_type' => 2,
+            'locale' => 'en'
         ]);
 
         // categories_groups
