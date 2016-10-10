@@ -5,3 +5,12 @@
 Homestead.json
 Homestead.yaml
 .env
+public/bower_components/
+.DS_Store
+app/.DS_Store
+app/Helpers/.DS_Store
+app/Http/.DS_Store
+database/.DS_Store
+database/seeds/.DS_Store
+resources/lang/ru/
+storage/debugbar/
