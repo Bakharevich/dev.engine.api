@@ -2,7 +2,7 @@
     <div class="container hidden-xs site-header">
         <div class="col-sm-12 col-md-3 text-center-sm site-header-logo">
             <a href="/">
-            <img src="{{ Request::get('site')->logo }}/logo-main.png" />
+            <img src="{{ Request::get('site')->media_url }}logo/logo-main.png" />
             </a>
         </div>
         <div class="col-sm-7 col-md-5 site-header-search">

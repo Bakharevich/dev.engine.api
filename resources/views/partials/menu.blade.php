@@ -13,7 +13,7 @@
                     </button>
 
                     <a class="navbar-brand visible-xs site-menu-logo-xs" href="#">
-                        <img src="{{ Request::get('site')->logo }}logo-xs.png" srcset="{{ Request::get('site')->logo }}logo-xs-x2.png" width="132" height="31" />
+                        <img src="{{ Request::get('site')->media_url }}logo/logo-xs.png" srcset="{{ Request::get('site')->media_url }}logo/logo-xs-x2.png" width="132" height="31" />
                     </a>
 
                 </div>
@@ -44,7 +44,7 @@
                     </button>
 
                     <a class="navbar-brand visible-xs site-menu-logo-xs" href="#">
-                        <img src="{{ Request::get('site')->logo }}logo-xs.png" srcset="{{ Request::get('site')->logo }}logo-xs-x2.png" width="132" height="31" />
+                        <img src="{{ Request::get('site')->media_url }}logo/logo-xs.png" srcset="{{ Request::get('site')->media_url }}logo/logo-xs-x2.png" width="132" height="31" />
                     </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
