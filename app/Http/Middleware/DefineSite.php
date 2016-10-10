@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Site;
+use App;
 
 class DefineSite
 {
@@ -28,6 +29,9 @@ class DefineSite
         if (!isset($site->id)) {
             throw new \Exception('Invalid site host');
         }
+
+        // set site locale
+        App::setLocale($site->locale);
 
         $request->merge(compact('site'));
         
