@@ -60,7 +60,7 @@
 
     {{ $companies->appends(['option' => $selectedOptions])->links() }}
 @else
-    <p>
-        Нет компаний в данной категории.
+    <p style="padding: 0px 0px 40px 0px;">
+        {{ trans('category.no-companies') }}
     </p>
 @endif

@@ -8,12 +8,12 @@
         }
     </style>
 
-    <div class="text-center" style="margin-bottom: 30px; padding: 195px 0px 225px 0px; background-image: url({{ Request::get('site')->background }}); background-size: cover; background-position: left top !important;">
-        <h1 style="color: #FFF; font-size: 4em; margin-bottom: 35px; text-shadow: 1px 1px #000;">Все компании в Москве</h1>
+    <div class="text-center" style="margin-bottom: 30px; padding: 195px 0px 225px 0px; background-image: url({{ Request::get('site')->media_url }}/backgrounds/index.jpg); background-size: cover; background-position: left top !important;">
+        <h1 style="color: #FFF; font-size: 4em; margin-bottom: 35px; text-shadow: 1px 1px #000;">{{ Request::get('site')->headline }}</h1>
 
         <div style="max-width: 800px; margin: 0 auto; padding: 0px 30px 0px 30px;">
             <div class="input-group input-group-lg">
-                <input type="text" class="form-control" placeholder="Например, рестораны" autofocus>
+                <input type="text" class="form-control" placeholder="{{ trans('common.search_field_value') }}" autofocus>
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </span>

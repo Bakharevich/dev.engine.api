@@ -8,7 +8,7 @@
         <div class="col-sm-7 col-md-5 site-header-search">
             <form class="form-horizontal">
                 <div class="input-group">
-                    <input type="text" class="form-control red-shadow" placeholder="Поиск по сайту" />
+                    <input type="text" class="form-control red-shadow" placeholder="{{ trans('common.search_field_value') }}" />
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
                     </span>
@@ -16,7 +16,7 @@
             </form>
         </div>
         <div class="col-sm-5 col-md-4 text-right site-header-buttons">
-            <a href="#" class="btn btn-chatoff">Добавить заведение</a>
+            <a href="#" class="btn btn-chatoff">{{ trans('common.footer_add_business') }}</a>
             &nbsp;&nbsp;
 
             <div class="btn-group">

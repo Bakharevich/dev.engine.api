@@ -73,7 +73,9 @@
 
 
                 @if ($category->description_bottom && (Request::get('page') == 1 || Request::get('page') === null && !$selectedOptions))
-                    <p style="color: #444; font-size: 0.85em;">{{ $category->description_bottom }}</p>
+                    <div style="color: #444; font-size: 0.85em;">
+                        {!! $category->description_bottom  !!}
+                    </div>
                 @endif
             </div>
             <div class="col-md-3">
@@ -84,122 +86,143 @@
 @stop
 
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            // when Yandex DOM is ready, do the job
-            ymaps.ready(createMap);
-            ymaps.ready(addObjectsToMap);
+            <!-- TEMPORARY SOLUTION -->
 
-            var latitude = 53.90;
-            var longitude = 27.57;
-            var category_id = '{{ $category->id }}';
-            var page = '{{ Request::get('page', 1) }}';
+            <script>
+                var latitude = 53.90;
+                var longitude = 27.57;
+                var category_id = '{{ $category->id }}';
+                var page = '{{ Request::get('page', 1) }}';
+            </script>
 
-            function createMap() {
-                window.myMap = new ymaps.Map("map", {
-                    center: [latitude, longitude],
-                    zoom: 10
-                }, {
-                    searchControlProvider: 'yandex#search'
-                });
-            }
+            @if (Request::get('site')->locale == 'ru')
+                <script>
+                    $(document).ready(function() {
+                        // when Yandex DOM is ready, do the job
+                        ymaps.ready(createMap);
+                        ymaps.ready(addObjectsToMap);
 
-            function addObjectsToMap () {
-                // create collection
-                var myCollection = new ymaps.GeoObjectCollection(null, {
-                    preset: 'islands#blueIcon'
-                });
 
-                // get options
-                var ser = $("#form_options").serialize();
 
-                // remove objects from map
-                window.myMap.geoObjects.removeAll();
+                        function createMap() {
+                            window.myMap = new ymaps.Map("map", {
+                                center: [latitude, longitude],
+                                zoom: 10
+                            }, {
+                                searchControlProvider: 'yandex#search'
+                            });
+                        }
 
-                // get companies for map
-                var request = $.ajax({
-                    url: "/api/companies/getAllByCategoryId?" + ser,
-                    method: "GET",
-                    data: {
-                        category_id : category_id,
-                        page: page
-                    },
-                    dataType: "json"
-                });
-                //alert(ser);
+                        function addObjectsToMap () {
+                            // create collection
+                            var myCollection = new ymaps.GeoObjectCollection(null, {
+                                preset: 'islands#blueIcon'
+                            });
 
-                request.done(function( data ) {
-                    $.each(data.data, function (key, value) {
-                        //console.log(value.name);
-                        myPlacemark = new ymaps.Placemark([value.latitude, value.longitude], {
-                            hintContent: value.name,
-                            balloonContent: value.name
+                            // get options
+                            var ser = $("#form_options").serialize();
+
+                            // remove objects from map
+                            window.myMap.geoObjects.removeAll();
+
+                            // get companies for map
+                            var request = $.ajax({
+                                url: "/api/companies/getAllByCategoryId?" + ser,
+                                method: "GET",
+                                data: {
+                                    category_id : category_id,
+                                    page: page
+                                },
+                                dataType: "json"
+                            });
+                            //alert(ser);
+
+                            request.done(function( data ) {
+                                $.each(data.data, function (key, value) {
+                                    //console.log(value.name);
+                                    myPlacemark = new ymaps.Placemark([value.latitude, value.longitude], {
+                                        hintContent: value.name,
+                                        balloonContent: value.name
+                                    });
+
+                                    //window.myMap.geoObjects.add(myPlacemark);
+                                    myCollection.add(myPlacemark);
+                                });
+
+
+                                window.myMap.geoObjects.add(myCollection);
+
+                                // myCollection.getLength();
+                                //window.myMap.setBounds(myCollection.getBounds());
+                            });
+
+                            request.fail(function( jqXHR, textStatus ) {
+                                console.log( "Request failed: " + textStatus );
+                            });
+                        }
+
+                        function getCompanies()
+                        {
+                            // get options
+                            var ser = $("#form_options").serialize();
+
+                            var request = $.ajax({
+                                url: "/api/companies/getHtmlByCategoryId?" + ser,
+                                method: "GET",
+                                data: {
+                                    category_id : category_id,
+                                    page: page
+                                },
+                                dataType: "html"
+                            });
+                            //alert(ser);
+
+                            request.done(function( data ) {
+                                //alert(data);
+                                $("#companies_list").html(data);
+
+                                // myCollection.getLength();
+                                //window.myMap.setBounds(myCollection.getBounds());
+                            });
+
+                            request.fail(function( jqXHR, textStatus ) {
+                                console.log("Request failed: " + textStatus );
+                            });
+                        }
+
+                        // EVENTS
+                        $(':checkbox').change(function(){
+                            //alert($(this).html());
+                            $("#companies_list").prepend('<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>');
+                            var ser = $("#form_options").serialize();
+
+                            //document.location = '/{{ Request::get('site')->city->domain }}/{{ $category->domain }}/?' + ser;
+                            // add geoobjects
+                            addObjectsToMap();
+
+                            // refresh companies list
+                            getCompanies();
                         });
 
-                        //window.myMap.geoObjects.add(myPlacemark);
-                        myCollection.add(myPlacemark);
+                        $("BUTTON.one-click").click(function(e){
+                            e.preventDefault();
+                            $(this).toggleClass('active');
+                        });
                     });
+                </script>
+            @elseif (Request::get('site')->locale == 'en')
+                <script>
+                var map;
+                function initMap() {
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: {lat: latitude, lng: longitude},
+                        zoom: 8
+                    });
+                }
+                </script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAA7OAks4bUzGKLf0_hlci_B0NbW23WGpY&callback=initMap"
+                        async defer></script>
 
+    @endif
 
-                    window.myMap.geoObjects.add(myCollection);
-
-                    // myCollection.getLength();
-                    //window.myMap.setBounds(myCollection.getBounds());
-                });
-
-                request.fail(function( jqXHR, textStatus ) {
-                    console.log( "Request failed: " + textStatus );
-                });
-            }
-
-            function getCompanies()
-            {
-                // get options
-                var ser = $("#form_options").serialize();
-
-                var request = $.ajax({
-                    url: "/api/companies/getHtmlByCategoryId?" + ser,
-                    method: "GET",
-                    data: {
-                        category_id : category_id,
-                        page: page
-                    },
-                    dataType: "html"
-                });
-                //alert(ser);
-
-                request.done(function( data ) {
-                    //alert(data);
-                    $("#companies_list").html(data);
-
-                    // myCollection.getLength();
-                    //window.myMap.setBounds(myCollection.getBounds());
-                });
-
-                request.fail(function( jqXHR, textStatus ) {
-                    console.log("Request failed: " + textStatus );
-                });
-            }
-
-            // EVENTS
-            $(':checkbox').change(function(){
-                //alert($(this).html());
-                $("#companies_list").prepend('<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>');
-                var ser = $("#form_options").serialize();
-
-                //document.location = '/{{ Request::get('site')->city->domain }}/{{ $category->domain }}/?' + ser;
-                // add geoobjects
-                addObjectsToMap();
-
-                // refresh companies list
-                getCompanies();
-            });
-
-            $("BUTTON.one-click").click(function(e){
-                e.preventDefault();
-                $(this).toggleClass('active');
-            });
-        });
-
-    </script>
 @stop

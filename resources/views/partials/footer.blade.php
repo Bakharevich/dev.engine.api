@@ -1,8 +1,8 @@
 <footer class="site-footer">
-    <a href="#">About</a> |
-    <a href="#">Contact</a> |
-    <a href="#">Add a Business</a> |
-    <a href="#">Vacancies</a>
+    <a href="#">{{ trans('common.footer_about') }}</a> |
+    <a href="#">{{ trans('common.footer_contact') }}</a> |
+    <a href="#">{{ trans('common.footer_add_business') }}</a> |
+    <a href="#">{{ trans('common.footer_vacancies') }}</a>
     <br/>
-    &copy; {{ Request::get('site')->name }}, {{ date("Y") }}
+    {!! Request::get('site')->name !!}, {{ date("Y") }}
 </footer>
