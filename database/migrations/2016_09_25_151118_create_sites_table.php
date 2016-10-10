@@ -21,7 +21,9 @@ class CreateSitesTable extends Migration
             $table->string('media_url')->default('')->comment('Url to domain where all media is located');
             $table->string('media_path')->default('')->comment('Server path to media directory');
             $table->string('domain')->index();
+            $table->string('headline')->default('');
             $table->tinyInteger('menu_type')->default(1);
+            $table->string('locale')->default(1);
             $table->timestamps();
         });
     }
