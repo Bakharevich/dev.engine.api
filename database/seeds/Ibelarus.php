@@ -16,10 +16,12 @@ class Ibelarus extends Seeder
             'country_id' => 36,
             'city_id' => 625144,
             'name' => 'iBelarus',
-            'media_url' => 'http://static.engine.dev/engine/',
-            'media_path' => '/home/vagrant/sites/personal/static.engine.dev/public/engine/',
+            'media_url' => 'http://static.engine.dev/ibelarus/',
+            'media_path' => '/home/vagrant/sites/personal/static.engine.dev/public/ibelarus/',
             'domain' => 'ibelarus.dev',
-            'menu_type' => 1
+            'headline' => 'Найди лучшие компании в Беларуси',
+            'menu_type' => 2,
+            'locale' => 'ru'
         ]);
 
         // categories
