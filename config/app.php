@@ -227,8 +227,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Menu' => App\Helpers\Menu::class
-
+        'Menu' => App\Helpers\Menu::class,
+        'Helper' => App\Helpers\Helper::class
     ],
 
 ];
