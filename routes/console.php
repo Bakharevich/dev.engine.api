@@ -16,3 +16,7 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('scrape', function () {
+    Artisan::call('scrapers:process');
+})->describe('Start scraping process');
