@@ -1,8 +1,6 @@
 @extends('app')
 
 @section('content')
-    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-
     <div style="background-color: #f5f5f5; font-size: 0.85em; border-bottom: 1px solid #e7e7e7;">
         <div class="container">
             <ol class="breadcrumb" style="margin-bottom: 0px;">
@@ -96,6 +94,8 @@
             </script>
 
             @if (Request::get('site')->locale == 'ru')
+                <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+
                 <script>
                     $(document).ready(function() {
                         // when Yandex DOM is ready, do the job
@@ -211,6 +211,9 @@
                     });
                 </script>
             @elseif (Request::get('site')->locale == 'en')
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAA7OAks4bUzGKLf0_hlci_B0NbW23WGpY&callback=initMap"
+                        async defer></script>
+
                 <script>
                 var map;
                 function initMap() {
@@ -220,9 +223,6 @@
                     });
                 }
                 </script>
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAA7OAks4bUzGKLf0_hlci_B0NbW23WGpY&callback=initMap"
-                        async defer></script>
-
     @endif
 
 @stop
