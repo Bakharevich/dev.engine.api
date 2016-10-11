@@ -18,7 +18,12 @@ class CompanyController extends Controller
     public function show(Request $request, $companyDomain)
     {
         // get company
-        $company = Company::with('options')->where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
+        $company = Company::with('options')->with('category')->with('reviews')->
+                            with(['photos' => function($query) {
+                                $query->limit(4);
+                            }])->
+                            with('hours')->
+                            where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
 
 
         return view('company', [
