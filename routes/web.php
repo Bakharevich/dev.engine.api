@@ -3,9 +3,15 @@ use App\Scrapers\Yelp;
 use App\Repositories\CompanyRepository;
 //use GuzzleHttp;
 
-Route::group(['domain' => '{companyDomain}.yelpster.net'], function() {
-    Route::get('/', 'Web\CompanyController@show');
-});
+$domains = [
+    'yelpster.dev', 'yelpster.net', 'ibelarus.dev', 'ibelarus.by'
+];
+
+foreach ($domains as $domain) {
+    Route::group(['domain' => '{companyDomain}.' . $domain], function() {
+        Route::get('/', 'Web\CompanyController@show');
+    });
+}
 
 Route::group(['domain' => '{companyDomain}.ibelarus.by'], function() {
     Route::get('/', 'Web\CompanyController@show');
