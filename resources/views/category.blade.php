@@ -6,7 +6,7 @@
     <div style="background-color: #f5f5f5; font-size: 0.85em; border-bottom: 1px solid #e7e7e7;">
         <div class="container">
             <ol class="breadcrumb" style="margin-bottom: 0px;">
-                <li><a href="/">Главная</a></li>
+                <li><a href="/">{{ trans('common.btn_home') }}</a></li>
                 <li><a href="/{{ Request::get('site')->city->domain }}/">{{ Request::get('site')->city->name }}</a></li>
                 <li class="active">{{ $category->name }}</li>
             </ol>
