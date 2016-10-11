@@ -1,3 +1,8 @@
 BODY {
     background-color: #f5f5f5 !important;
 }
+
+.rating-star {
+    font-size: 1.1em; padding: 4px; border-radius: 3px; background-color: #CCC;
+    color: #FFF;
+}
