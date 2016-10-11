@@ -62,7 +62,7 @@
                         <a href="/{{ Request::get('site')->city->domain }}/{{ $category->domain }}/" class="index-link-category">
                             <div style="border: 1px solid #CCC; padding: 35px 0px 35px 0px; background: #FFF; border-radius: 5px; box-shadow: 4px; box-shadow: 0 1px 3px rgba(48, 53, 64, .3);">
                                 <div>
-                                    <i class="fa {{ $category->icon }}" aria-hidden="true" style="font-size: 64px;"></i>
+                                    <i class="{{ $category->icon }}" aria-hidden="true" style="font-size: 64px;"></i>
                                 </div>
 
                                 {{ $category->name }}
