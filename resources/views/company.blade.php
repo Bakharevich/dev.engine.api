@@ -1,27 +1,91 @@
 @extends('app')
 
 @section('content')
-    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+    <div style="background-color: #f5f5f5; font-size: 0.85em; border-bottom: 1px solid #e7e7e7;">
+        <div class="container">
+            <ol class="breadcrumb" style="margin-bottom: 0px;">
+                <li><a href="http://{{ Request::get('site')->domain }}/">{{ trans('common.btn_home') }}</a></li>
+                <li><a href="http://{{ Request::get('site')->domain }}/{{ Request::get('site')->city->domain }}/">{{ Request::get('site')->city->name }}</a></li>
+                <li><a href="http://{{ Request::get('site')->domain }}/{{ Request::get('site')->city->domain }}/{{ $company->category->domain }}/">{{ $company->category->name }}</a></li>
+                <li class="active">{{ $company->name }}</li>
+            </ol>
 
-    <div class="container" style="margin: 0 auto;">
-        <!--
-        <ol class="breadcrumb">
-            <li><a href="http://{{ Request::get('site')->domain }}">Home</a></li>
-            <li><a href="http://{{ Request::get('site')->domain }}/{{ Request::get('site')->city->domain }}/">{{ Request::get('site')->city->name }}</a></li>
-            <li><a href="http://{{ Request::get('site')->domain }}/{{ Request::get('site')->city->domain }}/{{ $company->category->domain }}/">{{ $company->category->name }}</a></li>
-            <li class="active">{{ $company->name }}</li>
-        </ol>
-        -->
+            <div class="col-md-8">
+                <h1 style="margin-top: 0; ">{{ $company->name }}</h1>
 
-        <div class="row">
-            <div class="col-md-6">
-                <h1 style="margin-top: 0px;">{{ $company->name }}</h1>
-                <i class="fa fa-star" aria-hidden="true" style="font-size: 1.5em; color: #73CF42;"></i>
-                <i class="fa fa-star" aria-hidden="true" style="font-size: 1.5em;"></i>
-                <i class="fa fa-star" aria-hidden="true" style="font-size: 1.5em;"></i>
-                <i class="fa fa-star" aria-hidden="true" style="font-size: 1.5em;"></i>
+                @if ($company->rating)
+                    <div class="company-rating" style="margin-bottom: 20px;">
+                        {!! Helper::companyRating($company->rating, 22) !!} &nbsp; {{ $company->amount_comments }} {{ trans('company.number_of_reviews') }}
+                    </div>
+                @endif
+
+                @if ($company->description)
+                    <p style="color: #222;">{{ $company->description }}</p>
+                @endif
             </div>
-            <div class="col-md-6 text-right" style="margin-top: 30px;">
+            <div class="col-md-4" style="font-size: 1.1em; padding-top: 5px;">
+                @if ($company->address)
+                    <p><i class="fa fa-map-marker" aria-hidden="true"></i> {!! $company->address !!}</p>
+                @endif
+
+                @if ($company->tel)
+                    <p><i class="fa fa-phone-square" aria-hidden="true"></i> {!! $company->tel !!}</p>
+                @endif
+
+                @if ($company->website)
+                    <p>
+                        <i class="fa fa-link" aria-hidden="true"></i>
+                        <a href="{!! $company->website !!}" target="_blank" rel="nofollow">{!! $company->website !!}</a>
+                    </p>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <div style="background: #FFF;">
+        <div class="container" style="margin: 0 auto;">
+            @if ($company->photos)
+            <div class="col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: 20px;">
+                @foreach ($company->photos as $photo)
+                    <div class="col-md-3 col-sm-3">
+                        <img src="{{ $photo->url }}" class="img-responsive" />
+                    </div>
+                @endforeach
+            </div>
+            @endif
+            <div class="col-md-8">
+                @if ($company->reviews)
+                    <h3>Latest reviews</h3>
+                    @foreach ($company->reviews as $review)
+                        <div>
+                            <p><b>{{ $review->name }}</b> <small>({{ $review->created_at }})</small></p>
+                            <p>{!! Helper::companyRating($review->rating, 14) !!}</p>
+                            <p>{!! $review->review  !!}</p>
+                            <hr />
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+            <div class="col-md-4 text-left" style="margin-top: 30px;">
+                @if ($company->latitude && $company->longitude)
+                    <div id="map" class="img-thumbnail" style="width: 100%; height: 300px;"></div>
+                @endif
+
+                <h3>Hours</h3>
+
+                @if ($company->hours)
+                    <table class="text-left">
+                    @foreach ($company->hours as $hour)
+                        <tr>
+                            <td style="padding-right: 30px;"><b>{{ ucfirst($hour->day) }}</b></td>
+                            <td style="padding-right: 10px;">{{ $hour->open }} - {{ $hour->close }}</td>
+                            <td>{{ Helper::isCompanyOpened($hour->day, $hour->open, $hour->close) }}</td>
+                        </tr>
+                    @endforeach
+                    </table>
+                @endif
+
+                <!--
                 <button type="button" class="btn btn-danger" style="margin-right: 10px;">
                     <i class="fa fa-star" aria-hidden="true" style="color: #FFF; font-size: 1.4em;"></i> Оставить отзыв
                 </button>
@@ -35,61 +99,54 @@
                         <i class="fa fa-bookmark" aria-hidden="true"></i> В избранное
                     </button>
                 </div>
+                -->
+            </div>
+
+            <div class="col-md-12">
+            @if ($company->description)
+                <p>{{ $company->description }}</p>
+                <br/>
+            @endif
             </div>
         </div>
-
-
-        @if ($company->options)
-            <div>
-            @foreach ($company->options as $option)
-                <span class="label label-default">{{ $option->name }}</span>
-            @endforeach
-            </div>
-            <br/>
-        @endif
-
-        @if ($company->description)
-            <p>{{ $company->description }}</p>
-            <br/>
-        @endif
-
-        @if ($company->latitude && $company->longitude)
-            <div id="map" style="width: 100%; height: 300px;"></div>
-        @endif
     </div>
 @stop
 
 @section('scripts')
-<script>
-    ymaps.ready(init);
+    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+
+    <script>
 
 
-    var latitude = {{ $company->latitude }};
-    var longitude = {{ $company->longitude }};
+        ymaps.ready(init);
 
 
-    function init () {
-        var myMap = new ymaps.Map("map", {
-                    center: [latitude, longitude],
-                    zoom: 16
-                }, {
-                    searchControlProvider: 'yandex#search'
-                }),
+        var latitude = {{ $company->latitude }};
+        var longitude = {{ $company->longitude }};
 
-        myGeoObject = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [latitude, longitude]
-            },
-            // Свойства.
-            properties: {
 
-            }
-        }, {
-            preset: 'islands#icon'
-        });
+        function init () {
+            var myMap = new ymaps.Map("map", {
+                        center: [latitude, longitude],
+                        zoom: 16
+                    }, {
+                        searchControlProvider: 'yandex#search'
+                    }),
 
-        myMap.geoObjects.add(myGeoObject);
-    }
-</script>
+            myGeoObject = new ymaps.GeoObject({
+                geometry: {
+                    type: "Point",
+                    coordinates: [latitude, longitude]
+                },
+                // Свойства.
+                properties: {
+
+                }
+            }, {
+                preset: 'islands#icon'
+            });
+
+            myMap.geoObjects.add(myGeoObject);
+        }
+    </script>
 @stop

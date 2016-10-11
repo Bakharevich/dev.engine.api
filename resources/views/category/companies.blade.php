@@ -1,8 +1,4 @@
 <style>
-    .rating-star {
-        font-size: 1.1em; padding: 4px; border-radius: 3px; background-color: #00B551;
-        color: #FFF;
-    }
     .category-company-description {
         font-size: 0.85em;
         color: #333;
@@ -25,10 +21,7 @@
                         </div>
 
                         <div>
-                            <i class="fa fa-star rating-star" aria-hidden="true"></i>
-                            <i class="fa fa-star rating-star" aria-hidden="true"></i>
-                            <i class="fa fa-star rating-star" aria-hidden="true"></i>
-                            <i class="fa fa-star rating-star" aria-hidden="true"></i>
+                            {!! Helper::companyRating($company->rating) !!}
                             &nbsp;
                             {{ $company->amount_comments }}
                         </div>
@@ -36,11 +29,11 @@
                     <div class="col-sm-6">
 
                         @if ($company->address)
-                            <p>{!! $company->address  !!}</p>
+                            <p><p><i class="fa fa-map-marker" aria-hidden="true"></i> {!! $company->address  !!}</p>
                         @endif
 
                         @if ($company->tel)
-                            <p>{{ $company->tel }}</p>
+                            <p><p><i class="fa fa-phone-square" aria-hidden="true"></i> {{ $company->tel }}</p>
                         @endif
                     </div>
                     @if ($company->description)
@@ -49,12 +42,13 @@
                     @if ($company->last_review)
                         <div class="col-sm-12 category-company-description">
 
-                                <p>{!!  str_limit($company->last_review, 100)  !!}</p>
+                                <p>{!!  str_limit($company->last_review, 250)  !!}</p>
 
                         </div>
                     @endif
                 </div>
             </div>
+            <hr>
         @endforeach
 
 

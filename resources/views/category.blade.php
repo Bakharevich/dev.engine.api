@@ -19,12 +19,19 @@
 
             <div style="padding: 0px 14px; margin-bottom: 13px;">
                 <form action="" method="GET" id="form_options">
-                    <button class="btn btn-default btn-sm one-click"><i class="fa fa-clock-o" aria-hidden="true"></i> Открыто сейчас</button>
-                    <button class="btn btn-default btn-sm one-click"><i class="fa fa-wifi" aria-hidden="true"></i> Наличие Wifi</button>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="..." style="margin-right: 5px;">
+                        <button type="button" class="btn btn-default one-click">&pound;</button>
+                        <button type="button" class="btn btn-default one-click">&pound;&pound;</button>
+                        <button type="button" class="btn btn-default one-click">&pound;&pound;&pound;</button>
+                        <button type="button" class="btn btn-default one-click">&pound;&pound;&pound;&pound;</button>
+                    </div>
+
+                    <button class="btn btn-default btn-sm one-click" style="margin-right: 5px;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ trans('category.option-open-now') }}</button>
+                    <button class="btn btn-default btn-sm one-click" style="margin-right: 7px;"><i class="fa fa-wifi" aria-hidden="true"></i> {{ trans('category.option-wifi') }}</button>
 
                     @if ($category->options_groups)
                         @foreach ($category->options_groups as $options_group)
-                            <div class="btn-group btn-group-sm">
+                            <div class="btn-group btn-group-sm" style="margin-right: 5px;">
                                 <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="{{ $options_group->icon }}" aria-hidden="true"></i> {{ $options_group->name }} <span class="caret"></span>
                                 </button>
@@ -87,13 +94,13 @@
             <!-- TEMPORARY SOLUTION -->
 
             <script>
-                var latitude = 53.90;
-                var longitude = 27.57;
+                var latitude = {{ Request::get('site')->city->latitude }};
+                var longitude = {{ Request::get('site')->city->longitude }};
                 var category_id = '{{ $category->id }}';
                 var page = '{{ Request::get('page', 1) }}';
             </script>
 
-            @if (Request::get('site')->locale == 'ru')
+            @if (Request::get('site')->locale == 'ru' || Request::get('site')->locale == 'en')
                 <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 
                 <script>
@@ -102,12 +109,10 @@
                         ymaps.ready(createMap);
                         ymaps.ready(addObjectsToMap);
 
-
-
                         function createMap() {
                             window.myMap = new ymaps.Map("map", {
                                 center: [latitude, longitude],
-                                zoom: 10
+                                zoom: 11
                             }, {
                                 searchControlProvider: 'yandex#search'
                             });
@@ -210,7 +215,7 @@
                         });
                     });
                 </script>
-            @elseif (Request::get('site')->locale == 'en')
+            @elseif (Request::get('site')->locale == 'en11111111')
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAA7OAks4bUzGKLf0_hlci_B0NbW23WGpY&callback=initMap"
                         async defer></script>
 
