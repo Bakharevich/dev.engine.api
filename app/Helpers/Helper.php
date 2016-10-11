@@ -3,8 +3,10 @@
 namespace App\Helpers;
 
 class Helper {
-    public static function companyRating($rating)
+    public static function companyRating($rating, $size = '')
     {
+        if (empty($size)) $size = 18;
+
         $rating = round($rating * 2) / 2;
 
         if ($rating >= 5) $color = '00B551';
@@ -15,13 +17,28 @@ class Helper {
 
         $str = '';
         for ($i = 1; $i <= $rating; $i++) {
-            $str .= "<i class=\"fa fa-star rating-star\" aria-hidden=\"true\" style=\"background-color: #{$color} !important;\"></i> ";
+            $str .= "<i class=\"fa fa-star rating-star\" aria-hidden=\"true\" style=\"background-color: #{$color} !important; font-size: {$size}px;\" title=\"{$rating}\"></i> ";
         }
 
         if (strpos($rating, ".")) {
-            $str .= "<i class=\"fa fa-star-half-o rating-star\" aria-hidden=\"true\" style=\"background-color: #{$color} !important;\"></i> ";
+            $str .= "<i class=\"fa fa-star-half-o rating-star\" aria-hidden=\"true\" style=\"background-color: #{$color} !important;  font-size: {$size}px;\" title=\"{$rating}\"></i> ";
         }
 
         return $str;
+    }
+
+    public static function isCompanyOpened($day, $open, $close)
+    {
+        if (date("D") == ucfirst($day)) {
+            $current = "Y-m-d H:i";
+            $openDate = date("Y-m-d") . " " . $open;
+            $closeDate = date("Y-m-d") . " " . $close;
+
+            if (strtotime($current) > strtotime($openDate) && strtotime($current) < strtotime($closeDate)) {
+                return 'Opened';
+            }
+            else return 'Closed';
+        }
+
     }
 }
