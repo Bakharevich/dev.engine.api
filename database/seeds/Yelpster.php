@@ -65,9 +65,21 @@ class Yelpster extends Seeder
             'name' => 'Breakfast & Brunch',
             'domain' => 'breakfast-brunch',
             'description_top' => 'Start your weekend right with this epic list of the best brunches in London, from waffles and pancakes to fry-ups and eggs every which way',
-            'description_bottom' => '<p>Brunch is a combination of breakfast and lunch eaten usually during the late morning, but it can extend to as late as 3pm.[1][2] The word is a portmanteau of breakfast and lunch.[3] Brunch originated in England in the late 19th century and became popular in the United States in the 1930s.</p><p>Brunch in London is bigger than ever. You can bearly set foot out your front door at the weekend without stumbling across a steaming pan of shakshuka or finding the waft of waffles in the air. So let us guide you to the best spots in town for a kick-ass weekend brunch in London, from boozy bottomless brunches to traditional Full English fry-ups and even New York-style feasts, you can start off your weekend in style.</p>',
-            'icon' => 'fa-cutlery',
+            'description_bottom' => '<p>Brunch is a combination of breakfast and lunch eaten usually during the late morning, but it can extend to as late as 3pm. The word is a portmanteau of breakfast and lunch.[3] Brunch originated in England in the late 19th century and became popular in the United States in the 1930s.</p><p>Brunch in London is bigger than ever. You can bearly set foot out your front door at the weekend without stumbling across a steaming pan of shakshuka or finding the waft of waffles in the air. So let us guide you to the best spots in town for a kick-ass weekend brunch in London, from boozy bottomless brunches to traditional Full English fry-ups and even New York-style feasts, you can start off your weekend in style.</p>',
+            'icon' => 'fa fa-cutlery',
             'url' => 'http://yelpster.dev/london/breakfast-brunch/'
+        ]);
+
+        DB::table('categories')->insert([
+            'id' => 5,
+            'site_id' => 1,
+            'category_group_id' => 4,
+            'name' => 'Bars',
+            'domain' => 'bars',
+            'description_top' => 'Searching for the best bars and pubs in London? You\'re in the right place. The capital\'s drinking scene is one of the best in the world, with boundary-breaking cocktail bars taking mixed drinks to the next level, while traditional pubs bring you back down to earth in the best possible way.',
+            'description_bottom' => '',
+            'icon' => 'fa fa-glass',
+            'url' => 'http://yelpster.dev/london/bars/'
         ]);
     }
 }
