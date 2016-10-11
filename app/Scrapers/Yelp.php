@@ -15,7 +15,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use File;
 use DB;
 
-class Yelp extends Scraper {
+class Yelp extends Scraper implements ScraperInterface {
     private $companyRepo;
 
     public function __construct()
@@ -32,7 +32,7 @@ class Yelp extends Scraper {
             // check if company exists
             $checkResult = $this->checkIfExists($this->getParam('site_id'), $company['page']);
             if ($checkResult) {
-                echo $company['page'] . " exists. Skipping...<br/>";
+                echo $company['page'] . " exists. Skipping...\n";
                 continue;
             }
             
@@ -62,10 +62,8 @@ class Yelp extends Scraper {
             $companyData->last_review = $lastReview;
             $companyData->save();
 
-            echo "<pre>";
-            print_r($companyText);
-            print_r($companyPhotos);
-            echo "</pre>";
+            //echo "<pre>"; print_r($companyText); print_r($companyPhotos); echo "</pre>";
+            echo $companyData->name . " added.\n";
 
 
         }
@@ -89,11 +87,14 @@ class Yelp extends Scraper {
             }
         }
 
-        $companies = [];
-        $companies[] = [
-            'page' => 'https://yelp.com/biz/yarok-berlin?sort_by=date_desc',
-            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
-        ];
+        // slice to 1 company for testing purposes
+        $companies = array_slice($companies, 0, 1);
+
+//        $companies = [];
+//        $companies[] = [
+//            'page' => 'https://yelp.com/biz/yarok-berlin?sort_by=date_desc',
+//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
+//        ];
 
         return $companies;
     }

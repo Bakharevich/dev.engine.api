@@ -3,5 +3,5 @@
 namespace App\Scrapers;
 
 interface ScraperInterface {
-    public function download();
+    public function process($url);
 }
