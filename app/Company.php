@@ -28,4 +28,14 @@ class Company extends Model
     {
         return $this->hasMany('App\CompanyPhoto');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany('App\CompanyReview');
+    }
+
+    public function hours()
+    {
+        return $this->hasMany('App\CompanyHour');
+    }
 }
