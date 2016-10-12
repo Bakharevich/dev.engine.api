@@ -34,18 +34,26 @@ class Ibelarus extends Seeder
             'description_top' => 'Все рестораны Минска собраны здесь не случайно: на заре третьего тысячелетия каждый житель столицы обладает полным правом выбрать ресторан по своему вкусу: рестораны с живой музыкой, стейк-хаусы, суши-бары, рестораны национальных кухонь, пабы, фуд-корты - и все остальные. ',
             'description_bottom' => 'Рестораны давно превратились из заведений общественного питания в места, где всегда можно отдохнуть, приятно и с пользой провести время. Рестораны Минска предлагают широкие возможности: проведение свадьбы, банкета, бизнес-ланчи и деловые встречи. Интернет-портал Чатофф поможет вам сориентироваться и выбрать рестораны в соответствии с вашими потребностями. Собраться большой дружеской компанией или отметить праздничное событие в узком кругу, провести романтический вечер при свечах, насладиться кухней высокого класса, попробовать экзотические блюда, послушать живую музыку, посетить клубную вечеринку – рестораны Минска удовлетворят потребности самых взыскательных клиентов.',
             'icon' => 'fa fa-cutlery',
-            'url' => 'http://api.engine.dev/moscow/restaurants/'
+            'url' => 'http://api.engine.dev/moscow/restaurants/',
+            'meta_title' => 'Рестораны в Минске',
+            'meta_keywords' => '',
+            'meta_description' => '',
+            'meta_image' => ''
         ]);
         DB::table('categories')->insert([
             'id' => 2,
             'site_id' => 2,
             'category_group_id' => 6,
-            'name' => 'Кафе',
+            'name' => 'Кафе и бары',
             'domain' => 'cafe',
             'description_top' => 'Верхнее описание категории Кафе',
             'description_bottom' => 'Нижнее описание категории Кафе',
             'icon' => 'fa fa-coffee',
-            'url' => 'http://api.engine.dev/moscow/cafe/'
+            'url' => 'http://api.engine.dev/moscow/cafe/',
+            'meta_title' => 'Кафе и бары в Минске',
+            'meta_keywords' => '',
+            'meta_description' => '',
+            'meta_image' => ''
         ]);
         DB::table('categories')->insert([
             'id' => 3,
@@ -55,7 +63,11 @@ class Ibelarus extends Seeder
             'domain' => 'category1',
             'description_top' => 'Верхнее описание категории Категория 1',
             'description_bottom' => 'Нижнее описание категории Категоория 1',
-            'icon' => 'fa fa-coffee'
+            'icon' => 'fa fa-coffee',
+            'meta_title' => 'Test Category 1',
+            'meta_keywords' => '',
+            'meta_description' => '',
+            'meta_image' => ''
         ]);
 
         // categories_groups
@@ -123,7 +135,8 @@ class Ibelarus extends Seeder
             'main_photo_url' => 'http://static.engine.dev/companies/fridays.jpg',
             'address' => 'пр. Независимости, 22',
             'tel' => '+375447313128',
-            'last_review' => 'You only live once, EAT WELL. Pulpo alone was life-changing, unspeakably delicious grilled morsels of perfection - impossibly tender, incredibly flavorful. Pane con tomate was mouthwatering - a must. Beetroot salad was beyond fresh and gladdens the palate with a thoughtful touch of dill. Grilled quail was quite oily and unfortunately bland - not a standout. '
+            'last_review' => 'You only live once, EAT WELL. Pulpo alone was life-changing, unspeakably delicious grilled morsels of perfection - impossibly tender, incredibly flavorful. Pane con tomate was mouthwatering - a must. Beetroot salad was beyond fresh and gladdens the palate with a thoughtful touch of dill. Grilled quail was quite oily and unfortunately bland - not a standout. ',
+            'meta_title' => 'ТЖИ Фрайдис'
         ]);
         DB::table('companies')->insert([
             'id' => 2,
@@ -138,7 +151,8 @@ class Ibelarus extends Seeder
             'main_photo_url' => '',
             'address' => 'Street',
             'tel' => '+375291234567',
-            'last_review' => ''
+            'last_review' => '',
+            'meta_title' => 'Company 2'
         ]);
         DB::table('companies')->insert([
             'id' => 3,
@@ -153,7 +167,8 @@ class Ibelarus extends Seeder
             'main_photo_url' => '',
             'address' => 'пр. Мясникова, 34',
             'tel' => '+375172009091,+375291907777',
-            'last_review' => ''
+            'last_review' => '',
+            'meta_title' => 'Чумацкий'
         ]);
         DB::table('companies')->insert([
             'id' => 4,
@@ -168,7 +183,8 @@ class Ibelarus extends Seeder
             'main_photo_url' => 'http://static.engine.dev/companies/pan.jpg',
             'address' => 'ул. Интернациональная, 11',
             'tel' => '+375172297602,+375291981690 ',
-            'last_review' => ''
+            'last_review' => '',
+            'meta_title' => 'Пан Хмелю'
         ]);
 
         // company_option

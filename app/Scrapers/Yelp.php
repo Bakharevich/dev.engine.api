@@ -14,6 +14,7 @@ use App\Repositories\CompanyRepository;
 use Intervention\Image\ImageManagerStatic as Image;
 use File;
 use DB;
+use Str;
 
 class Yelp extends Scraper implements ScraperInterface {
     private $companyRepo;
@@ -59,6 +60,7 @@ class Yelp extends Scraper implements ScraperInterface {
 
             // update company info according last changes
             $companyData->main_photo_url = $lastPhoto->url;
+            $companyData->meta_image = $lastPhoto->url;
             $companyData->last_review = $lastReview;
             $companyData->save();
 
@@ -125,6 +127,13 @@ class Yelp extends Scraper implements ScraperInterface {
         $data['hours']                       = $this->getHours($page);
         $data['options']                     = $this->getOptions($page);
         $data['company']['amount_comments']  = count($data['reviews']);
+
+        // add meta data
+        $data['company']['meta_title']       = $data['company']['name'] . " - " . $this->getParam('city')->name;
+        $data['company']['meta_keywords']    = $data['company']['name'] . ", " . $this->getParam('city')->name . ", " . $this->getParam('category')->name . ", reviews of " . $data['company']['name'];
+        $data['company']['meta_description'] = "Reviews of " . $data['company']['name'] . " in " . $this->getParam('city')->name . ": ";
+
+        if (!empty($data['reviews'][0]['review'])) $data['company']['meta_description'] .= str_limit(strip_tags($data['reviews'][0]['review']), $limit = 80, $end = '...');
 
         return $data;
     }
@@ -244,7 +253,7 @@ class Yelp extends Scraper implements ScraperInterface {
 
     public function processPhotos($photos, $company)
     {
-        $photos = array_slice($photos, 0, 12);
+        //$photos = array_slice($photos, 0, 1);
         $photos = array_reverse($photos);
 
         foreach ($photos as $url) {
@@ -254,11 +263,11 @@ class Yelp extends Scraper implements ScraperInterface {
 
             $name = uniqid() . "." . $extension;
 
-            Image::make($file)->save($this->getParam('media_path') . "companies/" . $name)->fit(500, null, function($constraint) {
+            Image::make($file)->save($this->getParam('media_path') . "companies/" . $name, 75)->fit(500, null, function($constraint) {
                 //$constraint->aspectRatio();
                 //$constraint->upsize();
                 //$constraint->down
-            })->save($this->getParam('media_path') . "companies/500/" . $name);
+            })->save($this->getParam('media_path') . "companies/500/" . $name, 75);
 
             // save photo
             $photoData = $this->savePhoto([

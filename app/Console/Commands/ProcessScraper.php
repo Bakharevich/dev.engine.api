@@ -53,13 +53,21 @@ class ProcessScraper extends Command
             // get site
             $site = \App\Site::find($job->site_id);
 
+            // get city
+            $city = \App\City::find($job->city_id);
+
+            // get category
+            $category = \App\Category::find($job->category_id);
+
             // set params
             $scraperObject->setParams([
                 'media_url' => $site->media_url,
                 'media_path' => $site->media_path,
                 'domain' => $site->domain,
                 'site_id' => $site->id,
-                'category_id' => $job->category_id
+                'category_id' => $job->category_id,
+                'city' => $city,
+                'category' => $category
             ]);
 
             $manager->process($scraperObject, $job->url);
