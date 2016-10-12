@@ -14,10 +14,10 @@ class AddMetaColumnsToCompanies extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->string('meta_title')->default('');
-            $table->string('meta_description')->default('');
-            $table->string('meta_keywords')->default('');
-            $table->string('meta_image')->default('');
+            $table->string('meta_title')->default('')->after('url');
+            $table->string('meta_description')->default('')->after('url');
+            $table->string('meta_keywords')->default('')->after('url');
+            $table->string('meta_image')->default('')->after('url');
         });
     }
 

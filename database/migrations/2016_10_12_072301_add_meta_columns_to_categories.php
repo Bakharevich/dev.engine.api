@@ -14,10 +14,10 @@ class AddMetaColumnsToCategories extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->string('meta_title');
-            $table->string('meta_description');
-            $table->string('meta_keywords');
-            $table->string('meta_image');
+            $table->string('meta_title')->default('')->after('url');
+            $table->string('meta_description')->default('')->after('url');;
+            $table->string('meta_keywords')->default('')->after('url');;
+            $table->string('meta_image')->default('')->after('url');;
         });
     }
 
