@@ -94,7 +94,15 @@ class Yelp extends Scraper implements ScraperInterface {
 
 //        $companies = [];
 //        $companies[] = [
-//            'page' => 'https://yelp.com/biz/yarok-berlin?sort_by=date_desc',
+//            'page' => 'https://yelp.com/biz/the-breakfast-club-london-2?sort_by=date_desc',
+//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
+//        ];
+//        $companies[] = [
+//            'page' => 'https://yelp.com/biz/the-breakfast-club-london-3?sort_by=date_desc',
+//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
+//        ];
+//        $companies[] = [
+//            'page' => 'https://yelp.com/biz/the-breakfast-club-london-12?sort_by=date_desc',
 //            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
 //        ];
 
@@ -158,8 +166,31 @@ class Yelp extends Scraper implements ScraperInterface {
 
     public function saveCompany($company)
     {
-        //$this->companyRepo->create($company);
-        return Company::create($company);
+        // check if company with such URL exists
+        $ifExists = Company::where('url', $company['url'])->first();
+
+        if ($ifExists) {
+            // check if such data unique
+            for ($i = 1; $i <= 10; $i++) {
+                // set new domain and url
+                $newDomain = $company['domain'] . "-" . $i;
+                $newUrl = "http://" . $newDomain . "." . $this->getParam('domain') . "/";;
+
+                // check if it's free
+                $ifFree = Company::where('url', $newUrl)->first();
+
+                if (!$ifFree) {
+                    $company['domain'] = $newDomain;
+                    $company['url'] = $newUrl;
+
+                    return Company::create($company);
+                    break;
+                }
+            }
+        }
+        else {
+            return Company::create($company);
+        }
     }
 
     public function processReviews($reviews, $company)
