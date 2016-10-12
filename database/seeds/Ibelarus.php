@@ -21,7 +21,8 @@ class Ibelarus extends Seeder
             'domain' => 'ibelarus.dev',
             'headline' => 'Найди лучшие компании в Беларуси',
             'menu_type' => 2,
-            'locale' => 'ru'
+            'locale' => 'ru',
+            'html_code' => '<!-- Default iBelarus HTML code -->'
         ]);
 
         // categories

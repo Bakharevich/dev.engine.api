@@ -22,7 +22,8 @@ class Yelpster extends Seeder
             'domain' => 'yelpster.dev',
             'headline' => 'Find the best places in city',
             'menu_type' => 2,
-            'locale' => 'en'
+            'locale' => 'en',
+            'html_code' => '<!-- Default Yelpster HTML code -->'
         ]);
 
         // categories_groups
@@ -88,6 +89,17 @@ class Yelpster extends Seeder
             'meta_keywords' => 'bars, pubs, London',
             'meta_description' => "Searching for the best bars and pubs in London? You're in the right place. ",
             'meta_image' => ''
+        ]);
+
+        // meta
+        DB::table('meta')->insert([
+            'id' => 5,
+            'site_id' => 1,
+            'url' => '/',
+            'title' => 'Yelpster - Local',
+            'keywords' => 'yelpster, local',
+            'description' => "Description of local Yelpster",
+            'image' => ''
         ]);
     }
 }
