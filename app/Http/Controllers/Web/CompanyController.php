@@ -20,7 +20,7 @@ class CompanyController extends Controller
         // get company
         $company = Company::with('options')->with('category')->with('reviews')->
                             with(['photos' => function($query) {
-                                $query->limit(4);
+                                $query->limit(6);
                             }])->
                             with('hours')->
                             where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();

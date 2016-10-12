@@ -45,13 +45,15 @@
     <div style="background: #FFF;">
         <div class="container" style="margin: 0 auto;">
             @if ($company->photos)
-            <div class="col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: 20px;">
-                @foreach ($company->photos as $photo)
-                    <div class="col-md-3 col-sm-3">
-                        <img src="{{ $photo->url }}" class="img-responsive" />
-                    </div>
-                @endforeach
-            </div>
+                <div class="col-md-12" style="margin-top: 20px; padding: 0px 7px 0px 7px;">
+                    @foreach ($company->photos as $index => $photo)
+                        <?php $isXs = ($index > 1) ? 'hidden-xs' : '' ?>
+
+                        <div class="col-md-2 col-sm-2 col-xs-6 {{ $isXs }}" style="padding: 0px 7px 0px 7px; padding-bottom: 10px;">
+                            <img src="{{ $photo->url }}" class="img-responsive img-rounded" />
+                        </div>
+                    @endforeach
+                </div>
             @endif
             <div class="col-md-8">
                 @if ($company->reviews)
