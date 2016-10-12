@@ -32,10 +32,19 @@ class CategoryController extends Controller
             $companies = Company::with('options')->where('category_id', $category->id)->paginate(20);
         }
 
+        // generate meta
+        $meta = [
+            'title' => $category->meta_title,
+            'description' => $category->meta_description,
+            'keywords' => $category->meta_keywords,
+            'image' => $category->meta_image
+        ];
+
         return view('category', [
             'category' => $category,
             'companies' => $companies,
-            'selectedOptions' => $selectedOptions
+            'selectedOptions' => $selectedOptions,
+            'meta' => $meta
         ]);
     }
 }

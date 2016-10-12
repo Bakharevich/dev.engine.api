@@ -25,9 +25,18 @@ class CompanyController extends Controller
                             with('hours')->
                             where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
 
+        // generate meta
+        $meta = [
+            'title' => $company->meta_title,
+            'description' => $company->meta_description,
+            'keywords' => $company->meta_keywords,
+            'image' => $company->meta_image
+        ];
+
 
         return view('company', [
-            'company' => $company
+            'company' => $company,
+            'meta' => $meta
         ]);
     }
 }

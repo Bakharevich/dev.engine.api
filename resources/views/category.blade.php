@@ -10,7 +10,7 @@
             </ol>
 
             <div style="padding: 0px 14px;">
-                <h1 style="margin-top: 0;">{{ $category->name }}</h1>
+                <h1 style="margin-top: 0;">{{ $category->meta_title }}</h1>
 
                 @if ($category->description_top && (Request::get('page') == 1 || Request::get('page') === null) && !$selectedOptions)
                     <p style="color: #222;">{{ $category->description_top }}</p>
@@ -84,7 +84,7 @@
                 @endif
             </div>
             <div class="col-md-3">
-                <div class="img-thumbnail" id="map" style="width: 100%; height: 200px;"></div>
+                <div class="img-thumbnail" id="map" style="width: 100%; height: 300px;"></div>
             </div>
         </div>
     </div>
