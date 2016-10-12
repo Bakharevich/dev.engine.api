@@ -23,7 +23,7 @@
                         <div>
                             {!! Helper::companyRating($company->rating) !!}
                             &nbsp;
-                            {{ $company->amount_comments }}
+                            {{ $company->amount_comments }} {{ trans('company.number_of_reviews') }}
                         </div>
                     </div>
                     <div class="col-sm-6">
