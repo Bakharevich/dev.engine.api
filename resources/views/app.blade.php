@@ -34,5 +34,7 @@
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     @yield('scripts')
+
+    {!! Request::get('site')->html_code !!}
 </body>
 </html>
