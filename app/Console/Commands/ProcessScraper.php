@@ -70,12 +70,24 @@ class ProcessScraper extends Command
                 'category' => $category
             ]);
 
-            $manager->process($scraperObject, $job->url);
+            // iterate number of pages to take
+            for ($i = 1; $i <= $job->pages; $i++) {
+                // getting part for page
+                $pagePart = $scraperObject->getPagePartOfUrl($i);
+
+                // forming final url
+                $url = $job->url . $pagePart;
+
+                // processing scraper
+                $manager->process($scraperObject, $url);
+            }
 
             $jobScraper = JobScraper::find($job['id']);
             $jobScraper->amount_executed += 1;
             $jobScraper->executed_at = Carbon::now();
             $jobScraper->save();
         }
+
+        echo "Scraping ended.\n";
     }
 }

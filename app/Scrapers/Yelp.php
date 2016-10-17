@@ -489,4 +489,11 @@ class Yelp extends Scraper implements ScraperInterface {
 
         return $options;
     }
+
+    public function getPagePartOfUrl($page = 1)
+    {
+        $page = ($page - 1) * 10;
+
+        if ($page > 1) return "&start=" . $page;
+    }
 }
