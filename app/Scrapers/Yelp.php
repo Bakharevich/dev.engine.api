@@ -50,7 +50,9 @@ class Yelp extends Scraper implements ScraperInterface {
             $lastReview = $this->processReviews($companyText['reviews'], $companyData);
 
             // download and save photos
-            $lastPhoto = $this->processPhotos($companyPhotos, $companyData);
+            if (!empty($companyPhotos)) {
+                $lastPhoto = $this->processPhotos($companyPhotos, $companyData);
+            }
 
             // get options, check in database, add if not exists, connect to company
             $this->processOptions($companyText['options'], $companyData);
@@ -59,9 +61,13 @@ class Yelp extends Scraper implements ScraperInterface {
             $this->processHours($companyText['hours'], $companyData);
 
             // update company info according last changes
-            $companyData->main_photo_url = $lastPhoto->url;
-            $companyData->meta_image = $lastPhoto->url;
-            $companyData->last_review = $lastReview;
+            if ($lastPhoto) {
+                $companyData->main_photo_url = $lastPhoto->url;
+                $companyData->meta_image = $lastPhoto->url;
+            }
+            if ($lastReview) {
+                $companyData->last_review = $lastReview;
+            }
             $companyData->save();
 
             //echo "<pre>"; print_r($companyText); print_r($companyPhotos); echo "</pre>";
@@ -284,10 +290,8 @@ class Yelp extends Scraper implements ScraperInterface {
 
     public function processPhotos($photos, $company)
     {
-        if (!empty($photos)) {
-            $photos = array_slice($photos, 0, 20);
-            $photos = array_reverse($photos);
-        }
+        $photos = array_slice($photos, 0, 20);
+        $photos = array_reverse($photos);
 
         foreach ($photos as $url) {
             $file = $this->request($url);
