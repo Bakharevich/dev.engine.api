@@ -59,7 +59,7 @@
             <div class="row">
                 @foreach ($categories as $category)
                     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 text-center" style="margin-bottom: 25px;">
-                        <a href="/{{ Request::get('site')->city->domain }}/{{ $category->domain }}/" class="index-link-category">
+                        <a href="{{ $category->url }}" class="index-link-category">
                             <div style="border: 1px solid #CCC; padding: 35px 0px 35px 0px; background: #FFF; border-radius: 5px; box-shadow: 4px; box-shadow: 0 1px 3px rgba(48, 53, 64, .3);">
                                 <div>
                                     <i class="{{ $category->icon }}" aria-hidden="true" style="font-size: 64px;"></i>

@@ -5,8 +5,8 @@
         <div class="container">
             <ol class="breadcrumb" style="margin-bottom: 0px;">
                 <li><a href="http://{{ Request::get('site')->domain }}/">{{ trans('common.btn_home') }}</a></li>
-                <li><a href="http://{{ Request::get('site')->domain }}/{{ Request::get('site')->city->domain }}/">{{ Request::get('site')->city->name }}</a></li>
-                <li><a href="http://{{ Request::get('site')->domain }}/{{ Request::get('site')->city->domain }}/{{ $company->category->domain }}/">{{ $company->category->name }}</a></li>
+                <li><a href="http://{{ Request::get('site')->domain }}/{{ Request::get('site')->city->domain }}">{{ Request::get('site')->city->name }}</a></li>
+                <li><a href="{{ $company->category->url }}">{{ $company->category->name }}</a></li>
                 <li class="active">{{ $company->name }}</li>
             </ol>
 
