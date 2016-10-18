@@ -32,7 +32,7 @@ class Yelp extends Scraper implements ScraperInterface {
 
         foreach ($companies as $company) {
             // check if company exists
-            $checkResult = $this->checkIfExists($this->getParam('site_id'), $company['page']);
+            $checkResult = $this->checkIfExists($this->getParam('site_id'), $company['domain']);
             if ($checkResult) {
                 echo $company['page'] . " exists. Skipping...\n";
                 continue;
@@ -43,6 +43,9 @@ class Yelp extends Scraper implements ScraperInterface {
             
             // get text from page
             $companyText = $this->parseCompanyText($company['page']);
+
+            // add scraper unique
+            $companyText['company']['scraper_unique'] = $company['domain'];
 
             // get photos from page
             $companyPhotos = $this->parseCompanyPhotos($company['photos']);
@@ -84,6 +87,11 @@ class Yelp extends Scraper implements ScraperInterface {
         }
     }
 
+    public function getUniqueId($url)
+    {
+
+    }
+
     public function parseCategory($url)
     {
         $categoryPage = $this->request($url);
@@ -96,6 +104,7 @@ class Yelp extends Scraper implements ScraperInterface {
         if (!empty($companiesScraped)) {
             foreach ($companiesScraped[1] as $index => $value) {
                 $companies[] = [
+                    'domain' => $value,
                     'page' => 'https://yelp.com/biz/' . $value . '?sort_by=date_desc',
                     'photos' => 'https://yelp.com/biz_photos/' . $value,
                 ];
@@ -103,7 +112,7 @@ class Yelp extends Scraper implements ScraperInterface {
         }
 
         // slice to 1 company for testing purposes
-        //$companies = array_slice($companies, 0, 5);
+        $companies = array_slice($companies, 0, 3);
 
 //        $companies = [];
 //        $companies[] = [
@@ -354,7 +363,7 @@ class Yelp extends Scraper implements ScraperInterface {
 
     public function processPhotos($photos, $company)
     {
-        $photos = array_slice($photos, 0, 20);
+        $photos = array_slice($photos, 0, 2);
         $photos = array_reverse($photos);
 
         foreach ($photos as $url) {
@@ -458,7 +467,7 @@ class Yelp extends Scraper implements ScraperInterface {
 
     private function getPriceRange($data)
     {
-        $reg = '|<span class="business-attribute price-range">(.+?)</span>|';
+        $reg = '|<span class="business-attribute price-range".*?>(.+?)</span>|';
         preg_match_all($reg, $data, $matches);
         //echo "<pre>"; print_r($matches);
 

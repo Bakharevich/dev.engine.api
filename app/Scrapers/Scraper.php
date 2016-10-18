@@ -30,9 +30,9 @@ class Scraper  {
         return $file;
     }
 
-    public function checkIfExists($siteId, $originalUrl)
+    public function checkIfExists($siteId, $scraperUnique)
     {
-        $res = Company::where('site_id', $siteId)->where('original_url', $originalUrl)->first();
+        $res = Company::where('site_id', $siteId)->where('scraper_unique', $scraperUnique)->first();
 
         if ($res) return true;
     }
