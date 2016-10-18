@@ -23,6 +23,8 @@ class Yelp extends Scraper implements ScraperInterface {
     public function __construct()
     {
         //$this->companyRepo = $companyRepo;
+        $this->limitPhotos = 20;
+        $this->limitCompanies = 0; // 0 means unlimited
     }
 
     public function process($url)
@@ -113,25 +115,23 @@ class Yelp extends Scraper implements ScraperInterface {
         }
 
         // slice to 1 company for testing purposes
-        //$companies = array_slice($companies, 0, 3);
+        if ($this->limitCompanies > 0) $companies = array_slice($companies, 0, $this->limitCompanies);
 
 //        $companies = [];
 //        $companies[] = [
-//            'page' => 'https://yelp.com/biz/the-breakfast-club-london-2?sort_by=date_desc',
-//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
+//            'page' => 'https://yelp.com/biz/museum-dental-suites-london?sort_by=date_desc',
+//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin',
+//            'domain' => 'museum-dental-suites-london'
 //        ];
 //        $companies[] = [
-//            'page' => 'https://yelp.com/biz/gordons-wine-bar-london-4?sort_by=date_desc',
-//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
-//        ];
-
-//        $companies[] = [
-//            'page' => 'https://yelp.com/biz/the-breakfast-club-london-3?sort_by=date_desc',
-//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
+//            'page' => 'https://yelp.com/biz/smilepod-london-2?sort_by=date_desc',
+//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin',
+//            'domain' => 'smilepod-london-2'
 //        ];
 //        $companies[] = [
-//            'page' => 'https://yelp.com/biz/the-breakfast-club-london-12?sort_by=date_desc',
-//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
+//            'page' => 'https://yelp.com/biz/38-devonshire-street-london-2?sort_by=date_desc',
+//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin',
+//            'domain' => '38-devonshire-street-london-2'
 //        ];
 
         return $companies;
@@ -364,7 +364,7 @@ class Yelp extends Scraper implements ScraperInterface {
 
     public function processPhotos($photos, $company)
     {
-        $photos = array_slice($photos, 0, 20);
+        $photos = array_slice($photos, 0, $this->limitPhotos);
         $photos = array_reverse($photos);
 
         foreach ($photos as $url) {
@@ -414,6 +414,16 @@ class Yelp extends Scraper implements ScraperInterface {
 
         if (empty($matches[1][0])) {
             $reg = "|<h2>Recommended Reviews <b>(.+?)</b></h2>|";
+            preg_match_all($reg, $data, $matches);
+        }
+
+        if (empty($matches[1][0])) {
+            $reg = "|<h2>Photos for (.+?)</h2>|";
+            preg_match_all($reg, $data, $matches);
+        }
+
+        if (empty($matches[1][0])) {
+            $reg = "|<h2>Photo for (.+?)</h2>|";
             preg_match_all($reg, $data, $matches);
         }
 
