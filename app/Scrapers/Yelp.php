@@ -363,7 +363,7 @@ class Yelp extends Scraper implements ScraperInterface {
 
     public function processPhotos($photos, $company)
     {
-        $photos = array_slice($photos, 0, 2);
+        $photos = array_slice($photos, 0, 20);
         $photos = array_reverse($photos);
 
         foreach ($photos as $url) {
