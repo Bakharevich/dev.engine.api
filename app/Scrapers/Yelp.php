@@ -46,6 +46,12 @@ class Yelp extends Scraper implements ScraperInterface {
             // get text from page
             $companyText = $this->parseCompanyText($company['page']);
 
+            // if empty name, don't add company
+            if (empty($companyText['company']['name'])) {
+                echo "PROBLEM: Unknown name\n";
+                continue;
+            }
+
             // add scraper unique
             $companyText['company']['scraper_unique'] = $company['domain'];
 
