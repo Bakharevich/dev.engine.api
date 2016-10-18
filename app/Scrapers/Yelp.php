@@ -427,6 +427,11 @@ class Yelp extends Scraper implements ScraperInterface {
             preg_match_all($reg, $data, $matches);
         }
 
+        if (empty($matches[1][0])) {
+            $reg = "|Hey there trendsetter! You could be the first review for.*?<strong>(.+?)</strong>|is";
+            preg_match_all($reg, $data, $matches);
+        }
+
         if (!empty($matches[1][0])) {
             return trim(htmlspecialchars_decode($matches[1][0], ENT_QUOTES));
         }
