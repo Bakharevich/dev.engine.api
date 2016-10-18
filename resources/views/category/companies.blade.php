@@ -40,10 +40,8 @@
                         <div class="col-sm-12 category-company-description" style="margin-bottom: 1em;">{{ $company->description }}</div>
                     @endif
                     @if ($company->last_review)
-                        <div class="col-sm-12 category-company-description">
-
-                                <p>{!!  str_limit($company->last_review, 250)  !!}</p>
-
+                        <div class="col-sm-12 category-company-description" style="color: #555;">
+                            <p>{!!  str_limit($company->last_review, 250)  !!}</p>
                         </div>
                     @endif
                 </div>
