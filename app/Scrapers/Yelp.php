@@ -60,6 +60,7 @@ class Yelp extends Scraper implements ScraperInterface {
             if (!empty($companyPhotos)) {
                 $lastPhoto = $this->processPhotos($companyPhotos, $companyData);
             }
+            else $lastPhoto = false;
 
             // get options, check in database, add if not exists, connect to company
             $this->processOptions($companyText['options'], $companyData);
