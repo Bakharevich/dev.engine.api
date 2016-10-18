@@ -3,6 +3,12 @@
         font-size: 0.85em;
         color: #333;
     }
+    .category-company-description .quotes {
+        font-size: 1.3em;
+        line-height: 1em;
+        font-weight: bold;
+
+    }
 </style>
 
 @if (count($companies) > 0)
@@ -41,7 +47,9 @@
                     @endif
                     @if ($company->last_review)
                         <div class="col-sm-12 category-company-description" style="color: #555;">
-                            <p>{!!  str_limit($company->last_review, 250)  !!}</p>
+                            <p>
+                                <span class="quotes">&ldquo;</span> {!!  str_limit($company->last_review, 250)  !!} <span class="quotes">&rdquo;</span>
+                            </p>
                         </div>
                     @endif
                 </div>
