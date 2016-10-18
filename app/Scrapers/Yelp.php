@@ -1,6 +1,7 @@
 <?php
 namespace App\Scrapers;
 
+use App\Category;
 use App\Company;
 use App\CompanyPhoto;
 use App\CompanyReview;
@@ -36,6 +37,9 @@ class Yelp extends Scraper implements ScraperInterface {
                 echo $company['page'] . " exists. Skipping...\n";
                 continue;
             }
+            else {
+                echo $company['page'] . " started...\n";
+            }
             
             // get text from page
             $companyText = $this->parseCompanyText($company['page']);
@@ -56,6 +60,9 @@ class Yelp extends Scraper implements ScraperInterface {
 
             // get options, check in database, add if not exists, connect to company
             $this->processOptions($companyText['options'], $companyData);
+
+            // process company type
+            $this->processTypes($companyText['types'], $companyData);
 
             // save hours
             $this->processHours($companyText['hours'], $companyData);
@@ -104,6 +111,11 @@ class Yelp extends Scraper implements ScraperInterface {
 //            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
 //        ];
 //        $companies[] = [
+//            'page' => 'https://yelp.com/biz/gordons-wine-bar-london-4?sort_by=date_desc',
+//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
+//        ];
+
+//        $companies[] = [
 //            'page' => 'https://yelp.com/biz/the-breakfast-club-london-3?sort_by=date_desc',
 //            'photos' => 'https://yelp.com/biz_photos/yarok-berlin'
 //        ];
@@ -141,6 +153,7 @@ class Yelp extends Scraper implements ScraperInterface {
         $data['hours']                       = $this->getHours($page);
         $data['options']                     = $this->getOptions($page);
         $data['company']['amount_comments']  = count($data['reviews']);
+        $data['types']                       = $this->getTypes($page);
 
         // add meta data
         $data['company']['meta_title']       = $data['company']['name'] . " - " . $this->getParam('city')->name;
@@ -196,6 +209,57 @@ class Yelp extends Scraper implements ScraperInterface {
         }
         else {
             return Company::create($company);
+        }
+    }
+
+    public function processTypes($types, $company)
+    {
+        // get category name
+        $category = Category::where('id', $this->getParam('category_id'))->first();
+
+        // check if "options_groups" exist for such category_id (using help column "comment")
+        $ifOptionGroupExists = OptionGroup::where('comment', 'Category ' . $this->getParam('category_id'))->first();
+
+        if (!$ifOptionGroupExists) {
+            // if not, create with "name" = type, "icon" = of that category, "comment" = category_id
+            $optionGroup = OptionGroup::create([
+                'name' => 'Type',
+                'icon' => $category->icon,
+                'comment' => 'Category ' . $this->getParam('category_id')
+            ]);
+
+            $optionGroupId = $optionGroup->id;
+
+            // link option_group to category_id
+            Category::find($this->getParam('category_id'))->options_groups()->attach([
+                'option_group_id' => $optionGroupId
+            ]);
+        }
+        else {
+            $optionGroupId = $ifOptionGroupExists->id;
+        }
+
+        // using last_insert_id add option to "options" with "type" name and last_insert_id
+        foreach ($types as $type) {
+            // check if such option already exists
+            $ifOptionExists = Option::where('option_group_id', $optionGroupId)->where('name', $type)->first();
+
+            if (!$ifOptionExists) {
+                $optionData = Option::create([
+                    'option_group_id' => $optionGroupId,
+                    'name' => $type
+                ]);
+
+                $optionId = $optionData->id;
+            }
+            else {
+                $optionId = $ifOptionExists->id;
+            }
+
+            // add new type options to company
+            Company::find($company->id)->options()->attach([
+                'option_id' => $optionId
+            ]);
         }
     }
 
@@ -343,8 +407,9 @@ class Yelp extends Scraper implements ScraperInterface {
             preg_match_all($reg, $data, $matches);
         }
 
-
-        if (!empty($matches[1][0])) return trim($matches[1][0]);
+        if (!empty($matches[1][0])) {
+            return trim(htmlspecialchars_decode($matches[1][0], ENT_QUOTES));
+        }
     }
 
     private function getAddress($data)
@@ -420,7 +485,7 @@ class Yelp extends Scraper implements ScraperInterface {
 
     private function getReviews($data)
     {
-        $reg = "|<p itemprop=\"description\" lang=\"en\">(.+?)</p>|";
+        $reg = "|<p lang=\"en\">(.+?)</p>|";
         preg_match_all($reg, $data, $comments);
 
         $reg = "|<li class=\"user-name\">.*?<a class=\"user-display-name\".*?>(.+?)</a>.*?</li>|is";
@@ -429,7 +494,7 @@ class Yelp extends Scraper implements ScraperInterface {
         $reg = "|<meta itemprop=\"datePublished\" content=\"(.+?)\">|is";
         preg_match_all($reg, $data, $dates);
 
-        $reg = "|<div class=\"review-content\">.*?<meta itemprop=\"ratingValue\" content=\"(.+?)\">|is";
+        $reg = "|<div class=\"review-wrapper\">.*?<i.*?star-img stars_(.+?)\".*?>|is";
         preg_match_all($reg, $data, $ratings);
 
 //        echo "<pre>";
@@ -438,10 +503,10 @@ class Yelp extends Scraper implements ScraperInterface {
 //        print_r($dates[1]);
 //        print_r($ratings[1]);
 //        echo "</pre>";
-
+//        exit();
 
         $reviews = [];
-        if (!empty($comments[1]) && !empty($names[1])) {
+        if (!empty($comments[1]) && !empty($names[1]) && !empty($ratings[1])) {
             foreach ($comments[1] as $index => $value) {
                 $name   = !empty($names[1][$index]) ? $names[1][$index] : '';
                 $review = !empty($comments[1][$index]) ? $comments[1][$index] : '';
@@ -456,6 +521,8 @@ class Yelp extends Scraper implements ScraperInterface {
                 ];
             }
         }
+
+        //print_r($reviews); exit();
 
         return $reviews;
     }
@@ -501,5 +568,18 @@ class Yelp extends Scraper implements ScraperInterface {
         $page = ($page - 1) * 10;
 
         if ($page > 1) return "&start=" . $page;
+    }
+
+    public function getTypes($data)
+    {
+        $reg = "#<span class=\"category-str-list\">(.+?)</span>#is";
+        preg_match_all($reg, $data, $preMatches);
+
+        if (!empty($preMatches)) {
+            $reg = "|<a.*?>(.+?)</a>|";
+            preg_match_all($reg, $preMatches[1][0], $matches);
+
+            if (!empty($matches[1])) return $matches[1];
+        }
     }
 }
