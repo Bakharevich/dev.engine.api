@@ -113,7 +113,7 @@ class Yelp extends Scraper implements ScraperInterface {
         }
 
         // slice to 1 company for testing purposes
-        $companies = array_slice($companies, 0, 3);
+        //$companies = array_slice($companies, 0, 3);
 
 //        $companies = [];
 //        $companies[] = [
