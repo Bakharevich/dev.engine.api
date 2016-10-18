@@ -71,7 +71,7 @@ class ProcessScraper extends Command
             ]);
 
             // iterate number of pages to take
-            for ($i = 1; $i <= $job->pages; $i++) {
+            for ($i = $job->pages; $i >= 1; $i--) {
                 // getting part for page
                 $pagePart = $scraperObject->getPagePartOfUrl($i);
 
