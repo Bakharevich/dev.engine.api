@@ -20,3 +20,7 @@ Artisan::command('inspire', function () {
 Artisan::command('scrape', function () {
     Artisan::call('scrapers:process');
 })->describe('Start scraping process');
+
+Artisan::command('sitemap', function () {
+    Artisan::call('sitemap:generate');
+})->describe('Generate sitemap.xml for every site');
