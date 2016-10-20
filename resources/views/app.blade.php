@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/css/category.css" />
 
     <meta name="google-site-verification" content="aFNFfQ9ZfnEtfYIV2_Q1FGjANTOr08KgMxB8AjNfOng" />
+    <meta name="msvalidate.01" content="0154515FE32C8F8EF4F3F250CFB1AF24" />
 </head>
 <body>
     @if (Route::currentRouteName() != "index")
