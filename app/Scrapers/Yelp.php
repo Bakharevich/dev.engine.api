@@ -23,8 +23,8 @@ class Yelp extends Scraper implements ScraperInterface {
     public function __construct()
     {
         //$this->companyRepo = $companyRepo;
-        $this->limitPhotos = 20;
-        $this->limitCompanies = 0; // 0 means unlimited
+        $this->limitPhotos = 1;
+        $this->limitCompanies = 1; // 0 means unlimited
     }
 
     public function process($url)
@@ -59,25 +59,25 @@ class Yelp extends Scraper implements ScraperInterface {
             $companyPhotos = $this->parseCompanyPhotos($company['photos']);
 
             // create company
-            $companyData = $this->saveCompany($companyText['company']);
+            $companyData = $this->processCompany($this->getParam('site_id'), $companyText['company']);
 
             // add reviews
-            $lastReview = $this->processReviews($companyText['reviews'], $companyData);
+            $lastReview = $this->processReviews($companyData->id, 0, $companyText['reviews']);
 
             // download and save photos
             if (!empty($companyPhotos)) {
-                $lastPhoto = $this->processPhotos($companyPhotos, $companyData);
+                $lastPhoto = $this->processPhotos($companyData->id, $companyPhotos);
             }
             else $lastPhoto = false;
 
             // get options, check in database, add if not exists, connect to company
-            $this->processOptions($companyText['options'], $companyData);
+            $this->processOptions($this->getParam('site_id'), $companyData->id, $companyText['options']);
 
             // process company type
             $this->processTypes($companyText['types'], $companyData);
 
             // save hours
-            $this->processHours($companyText['hours'], $companyData);
+            $this->processHours($companyData->id, $companyText['hours']);
 
             // update company info according last changes
             if ($lastPhoto) {
@@ -91,14 +91,7 @@ class Yelp extends Scraper implements ScraperInterface {
 
             //echo "<pre>"; print_r($companyText); print_r($companyPhotos); echo "</pre>";
             echo $companyData->name . " added.\n";
-
-
         }
-    }
-
-    public function getUniqueId($url)
-    {
-
     }
 
     public function parseCategory($url)
@@ -199,35 +192,6 @@ class Yelp extends Scraper implements ScraperInterface {
         }
     }
 
-    public function saveCompany($company)
-    {
-        // check if company with such URL exists
-        $ifExists = Company::where('url', $company['url'])->first();
-
-        if ($ifExists) {
-            // check if such data unique
-            for ($i = 1; $i <= 10; $i++) {
-                // set new domain and url
-                $newDomain = $company['domain'] . "-" . $i;
-                $newUrl = "http://" . $newDomain . "." . $this->getParam('domain') . "/";;
-
-                // check if it's free
-                $ifFree = Company::where('url', $newUrl)->first();
-
-                if (!$ifFree) {
-                    $company['domain'] = $newDomain;
-                    $company['url'] = $newUrl;
-
-                    return Company::create($company);
-                    break;
-                }
-            }
-        }
-        else {
-            return Company::create($company);
-        }
-    }
-
     public function processTypes($types, $company)
     {
         // get category name
@@ -239,6 +203,7 @@ class Yelp extends Scraper implements ScraperInterface {
         if (!$ifOptionGroupExists) {
             // if not, create with "name" = type, "icon" = of that category, "comment" = category_id
             $optionGroup = OptionGroup::create([
+                'site_id' => $this->getParam('site_id'),
                 'name' => 'Type',
                 'icon' => $category->icon,
                 'comment' => 'Category ' . $this->getParam('category_id')
@@ -277,129 +242,6 @@ class Yelp extends Scraper implements ScraperInterface {
                 'option_id' => $optionId
             ]);
         }
-    }
-
-    public function processReviews($reviews, $company)
-    {
-        $lastReview = '';
-
-        foreach ($reviews as $review) {
-            $row = $this->saveReview($review, $company);
-
-            $lastReview = $row->review;
-        }
-
-        return $lastReview;
-    }
-
-    public function saveReview($review, $company)
-    {
-        $review['company_id'] = $company->id;
-
-        return CompanyReview::create($review);
-    }
-
-    public function processOptions($options, $company)
-    {
-        $existGroups = [];
-        $existOptions = [];
-
-        // check if options exist. if not, add them
-        foreach ($options as $group => $option) {
-            // check if such group exists
-            $groupExist = OptionGroup::where('name', $group)->first();
-
-            if ($groupExist) {
-                // add existing group to array
-                $existGroups[$groupExist->name] = $groupExist->id;
-
-                // check if such option exist at that group
-                $optionExist = Option::where('option_group_id', $groupExist->id)->where('name', $option)->first();
-
-                // if exists, add existing id to array
-                if ($optionExist) {
-                    $existOptions[] = $optionExist->id;
-                }
-                // if not exists, add to DB
-                else {
-                    $lastOption = Option::create([
-                        'option_group_id' => $groupExist->id,
-                        'name' => $option
-                    ]);
-
-                    $existOptions[] = $lastOption->id;
-                }
-            }
-            else {
-                // add new group
-                $lastGroup = OptionGroup::create([
-                    'name' => $group,
-                    'icon' => ''
-                ]);
-                $existGroups[$lastGroup->name] = $lastGroup->id;
-
-                // add new option
-                $lastOption = Option::create([
-                    'option_group_id' => $lastGroup->id,
-                    'name' => $option
-                ]);
-                $existOptions[] = $lastOption->id;
-            }
-        }
-
-        //echo "<pre>"; print_r($existGroups); print_r($existOptions);
-
-        // add options to company
-        Company::find($company->id)->options()->attach($existOptions);
-    }
-
-    public function processHours($hours, $company)
-    {
-        foreach ($hours as $hour)
-        {
-            $this->saveHours($hour, $company);
-        }
-    }
-
-    public function saveHours($hour, $company)
-    {
-        $hour['company_id'] = $company->id;
-
-        CompanyHour::create($hour);
-    }
-
-    public function processPhotos($photos, $company)
-    {
-        $photos = array_slice($photos, 0, $this->limitPhotos);
-        $photos = array_reverse($photos);
-
-        foreach ($photos as $url) {
-            $file = $this->request($url);
-
-            $extension = File::extension($url);
-
-            $name = uniqid() . "." . $extension;
-
-            Image::make($file)->save($this->getParam('media_path') . "companies/" . $name, 75)->fit(500, null, function($constraint) {
-                //$constraint->aspectRatio();
-                //$constraint->upsize();
-                //$constraint->down
-            })->save($this->getParam('media_path') . "companies/500/" . $name, 75);
-
-            // save photo
-            $photoData = $this->savePhoto([
-                'company_id' => $company->id,
-                'filename' => $name,
-                'url' => $this->getParam('media_url') . 'companies/500/' . $name
-            ]);
-        }
-
-        return $photoData;
-    }
-
-    public function savePhoto($params)
-    {
-        return CompanyPhoto::create($params);
     }
 
     private function getName($data)
@@ -587,9 +429,10 @@ class Yelp extends Scraper implements ScraperInterface {
         if (!empty($matches)) {
             foreach ($matches[1] as $index => $value) {
                 $groupName = trim($matches[1][$index]);
-                $options[$groupName] = trim($matches[2][$index]);
+                $options[$groupName][] = trim($matches[2][$index]);
             }
         }
+        //print_r($options); exit();
 
         return $options;
     }
