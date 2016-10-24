@@ -43,7 +43,9 @@
                         @endif
                     </div>
                     @if ($company->description)
-                        <div class="col-sm-12 category-company-description" style="margin-bottom: 1em;">{{ $company->description }}</div>
+                        <div class="col-sm-12 category-company-description" style="margin-bottom: 1em;">
+                            {!! str_limit(strip_tags($company->description), 350) !!}
+                        </div>
                     @endif
                     @if ($company->last_review)
                         <div class="col-sm-12 category-company-description" style="color: #555;">

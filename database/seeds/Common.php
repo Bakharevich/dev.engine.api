@@ -70,5 +70,11 @@ class Common extends Seeder
             'name' => 'London',
             'domain' => 'london'
         ]);
+
+        // services
+        DB::table('sites_services')->insert([
+            'id' => 1,
+            'name' => 'Foursquare'
+        ]);
     }
 }

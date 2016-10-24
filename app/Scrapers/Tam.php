@@ -10,6 +10,7 @@ use App\Option;
 use App\OptionGroup;
 use App\Scrapers\Scraper;
 use App\Scrapers\ScraperInterface;
+use App\Scrapers\FoursquareScraper;
 use App\Scrapers\TamScraper;
 use App\Repositories\CompanyRepository;
 
@@ -22,18 +23,8 @@ class Tam extends Scraper implements ScraperInterface
 {
     public function __construct()
     {
-        $this->limitPhotos = 20;
-        $this->limitCompanies = 1; // 0 means unlimited
-    }
-
-    public function setOption($key, $content)
-    {
-        $this->page[$key] = $content;
-    }
-
-    public function getOption($key)
-    {
-        return $this->page[$key];
+        $this->limitPhotos = 1;
+        $this->limitCompanies = 10; // 0 means unlimited
     }
 
     public function process($url)
@@ -42,11 +33,12 @@ class Tam extends Scraper implements ScraperInterface
         $categoryPage = $this->request($url);
 
         // parse category for all companies
-        $companies = TamScraper::getCompaniesList($categoryPage, 1);
+        $companies = TamScraper::getCompaniesList($categoryPage, $this->limitCompanies);
 
         foreach ($companies as $company) {
             // check if company exists
             $checkResult = $this->checkIfExists($this->getParam('site_id'), $company['domain']);
+            //$checkResult = '';
             if ($checkResult) {
                 echo $company['page'] . " exists. Skipping...\n";
                 continue;
@@ -63,9 +55,50 @@ class Tam extends Scraper implements ScraperInterface
 
             // get text from page
             $companyData = $this->prepareCompany($companyPage);
+            $companyInfo = $this->processCompany($this->getParam('site_id'), $companyData);
 
-            print_r($companyData);
+            // hours
+            $hours = TamScraper::hours($companyPage);
+            $this->processHours($companyInfo->id, $hours);
 
+            // options
+            $options = TamScraper::options($companyPage);
+            $this->processOptions($this->getParam('site_id'), $companyInfo->id, $options);
+
+            /*
+             * ================ PHOTOS ================
+             */
+
+            // get photo page
+            $photosPage = $this->request($company['photos']);
+
+            //$photos = TamScraper::photos($photosPage);
+
+            $foursquareUrl = TamScraper::foursquareUrl($companyPage);
+
+
+            if (!empty($foursquareUrl)) {
+                // reviews
+                echo "Taking reviews from Foursquare...\n";
+                $foursquarePage = $this->request($foursquareUrl . "?tipsSort=recent");
+                $reviews        = FoursquareScraper::reviews($foursquarePage);
+                $lastReview     = $this->processReviews($companyInfo->id, 1, $reviews);
+
+                // photos
+                echo "Taking photos from Foursquare ...\n";
+                $foursquarePage = $this->request($foursquareUrl . "/photos");
+                $photos         = FoursquareScraper::photos($foursquarePage);
+                $lastPhoto      = $this->processPhotos($companyInfo->id, $photos);
+
+                // update company info
+                $companyInfo->main_photo_url = $lastPhoto->url;
+                $companyInfo->last_review = $lastReview;
+            }
+
+            // save updated columns
+            $companyInfo->save();
+
+            echo $companyInfo->name . " added.\n";
         }
     }
 
@@ -73,24 +106,24 @@ class Tam extends Scraper implements ScraperInterface
     {
         $data = [];
 
-        $data['company']['site_id']          = $this->getParam('site_id');
-        $data['company']['category_id']      = $this->getParam('category_id');
-        $data['company']['original_url']     = $this->getParam('company_url');
-        $data['company']['name']             = TamScraper::name($page);
-        $data['company']['address']          = TamScraper::address($page);
-        $data['company']['tel']              = TamScraper::telephone($page);
-        $data['company']['website']          = TamScraper::website($page);
-        $data['company']['rating']           = TamScraper::rating($page);
-        $data['company']['price_range']      = TamScraper::priceRange($page);
-        $data['company']['latitude']         = TamScraper::latitude($page);
-        $data['company']['longitude']        = TamScraper::longitude($page);
-        $data['company']['description']      = TamScraper::description($page);
-        $data['company']['domain']           = str_slug($data['company']['name']);
-        $data['company']['last_review']      = '';
-        $data['company']['url']              = "http://" . $data['company']['domain'] . "." . $this->getParam('domain') . "/";
+        $data['site_id']          = $this->getParam('site_id');
+        $data['category_id']      = $this->getParam('category_id');
+        $data['original_url']     = $this->getParam('company_url');
+        $data['name']             = TamScraper::name($page);
+        $data['address']          = TamScraper::address($page);
+        $data['tel']              = TamScraper::telephone($page);
+        $data['website']          = TamScraper::website($page);
+        $data['rating']           = TamScraper::rating($page);
+        $data['price_range']      = TamScraper::priceRange($page);
+        $data['latitude']         = TamScraper::latitude($page);
+        $data['longitude']        = TamScraper::longitude($page);
+        $data['description']      = TamScraper::description($page);
+        $data['domain']           = str_slug($data['name']);
+        $data['scraper_unique']   = $this->getParam('company_url');
+        $data['last_review']      = '';
+        $data['url']              = "http://" . $data['domain'] . "." . $this->getParam('domain') . "/";
+
 //        $data['reviews']                     = $this->getReviews($page);
-        $data['hours']                       = TamScraper::getHours($page);
-//        $data['options']                     = $this->getOptions($page);
 //        $data['company']['amount_comments']  = count($data['reviews']);
 //        $data['types']                       = $this->getTypes($page);
 //
@@ -103,6 +136,8 @@ class Tam extends Scraper implements ScraperInterface
 
         return $data;
     }
+
+
 
     public function getPagePartOfUrl($page)
     {

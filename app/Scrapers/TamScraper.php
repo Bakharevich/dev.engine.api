@@ -119,7 +119,7 @@ class TamScraper
 
             return $matches[1][0];
         }
-        else return "";
+        else return 0;
 
     }
 
@@ -127,7 +127,7 @@ class TamScraper
     {
         // for now, website doesn't have such option
 
-        return '';
+        return 0;
     }
 
     public static function latitude($page)
@@ -158,24 +158,120 @@ class TamScraper
         $reg = "|<div class=\"b-article js-cut_wrapper\">(.+?)</div>|is";
         preg_match_all($reg, $page, $matches);
 
+        $res = "";
+
         if (!empty($matches[1][0])) {
             $reg = "|<p.*?>(.+?)</p>|is";
             preg_match_all($reg, $matches[1][0], $descrip);
 
+            // get all text paragraphs
             if (!empty($descrip[1])) {
-                $res = "";
-
                 foreach ($descrip[1] as $par) {
                     $par = strip_tags($par, '<br>');
 
                     if (!empty($par)) $res .= "<p>" . $par . "</p>";
                 }
-
-                return $res;
             }
         }
-        else return "";
+
+        // get license
+        $reg = "|<div style=\"clear:both;\">(.+?)</div><div>(.+?)</div>|";
+        preg_match_all($reg, $page, $license);
+
+        if (!empty($license[1][0])) $res .= "<p class=\"license\">" . strip_tags($license[1][0]) . "</p>";
+        if (!empty($license[2][0])) $res .= "<p class=\"license\">" . strip_tags($license[2][0]) . "</p>";
+
+        return $res;
     }
 
+    public static function hours($page)
+    {
+        $reg = "|<div class=\"day\">(.+?)</div>.*?<div class=\"time\">.*?<span>(.+?)-(.+?)</span>|is";
+        preg_match_all($reg, $page, $matches);
 
+        if (!empty($matches[1]) && !empty($matches[2]) && !empty($matches[3])) {
+            $hours = [];
+
+            foreach ($matches[1] as $index => $value) {
+                $hours[] = [
+                    'day'   => TamScraper::getFormattedDay($matches[1][$index]),
+                    'open'  => $matches[2][$index],
+                    'close' => $matches[3][$index]
+                ];
+            }
+
+            return $hours;
+        }
+        else return [];
+
+    }
+
+    public static function options($page)
+    {
+        $reg = "|<div class=\"catalog-company-section m-features js-cut_wrapper\" id=\"featureslist\">(.+?)</div>|";
+        preg_match_all($reg, $page, $matches);
+
+        $options = [];
+
+        if (!empty($matches[1][0])) {
+            $reg = "|<p class=\"title\">(.+?)</p><p>(.+?)</p>|";
+            preg_match_all($reg, $matches[1][0], $opt);
+
+            if (!empty($opt) && (count($opt[1]) == count($opt[2]))) {
+                foreach ($opt[1] as $index => $value) {
+                    // check if such word blocked
+                    if (TamScraper::getOptionGroupBlockedName($opt[1][$index])) continue;
+
+                    $valArr = explode(",", $opt[2][$index]);
+
+                    foreach ($valArr as $val) {
+                        $options[$opt[1][$index]][] = trim(mb_convert_case($val, MB_CASE_TITLE, "UTF-8"));
+                    }
+                }
+            }
+        }
+
+        return $options;
+    }
+
+    public static function photos($page)
+    {
+        // we're not taking photos, as it's tut.by
+    }
+
+    public static function foursquareUrl($page)
+    {
+        $reg = "|<a.*?href=\"(https://foursquare.com/.+?)\" class=\"comments__type-name\">|";
+        preg_match_all($reg, $page, $matches);
+
+        if (!empty($matches[1][0])) {
+            return $matches[1][0];
+        }
+    }
+
+    public static function getOptionGroupBlockedName($name)
+    {
+
+        $words = [
+            'TAM.BY рекомендует',
+            'Стоимость заказа на 1 человека'
+        ];
+
+        if (in_array($name, $words)) return true;
+    }
+
+    public static function getFormattedDay($day)
+    {
+        $days = [
+            'Понедельник' => 'Mon',
+            'Вторник' => 'Tue',
+            'Среда' => 'Wed',
+            'Четверг' => 'Thu',
+            'Пятница' => 'Fri',
+            'Суббота' => 'Sat',
+            'Воскресенье' => 'Sun',
+        ];
+
+        return $days[$day];
+    }
 }
