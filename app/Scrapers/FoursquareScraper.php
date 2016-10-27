@@ -1,6 +1,8 @@
 <?php
 namespace App\Scrapers;
 
+use App\Helpers\Helper;
+
 class FoursquareScraper {
     public static function photos($page)
     {
@@ -40,8 +42,8 @@ class FoursquareScraper {
             if (!empty($name[1]) && !empty($tips[1]) && (count($name[1]) == count($tips[1]))) {
                 foreach ($name[1] as $index => $value) {
                     $reviews[strtotime($date[1][$index])] = [
-                        'name'   => strip_tags($name[1][$index]),
-                        'review' => strip_tags($tips[1][$index]),
+                        'name'   => Helper::removeEmoji(strip_tags($name[1][$index])),
+                        'review' => Helper::removeEmoji(strip_tags($tips[1][$index])),
                         'date'   => date("Y-m-d", strtotime($date[1][$index])),
                         'rating' => 0
                     ];
