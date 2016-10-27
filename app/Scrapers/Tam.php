@@ -24,7 +24,7 @@ class Tam extends Scraper implements ScraperInterface
     public function __construct()
     {
         $this->limitPhotos = 20;
-        $this->limitCompanies = 1; // 0 means unlimited
+        $this->limitCompanies = 3; // 0 means unlimited
     }
 
     public function process($url)
@@ -93,6 +93,7 @@ class Tam extends Scraper implements ScraperInterface
                 // update company info
                 $companyInfo->main_photo_url = $lastPhoto->url;
                 $companyInfo->last_review = $lastReview;
+                $companyInfo->amount_comments = count($reviews);
             }
 
             // save updated columns
