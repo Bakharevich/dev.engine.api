@@ -186,24 +186,37 @@ class TamScraper
 
     public static function hours($page)
     {
-        $reg = "|<div class=\"day\">(.+?)</div>.*?<div class=\"time\">.*?<span>(.+?)-(.+?)</span>|is";
+        $reg = "|<div class=\"day\">(.+?)</div>.*?<div class=\"time\">.*?<span>(.+?)</span>|is";
         preg_match_all($reg, $page, $matches);
 
-        if (!empty($matches[1]) && !empty($matches[2]) && !empty($matches[3])) {
-            $hours = [];
+        $hours = [];
 
+        //print_r($matches); exit();
+
+        // get working days
+        if (!empty($matches[1]) && !empty($matches[2])) {
             foreach ($matches[1] as $index => $value) {
+                if ($matches[2][$index] == "Выходной") {
+                    $open = "00:00";
+                    $close = "00:00";
+                }
+                else {
+                    $arr = explode("-", $matches[2][$index]);
+                    $open = $arr[0];
+                    $close = $arr[1];
+                }
+
                 $hours[] = [
                     'day'   => TamScraper::getFormattedDay($matches[1][$index]),
-                    'open'  => $matches[2][$index],
-                    'close' => $matches[3][$index]
+                    'open'  => $open,
+                    'close' => $close
                 ];
             }
-
-            return $hours;
         }
-        else return [];
 
+        //print_r($hours); exit();
+
+        return $hours;
     }
 
     public static function options($page)
