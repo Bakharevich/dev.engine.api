@@ -20,7 +20,7 @@
                 @endif
 
                 @if ($company->description)
-                    <p style="color: #222;">{{ $company->description }}</p>
+                    <p style="color: #222;">{!! str_limit(strip_tags($company->description), 250)  !!}</p>
                 @endif
             </div>
             <div class="col-md-4" style="font-size: 1.1em; padding-top: 5px;">
@@ -56,8 +56,13 @@
                 </div>
             @endif
             <div class="col-md-8">
+                @if ($company->description)
+                    <h3>{{ trans('company.about_company') }} {{ $company->name }}</h3>
+                    {!! $company->description !!}
+                @endif
+
                 @if ($company->reviews)
-                    <h3>Latest reviews</h3>
+                    <h3>{{ trans('company.latest_reviews') }}</h3>
                     @foreach ($company->reviews as $review)
                         <div>
                             <p><b>{{ $review->name }}</b> <small>({{ $review->created_at }})</small></p>
@@ -105,10 +110,7 @@
             </div>
 
             <div class="col-md-12">
-            @if ($company->description)
-                <p>{{ $company->description }}</p>
-                <br/>
-            @endif
+
             </div>
         </div>
     </div>
