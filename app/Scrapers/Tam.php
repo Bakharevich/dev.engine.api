@@ -24,7 +24,7 @@ class Tam extends Scraper implements ScraperInterface
     public function __construct()
     {
         $this->limitPhotos = 20;
-        $this->limitCompanies = 3; // 0 means unlimited
+        $this->limitCompanies = 10; // 0 means unlimited
     }
 
     public function process($url)
