@@ -41,38 +41,45 @@
         }
     </style>
 
-    <div class="index-bg text-center">
-        <h1 style="color: #FFF; font-size: 4em; margin-bottom: 35px; text-shadow: 1px 1px #000;">{{ Request::get('site')->headline }}</h1>
+    <div style="padding-bottom: 10px;">
+        <div class="index-bg text-center">
+            <h1 style="color: #FFF; font-size: 4em; margin-bottom: 35px; text-shadow: 1px 1px #000;">{{ Request::get('site')->headline }}</h1>
 
-        <div style="max-width: 800px; margin: 0 auto; padding: 0px 30px 0px 30px;">
-            <div class="input-group input-group-lg">
-                <input type="text" class="form-control" placeholder="{{ trans('common.search_field_value') }}" autofocus>
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-                    </span>
+            <div style="max-width: 800px; margin: 0 auto; padding: 0px 30px 0px 30px;">
+                <div class="input-group input-group-lg">
+                    <input type="text" class="form-control" placeholder="{{ trans('common.search_field_value') }}" autofocus>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="container" style="margin: 0 auto; margin-bottom: 30px;">
-        @if (count($categories) > 0)
-            <div class="row">
-                @foreach ($categories as $category)
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 text-center" style="margin-bottom: 25px;">
-                        <a href="{{ $category->url }}" class="index-link-category">
-                            <div style="border: 1px solid #CCC; padding: 35px 0px 35px 0px; background: #FFF; border-radius: 5px; box-shadow: 4px; box-shadow: 0 1px 3px rgba(48, 53, 64, .3);">
-                                <div>
-                                    <i class="{{ $category->icon }}" aria-hidden="true" style="font-size: 64px;"></i>
+        <div class="container" style="margin: 0 auto; padding-top: 20px;">
+            @if (count($categories) > 0)
+                <div class="row" style="margin-bottom: 20px;">
+                    @foreach ($categories as $category)
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 text-center" style="margin-bottom: 25px; ">
+                            <a href="{{ $category->url }}" class="index-link-category">
+                                <div style="border: 1px solid #CCC; padding: 35px 0px 35px 0px; background: #FFF; border-radius: 5px; box-shadow: 4px; box-shadow: 0 1px 3px rgba(48, 53, 64, .3);">
+                                    <div>
+                                        <i class="{{ $category->icon }}" aria-hidden="true" style="font-size: 64px;"></i>
+                                    </div>
+
+                                    {{ $category->name }}
                                 </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                Нет категорий.
+            @endif
 
-                                {{ $category->name }}
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
+            <div class="text-center" style="font-size: 0.85em; line-height: 1.3em; color: #666;">
+                <p>Yelpster.net is the easiest way to find local businesses in any city. We take a Web 2.0 approach to our site, where members run the show as far as sharing, reviewing and communicating is concerned.</p>
+                <p>We truly believe that quality of customer service can definitely increase or decrease companies rating. Our mission is help people to find right place and force companies to become better.</p>
             </div>
-        @else
-            Нет категорий.
-        @endif
+        </div>
     </div>
 @stop
