@@ -20,11 +20,13 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;Москва
+                        <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;London
                     </a>
                     <ul class="dropdown-menu">
+                        <!--
                         <li><a href="#">Москва</a></li>
                         <li><a href="#">Санкт Петербург</a></li>
+                        -->
                     </ul>
                 </li>
             </ul>
