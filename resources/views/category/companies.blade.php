@@ -17,7 +17,17 @@
             <div class="row" style="margin-bottom: 30px;">
                 <div class="col-sm-3">
                     <a href="{{ $company->url }}">
-                        <img src="{{ $company->main_photo_url }}" class="img-responsive img-thumbnail" />
+                        @if ($company->main_photo_url)
+                            <img src="{{ $company->main_photo_url }}" class="img-responsive img-thumbnail" alt="{{ $company->name }}" title="{{ $company->name }}" />
+                        @else
+                            <div style="background: #dadada; width: 100%; height: 120px; font-size: 3em; color: #adadad; padding-top: 25px; border: 1px solid #c8c8c8;" class="img-rounded text-center hidden-xs">
+                                @if ($category->icon)
+                                    <i class="{{ $category->icon }}" aria-hidden="true"></i>
+                                @else
+                                    <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                @endif
+                            </div>
+                        @endif
                     </a>
                 </div>
                 <div class="col-sm-9">
