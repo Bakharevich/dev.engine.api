@@ -24,13 +24,61 @@ class CompanyController extends Controller
                             }])->
                             with('hours')->
                             where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
+        //dd($company);
+
+        /**********************
+         *      SET META
+         * TODO: rebuild
+         **********************/
+        // title
+        if (!empty($company->meta_title)) {
+            $metaTitle = $company->meta_title;
+        }
+        else {
+            $metaTitle = $company->category->name_single . " " . $company->name .
+                " " . trans('cities.in') . " " . trans('cities.' . $request->site->city->name . '_where');
+        }
+
+        // description
+        if (!empty($company->meta_description)) {
+            $metaDescription = $company->meta_description;
+        }
+        else {
+            $metaDescription =
+                $company->category->name_single . " " . $company->name .
+                " " . trans('cities.in') . " " . trans('cities.' . $request->site->city->name . '_where') . ". 
+                " . trans('company.meta-description-default');
+        }
+
+        // keywords
+        if (!empty($company->meta_keywords)) {
+            $metaKeywords = $company->meta_keywords;
+        }
+        else {
+            $metaKeywords =
+                $company->name . ", " . $company->category->name_single . ", " . trans('cities.' . $request->site->city->name)
+                 . ", " . trans('company.meta-description-default');
+        }
+
+        // image
+        if (!empty($company->meta_image)) {
+            $metaImage = $company->meta_image;
+        }
+        else {
+            if (!empty($company->photos[0])) {
+                $metaImage = $company->photos[0]->url;
+            }
+            else {
+                $metaImage = "";
+            }
+        }
 
         // generate meta
         $meta = [
-            'title' => $company->meta_title,
-            'description' => $company->meta_description,
-            'keywords' => $company->meta_keywords,
-            'image' => $company->meta_image
+            'title' => $metaTitle,
+            'description' => $metaDescription,
+            'keywords' => $metaKeywords,
+            'image' => $metaImage
         ];
 
 
