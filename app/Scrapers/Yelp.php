@@ -23,8 +23,8 @@ class Yelp extends Scraper implements ScraperInterface {
     public function __construct()
     {
         //$this->companyRepo = $companyRepo;
-        $this->limitPhotos = 1;
-        $this->limitCompanies = 1; // 0 means unlimited
+        $this->limitPhotos = 20;
+        $this->limitCompanies = 0; // 0 means unlimited
     }
 
     public function process($url)
