@@ -367,7 +367,10 @@ class Yelp extends Scraper implements ScraperInterface {
         $reg = "|<meta itemprop=\"datePublished\" content=\"(.+?)\">|is";
         preg_match_all($reg, $data, $dates);
 
+        /*
         $reg = "|<div class=\"review-wrapper\">.*?<i.*?star-img stars_(.+?)\".*?>|is";
+        */
+        $reg = "|<div class=\"review-wrapper\">.*?<div class=\"i-stars.*?rating-very-large\" title=\"(.+?) star rating\">|is";
         preg_match_all($reg, $data, $ratings);
 
 //        echo "<pre>";
@@ -395,7 +398,7 @@ class Yelp extends Scraper implements ScraperInterface {
             }
         }
 
-        //print_r($reviews); exit();
+        //echo "REVIEWS:"; print_r($reviews); exit();
 
         return $reviews;
     }
