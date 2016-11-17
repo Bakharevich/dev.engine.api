@@ -105,6 +105,9 @@ class Yelp extends Scraper implements ScraperInterface {
         $companies = [];
         if (!empty($companiesScraped)) {
             foreach ($companiesScraped[1] as $index => $value) {
+                // remove unnecessary symbols
+                $value = preg_replace("|(\?.*)|", "", $value);
+
                 $companies[] = [
                     'domain' => $value,
                     'page' => 'https://yelp.com/biz/' . $value . '?sort_by=date_desc',
