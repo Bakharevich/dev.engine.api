@@ -10,6 +10,8 @@ $domains = [
 foreach ($domains as $domain) {
     Route::group(['domain' => '{companyDomain}.' . $domain], function() {
         Route::get('/', 'Web\CompanyController@show');
+        Route::post('/reviews', 'Web\CompanyController@reviewsPost');
+        Route::get('/reviews', 'Web\CompanyController@reviewsGet');
     });
 }
 
