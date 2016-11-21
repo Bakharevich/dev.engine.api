@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\CompanyReview;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Foundation\Testing\HttpException;
 use Illuminate\Http\Request;
+use Validator;
 
 use App\Http\Requests;
 
@@ -18,7 +20,11 @@ class CompanyController extends Controller
     public function show(Request $request, $companyDomain)
     {
         // get company
-        $company = Company::with('options')->with('category')->with('reviews')->
+        $company = Company::with('options')->with('category')->
+                            with(['reviews' => function($query) {
+                                $query->limit(10);
+                                $query->orderBy('created_at', 'desc');
+                            }])->
                             with(['photos' => function($query) {
                                 $query->limit(6);
                             }])->
@@ -86,5 +92,67 @@ class CompanyController extends Controller
             'company' => $company,
             'meta' => $meta
         ]);
+    }
+
+    public function reviewsGet(Request $request, $companyDomain)
+    {
+        // get company
+        $company = Company::with('category')->
+                            with(['reviews' => function($query) {
+                                $query->orderBy('created_at', 'desc');
+                            }])->
+                            where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
+
+        // title
+        $metaTitle = 'Отзывы ' . $company->category->name_single . " " . $company->name;
+
+        $metaDescription =
+            $company->category->name_single . " " . $company->name .
+            " " . trans('cities.in') . " " . trans('cities.' . $request->site->city->name . '_where') . ". 
+                " . trans('company.meta-description-default');
+
+        $metaKeywords =
+            $company->name . ", " . $company->category->name_single . ", " . trans('cities.' . $request->site->city->name)
+            . ", " . trans('company.meta-description-default');
+
+        // generate meta
+        $meta = [
+            'title' => $metaTitle,
+            'description' => $metaDescription,
+            'keywords' => $metaKeywords
+        ];
+
+        return view('company.reviews', [
+            'company' => $company,
+            'meta' => $meta
+        ]);
+    }
+
+    public function reviewsPost(Request $request, $companyDomain)
+    {
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'rating' => 'int|required',
+            'review' => 'required',
+        ]);
+
+        if ($validator->fails()){
+            return response()->json($validator->errors()->all(), 406);
+        }
+
+        // get company
+        $company = Company::select('id')->where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
+
+        CompanyReview::create([
+            'service_id' => 0,
+            'company_id' => $company['id'],
+            'name' => $request->input('name'),
+            'rating' => $request->input('rating'),
+            'review' => $request->input('review')
+        ]);
+
+        // set flash message
+
+        return response()->redirectTo($company->url);
     }
 }
