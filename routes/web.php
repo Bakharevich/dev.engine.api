@@ -17,6 +17,18 @@ Route::group(['domain' => '{companyDomain}.ibelarus.by'], function() {
     Route::get('/', 'Web\CompanyController@show');
 });
 
+Route::get('/test/', function() {
+    /*
+    $str = "home-treasures-kuala-lumpur-2?search_key=53607";
+    $str = preg_replace("|(\?.*)|", "", $str);
+    echo $str;
+    */
+    $pages = 9;
+    for ($i = 1; $i <= $pages; $i++) {
+        echo $i . "<br/>";
+    }
+});
+
 Route::get('/categoriesstats/', function() {
     $category = 'https://www.yelp.com/search?find_loc=Kuala+Lumpur&cflt=shopping';
 
