@@ -8,9 +8,9 @@
         <div class="col-sm-7 col-md-5 site-header-search">
             <form class="form-horizontal">
                 <div class="input-group">
-                    <input type="text" class="form-control red-shadow" placeholder="{{ trans('common.search_field_value') }}" />
+                    <input type="text" id="site-search-field" class="form-control red-shadow" placeholder="{{ trans('common.search_field_value') }}" />
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                        <button id="site-search-button" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
                     </span>
                 </div>
             </form>

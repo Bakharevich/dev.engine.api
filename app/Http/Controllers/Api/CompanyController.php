@@ -106,6 +106,42 @@ class CompanyController extends Controller
         );
     }
 
+    public function search(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'site_id' => 'required|integer',
+            'keyword' => 'required|string'
+        ]);
+
+        $result = [];
+
+        // first check if such categories exist
+        $categories = Category::select(['name', 'url'])->where('name', $request->input('keyword'))->where('site_id', $request->input('site_id'))->get();
+
+        if ($categories) {
+            foreach ($categories as $category) {
+                $result[] = [
+                    'title' => $category->name,
+                    'url' => $category->url
+                ];
+            }
+        }
+
+        // then check if such companies exist
+        $companies = Company::select(['name', 'url'])->where('name', $request->input('keyword'))->where('site_id', $request->input('site_id'))->get();
+
+        if ($companies) {
+            foreach ($companies as $company) {
+                $result[] = [
+                    'title' => $company->name,
+                    'url' => $company->url
+                ];
+            }
+        }
+
+        return response()->json($result, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -18,6 +18,7 @@
 
     <meta name="google-site-verification" content="aFNFfQ9ZfnEtfYIV2_Q1FGjANTOr08KgMxB8AjNfOng" />
     <meta name="msvalidate.01" content="0154515FE32C8F8EF4F3F250CFB1AF24" />
+    <meta name="site_id" content="{{ Request::get('site')->id }}" />
 </head>
 <body>
     @if (Route::currentRouteName() != "index")
@@ -37,5 +38,32 @@
     @yield('scripts')
 
     {!! Request::get('site')->html_code !!}
+
+    <script>
+        $(document).ready(function() {
+            $("#site-search-button").click(function() {
+                var keyword = $("#site-search-field").val();
+                var site_id = $("META[name='site_id']").attr('content');
+
+                // ajax request
+                $.ajax({
+                    url: '/api/companies/search',
+                    type: 'GET',
+                    dataType: 'json',
+                    async: true,
+                    data: {
+                        keyword: keyword,
+                        site_id: site_id
+                    },
+                    error: function() {
+                        alert('Problem with requesting search results');
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
