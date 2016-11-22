@@ -94,6 +94,40 @@ class CompanyController extends Controller
         ]);
     }
 
+    public function photos(Request $request, $companyDomain)
+    {
+        // get company
+        $company = Company::with('category')->
+                            with(['photos' => function($query) {
+                                //$query->limit(6);
+                            }])->
+                            where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
+
+        // title
+        $metaTitle = 'Фотографии ' . $company->category->name_single . " " . $company->name;
+
+        $metaDescription =
+            $company->category->name_single . " " . $company->name .
+            " " . trans('cities.in') . " " . trans('cities.' . $request->site->city->name . '_where') . ". 
+                " . trans('company.meta-description-default');
+
+        $metaKeywords =
+            "фотографии, " . $company->name . ", " . $company->category->name_single . ", " . trans('cities.' . $request->site->city->name)
+            . ", " . trans('company.meta-description-default');
+
+        // generate meta
+        $meta = [
+            'title' => $metaTitle,
+            'description' => $metaDescription,
+            'keywords' => $metaKeywords
+        ];
+
+        return view('company.photos', [
+            'company' => $company,
+            'meta' => $meta
+        ]);
+    }
+
     public function reviewsGet(Request $request, $companyDomain)
     {
         // get company

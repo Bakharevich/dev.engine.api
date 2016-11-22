@@ -53,6 +53,10 @@
                             <img src="{{ $photo->url }}" class="img-responsive img-rounded" />
                         </div>
                     @endforeach
+
+                    <div class="text-right">
+                        <a href="<?= $company->url ?>photos" class="btn btn-default btn-sm">Все фотографии</a>
+                    </div>
                 </div>
             @endif
             <div class="col-md-8" style="padding-bottom: 30px;">
