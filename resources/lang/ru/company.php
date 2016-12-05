@@ -3,6 +3,11 @@ return [
     'number_of_reviews' => 'отзывов',
     'latest_reviews' => 'Последние отзывы',
     'about_company' => 'О компании',
+    'photos' => 'Фотографии',
+    'photos-all' => 'Все фотографии',
+    'reviews' => 'Отзывы',
+    'reviews-all' => 'Все отзывы',
+    'hours' => 'Время работы',
 
     /* META */
     'meta-description-default' => 'Отзывы, фотографии, время работы, контакты',

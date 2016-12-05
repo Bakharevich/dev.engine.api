@@ -8,11 +8,11 @@
                 <li><a href="http://{{ Request::get('site')->domain }}/{{ Request::get('site')->city->domain }}">{{ Request::get('site')->city->name }}</a></li>
                 <li><a href="{{ $company->category->url }}">{{ $company->category->name }}</a></li>
                 <li><a href="{{ $company->url }}">{{ $company->name }}</a></li>
-                <li class="active">Фотографии {{ $company->name }}</li>
+                <li class="active">{{ trans('company.photos') }} {{ $company->name }}</li>
             </ol>
 
             <div class="col-md-12">
-                <h1 style="margin-top: 0; ">Фотографии {{ $company->name }}</h1>
+                <h1 style="margin-top: 0; ">{{ trans('company.photos') }} {{ $company->name }}</h1>
             </div>
         </div>
     </div>

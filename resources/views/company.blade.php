@@ -55,7 +55,7 @@
                     @endforeach
 
                     <div class="text-right">
-                        <a href="<?= $company->url ?>photos" class="btn btn-default btn-sm">Все фотографии</a>
+                        <a href="<?= $company->url ?>photos" class="btn btn-default btn-sm">{{ trans('company.photos-all') }}</a>
                     </div>
                 </div>
             @endif
@@ -80,7 +80,7 @@
                         </div>
                     @endforeach
 
-                    <a href="<?= $company->url ?>reviews" class="btn btn-primary">Все отзывы</a>
+                    <a href="<?= $company->url ?>reviews" class="btn btn-primary">{{ trans('company.reviews-all') }}</a>
                 @endif
             </div>
             <div class="col-md-4 text-left" style="margin-top: 30px;">
@@ -88,7 +88,7 @@
                     <div id="map" class="img-thumbnail" style="width: 100%; height: 300px;"></div>
                 @endif
 
-                <h3>Hours</h3>
+                <h3>{{ trans('company.hours') }}</h3>
 
                 @if ($company->hours)
                     <table class="text-left">

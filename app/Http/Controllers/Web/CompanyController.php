@@ -104,7 +104,7 @@ class CompanyController extends Controller
                             where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
 
         // title
-        $metaTitle = 'Фотографии ' . $company->category->name_single . " " . $company->name;
+        $metaTitle = trans('company.photos') . ' - ' . $company->category->name_single . " " . $company->name;
 
         $metaDescription =
             $company->category->name_single . " " . $company->name .
@@ -138,7 +138,7 @@ class CompanyController extends Controller
                             where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
 
         // title
-        $metaTitle = 'Отзывы ' . $company->category->name_single . " " . $company->name;
+        $metaTitle = trans('company.reviews') . ' - ' . $company->category->name_single . " " . $company->name;
 
         $metaDescription =
             $company->category->name_single . " " . $company->name .

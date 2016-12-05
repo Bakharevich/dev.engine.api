@@ -8,11 +8,11 @@
                 <li><a href="http://{{ Request::get('site')->domain }}/{{ Request::get('site')->city->domain }}">{{ Request::get('site')->city->name }}</a></li>
                 <li><a href="{{ $company->category->url }}">{{ $company->category->name }}</a></li>
                 <li><a href="{{ $company->url }}">{{ $company->name }}</a></li>
-                <li class="active">Отзывы {{ $company->name }}</li>
+                <li class="active">{{ trans('company.reviews') }} {{ $company->name }}</li>
             </ol>
 
             <div class="col-md-12">
-                <h1 style="margin-top: 0; ">Отзывы {{ $company->name }}</h1>
+                <h1 style="margin-top: 0; ">{{ trans('company.reviews') }} {{ $company->name }}</h1>
             </div>
         </div>
     </div>
