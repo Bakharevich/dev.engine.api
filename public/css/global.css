@@ -14,3 +14,8 @@ BODY {
 .rating-star-uncoloured {
     background-color: #CCC;
 }
+
+/* preloader */
+.ui-autocomplete-loading {
+    background: url('/img/ajax-loader.gif') #FFF no-repeat right 4px center;
+}

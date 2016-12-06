@@ -47,10 +47,11 @@
 
             <div style="max-width: 800px; margin: 0 auto; padding: 0px 30px 0px 30px;">
                 <div class="input-group input-group-lg">
-                    <input type="text" class="form-control" placeholder="{{ trans('common.search_field_value') }}" autofocus>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-                        </span>
+                    <input type="text" class="form-control" placeholder="{{ trans('common.search_field_value') }}" id="site-search" autofocus>
+
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </span>
                 </div>
             </div>
         </div>

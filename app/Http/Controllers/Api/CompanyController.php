@@ -116,11 +116,16 @@ class CompanyController extends Controller
         $result = [];
 
         // first check if such categories exist
-        $categories = Category::select(['name', 'url'])->where('name', $request->input('keyword'))->where('site_id', $request->input('site_id'))->get();
+        $categories = Category::select(['id', 'name', 'url'])->
+                                where('name', 'like', '%' . $request->input('keyword') . '%')->
+                                where('site_id', $request->input('site_id'))->
+                                get();
 
         if ($categories) {
             foreach ($categories as $category) {
                 $result[] = [
+                    'id' => $category->id,
+                    'type' => 'category',
                     'title' => $category->name,
                     'url' => $category->url
                 ];
@@ -128,11 +133,16 @@ class CompanyController extends Controller
         }
 
         // then check if such companies exist
-        $companies = Company::select(['name', 'url'])->where('name', $request->input('keyword'))->where('site_id', $request->input('site_id'))->get();
+        $companies = Company::select(['id', 'name', 'url'])->
+                              where('name', 'like', '%' . $request->input('keyword') . '%')->
+                              where('site_id', $request->input('site_id'))->
+                              get();
 
         if ($companies) {
             foreach ($companies as $company) {
                 $result[] = [
+                    'id' => $company->id,
+                    'type' => 'company',
                     'title' => $company->name,
                     'url' => $company->url
                 ];

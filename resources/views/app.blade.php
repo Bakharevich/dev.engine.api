@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/bower_components/jquery-ui/themes/base/jquery-ui.min.css" />
 
     <link rel="stylesheet" href="/css/custom_resolutions.css" />
     <link rel="stylesheet" href="/css/global.css" />
@@ -34,6 +35,7 @@
 
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
 
     @yield('scripts')
 
@@ -41,28 +43,38 @@
 
     <script>
         $(document).ready(function() {
-            $("#site-search-button").click(function() {
-                var keyword = $("#site-search-field").val();
-                var site_id = $("META[name='site_id']").attr('content');
+            $( "#site-search" ).autocomplete({
+                source: function( request, response ) {
+                    var site_id = $("META[name='site_id']").attr('content');
 
-                // ajax request
-                $.ajax({
-                    url: '/api/companies/search',
-                    type: 'GET',
-                    dataType: 'json',
-                    async: true,
-                    data: {
-                        keyword: keyword,
-                        site_id: site_id
-                    },
-                    error: function() {
-                        alert('Problem with requesting search results');
-                    },
-                    success: function(data) {
-                        console.log(data);
-                    }
-                });
-            });
+                    $.ajax( {
+                        url: "/api/companies/search",
+                        dataType: "json",
+                        minLength: 2,
+                        search: function(){$(this).addClass('ui-autocomplete-loading');},
+                        open: function(){$(this).removeClass('ui-autocomplete-loading');},
+                        data: {
+                            keyword: request.term,
+                            site_id: site_id
+                        },
+                        success: function( data ) {
+                            response($.map(data, function(item) {
+                                return {
+                                    id: item.id,
+                                    label: item.title,
+                                    type: item.type,
+                                    url: item.url
+                                }
+                            }));
+                        }
+                    } );
+                },
+                minLength: 1,
+                select: function( event, ui ) {
+                    //console.log( "Selected: " + ui.item.type + " aka " + ui.item.url );
+                    window.location.href = ui.item.url;
+                }
+            } );
         });
     </script>
 </body>
