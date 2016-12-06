@@ -19,5 +19,5 @@ return [
     'company-review-review' => 'Отзыв',
     'company-review-photo' => 'Фото',
     'company-review-send' => 'Отправить отзыв',
-
+    'company-review-success' => 'Ваш отзыв успешно отправлен!',
 ];

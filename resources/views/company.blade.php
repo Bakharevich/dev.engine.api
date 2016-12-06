@@ -47,8 +47,7 @@
             @if(Session::has('message'))
                 <div class="alert alert-success alert-dismissible text-center" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <p><strong>Комментарий успешно отправлен.</strong></p>
-                    <p>Спасибо!</p>
+                    <p><strong>{{ trans('company.company-review-success') }}</strong></p>
                 </div>
             @endif
 

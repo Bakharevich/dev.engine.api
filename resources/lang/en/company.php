@@ -19,4 +19,5 @@ return [
     'company-review-review' => 'Your review',
     'company-review-photo' => 'Photo',
     'company-review-send' => 'Post Review',
+    'company-review-success' => 'Your review is now live!',
 ];
