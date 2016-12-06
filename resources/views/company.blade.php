@@ -44,6 +44,14 @@
 
     <div style="background: #FFF; padding-top: 25px;">
         <div class="container" style="margin: 0 auto;">
+            @if(Session::has('message'))
+                <div class="alert alert-success alert-dismissible text-center" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <p><strong>Комментарий успешно отправлен.</strong></p>
+                    <p>Спасибо!</p>
+                </div>
+            @endif
+
             @if ($company->photos)
                 <div class="col-md-12" style="padding: 0px 7px 0px 7px;">
                     @foreach ($company->photos as $index => $photo)

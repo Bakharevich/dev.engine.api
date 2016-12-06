@@ -3,6 +3,14 @@ BODY {
 }
 
 .rating-star {
-    font-size: 1.1em; padding: 4px; border-radius: 3px; background-color: #CCC;
+    font-size: 26px; padding: 4px; border-radius: 3px; background-color: #CCC;
     color: #FFF;
+}
+
+/* stars */
+.rating-star-coloured {
+    background-color: #00B551;
+}
+.rating-star-uncoloured {
+    background-color: #CCC;
 }

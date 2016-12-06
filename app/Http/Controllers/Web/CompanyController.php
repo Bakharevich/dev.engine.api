@@ -177,7 +177,7 @@ class CompanyController extends Controller
         // get company
         $company = Company::select('id')->where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
 
-        CompanyReview::create([
+        $review = CompanyReview::create([
             'service_id' => 0,
             'company_id' => $company['id'],
             'name' => $request->input('name'),
@@ -186,6 +186,7 @@ class CompanyController extends Controller
         ]);
 
         // set flash message
+        $request->session()->flash('message', 'Комментарий успешно добавлен');
 
         return response()->redirectTo($company->url);
     }
