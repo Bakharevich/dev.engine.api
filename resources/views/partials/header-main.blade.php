@@ -20,13 +20,18 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;London
+                        <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;
+                        @foreach (Request::get('cities') as $city)
+                            @if ($city->id == Request::get('site')->city_id)
+                                {{ $city->name }}
+                                @break
+                            @endif
+                        @endforeach
                     </a>
                     <ul class="dropdown-menu">
-                        <!--
-                        <li><a href="#">Москва</a></li>
-                        <li><a href="#">Санкт Петербург</a></li>
-                        -->
+                        @foreach (Request::get('cities') as $city)
+                            <li><a href="#">{{ $city->name }}</a></li>
+                        @endforeach
                     </ul>
                 </li>
 

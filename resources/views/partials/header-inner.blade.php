@@ -21,15 +21,19 @@
 
             <div class="btn-group">
                 <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-map-marker"></span> Минск
+                    <span class="glyphicon glyphicon-map-marker"></span>
+                    @foreach (Request::get('cities') as $city)
+                        @if ($city->id == Request::get('site')->city_id)
+                            {{ $city->name }}
+                            @break
+                        @endif
+                    @endforeach
                 </a>
 
                 <ul class="dropdown-menu">
-                    <li><a href="#">Минск</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Бобруйск</a></li>
-                    <li><a href="#">Гомель</a></li>
-                    <li><a href="#">Борисов</a></li>
+                    @foreach (Request::get('cities') as $city)
+                        <li><a href="#">{{ $city->name }}</a></li>
+                    @endforeach
                 </ul>
             </div>
 
