@@ -119,6 +119,7 @@ class CompanyController extends Controller
         $categories = Category::select(['id', 'name', 'url'])->
                                 where('name', 'like', '%' . $request->input('keyword') . '%')->
                                 where('site_id', $request->input('site_id'))->
+                                limit(5)->
                                 get();
 
         if ($categories) {
@@ -136,6 +137,7 @@ class CompanyController extends Controller
         $companies = Company::select(['id', 'name', 'url'])->
                               where('name', 'like', '%' . $request->input('keyword') . '%')->
                               where('site_id', $request->input('site_id'))->
+                              limit(10)->
                               get();
 
         if ($companies) {
