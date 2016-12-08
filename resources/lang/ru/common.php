@@ -6,4 +6,9 @@ return [
     'footer_contact' => 'Связаться с нами',
     'footer_add_business' => 'Добавить компанию',
     'footer_vacancies' => 'Вакансии',
+
+    'login' => 'Войти',
+    'registration' => 'Регистрация',
+    'reset-password' => 'Забыли пароль?',
+    'logout' => 'Выход',
 ];
