@@ -3,6 +3,9 @@ use App\Scrapers\Yelp;
 use App\Repositories\CompanyRepository;
 //use GuzzleHttp;
 
+Route::get('/logout', 'Auth\LoginController@logout');
+Auth::routes();
+
 $domains = [
     'yelpster.dev', 'yelpster.net', 'ibelarus.dev', 'ibelarus.by', 'infomalaysia.net', '24india.in'
 ];
@@ -80,3 +83,7 @@ Route::get('/{city}/{category}', 'Web\CategoryController@show');
 Route::get('/{city}/', 'Web\CityController@show');
 
 
+
+
+
+Route::get('/home', 'HomeController@index');

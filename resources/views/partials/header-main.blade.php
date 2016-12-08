@@ -29,6 +29,25 @@
                         -->
                     </ul>
                 </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        @if (!Auth::check())
+                            Login <span class="caret"></span>
+                        @else
+                            {{ Auth::user()->email }} <span class="caret"></span>
+                        @endif
+                    </a>
+                    <ul class="dropdown-menu">
+                        @if (!Auth::check())
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="/register">Register</a></li>
+                            <li><a href="/password/reset">Reset Password</a></li>
+                        @else
+                            <li><a href="/logout">Logout</a></li>
+                        @endif
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

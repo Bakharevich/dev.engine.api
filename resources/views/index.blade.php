@@ -14,11 +14,13 @@
         }
         .navbar-default {
             background: #f53118;
-
+            background: #f0f1f2;
         }
+        /*
         .navbar-default A {
             color: #FFF !important;
         }
+        */
         .blur {
             -webkit-filter: blur(10px); filter: blur(10px);
         }
