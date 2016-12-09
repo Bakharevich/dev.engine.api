@@ -3,6 +3,7 @@ use App\Scrapers\Yelp;
 use App\Repositories\CompanyRepository;
 //use GuzzleHttp;
 
+Route::get('/page/{slug}', 'Web\PageController@show');
 Route::get('/logout', 'Auth\LoginController@logout');
 Auth::routes();
 
