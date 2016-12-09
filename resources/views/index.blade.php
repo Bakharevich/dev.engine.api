@@ -80,8 +80,7 @@
             @endif
 
             <div class="text-center" style="font-size: 0.85em; line-height: 1.3em; color: #666;">
-                <p>Yelpster.net is the easiest way to find local businesses in any city. We take a Web 2.0 approach to our site, where members run the show as far as sharing, reviewing and communicating is concerned.</p>
-                <p>We truly believe that quality of customer service can definitely increase or decrease companies rating. Our mission is help people to find right place and force companies to become better.</p>
+                {!! \App\Repositories\PageRepository::getContent(Request::get('site')->id, 'main-about')  !!}
             </div>
         </div>
     </div>
