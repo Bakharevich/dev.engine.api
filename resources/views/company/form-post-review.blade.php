@@ -56,27 +56,5 @@
             // set to hidden field
             $("#company-rating").val(rating);
         });
-
-
-        $('.form-post-review').submit(function(e){
-            e.preventDefault();
-
-            var isSubmit = true;
-
-            $(".form-post-review .required").each(function(index, val){
-                var res = $(val).val();
-
-                if (!res) {
-                    isSubmit = false;
-                    $(this).parent().addClass('has-error');
-                    console.log(val);
-                }
-                else {
-                    $(this).parent().removeClass('has-error');
-                }
-            });
-
-            if (isSubmit) this.submit();
-        });
     </script>
 @stop
