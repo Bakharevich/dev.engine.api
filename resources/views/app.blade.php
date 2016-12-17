@@ -42,6 +42,7 @@
     {!! Request::get('site')->html_code !!}
 
     <script>
+        // autocomplete search
         $(document).ready(function() {
             $( "#site-search" ).autocomplete({
                 source: function( request, response ) {
@@ -75,6 +76,29 @@
                     window.location.href = ui.item.url;
                 }
             } );
+        });
+
+        // global form validation
+        if (typeof formName === 'undefined') formName = 'FORM';
+
+        $(formName).submit(function(e){
+            e.preventDefault();
+
+            var isSubmit = true;
+
+            $(formName + " .required").each(function(index, val){
+                var res = $(val).val();
+
+                if (!res) {
+                    isSubmit = false;
+                    $(this).parent().addClass('has-error');
+                }
+                else {
+                    $(this).parent().removeClass('has-error');
+                }
+            });
+
+            if (isSubmit) this.submit();
         });
     </script>
 </body>
