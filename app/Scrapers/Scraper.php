@@ -80,14 +80,19 @@ class Scraper  {
                     $company['domain'] = $newDomain;
                     $company['url'] = $newUrl;
 
-                    return Company::create($company);
+                    $res = Company::create($company);
                     break;
                 }
             }
         }
         else {
-            return Company::create($company);
+            $res = Company::create($company);
         }
+
+        $res->pos = $res->id;
+        $res->save();
+
+        return $res;
     }
 
     public function processHours($companyId, $hours)
