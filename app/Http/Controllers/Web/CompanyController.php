@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web;
 use App\CompanyReview;
 use App\Http\Controllers\Controller;
 
+use App\Repositories\CategoryRepository;
+use App\Repositories\CompanyRepository;
 use Illuminate\Foundation\Testing\HttpException;
 use Illuminate\Http\Request;
 use Validator;
@@ -13,10 +15,40 @@ use App\Http\Requests;
 
 use App\Category;
 use App\Company;
+use App\Http\Requests\CompanyCreate;
 
 
 class CompanyController extends Controller
 {
+    public function create(Request $request, CategoryRepository $categoryRepository)
+    {
+        // categories
+        $categories = [];
+
+        return view('company.create', [
+            'categories' => $categoryRepository->allForSite($request->site->id)
+        ]);
+    }
+
+    public function store(CompanyCreate $request, CompanyRepository $companyRepository)
+    {
+        // prepare params
+        $params = $request->only([
+            'category_id', 'name', 'address', 'tel', 'website', 'description', 'price_range'
+        ]);
+        $params['site_id'] = $request->site->id;
+
+        $company = CompanyRepository::create($params);
+        //dd($company);
+
+        return redirect('/companies/success');
+    }
+
+    public function success(Request $request)
+    {
+        return view('company.success');
+    }
+
     public function show(Request $request, $companyDomain)
     {
         // get company
