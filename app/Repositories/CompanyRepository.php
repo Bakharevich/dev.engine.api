@@ -39,6 +39,12 @@ class CompanyRepository {
             $company = Company::create($request);
         }
 
+        // update company position
+        $company->pos = $company->id;
+
+        // save updated data
+        $company->save();
+
         return $company;
     }
 }
