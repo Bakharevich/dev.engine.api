@@ -7,7 +7,7 @@
 
     <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
         <label class="control-label" for="category_id">{{ trans('company.create-category') }}:</label>
-        <select class="form-control" name="category_id" id="category_id" value="{{ old('category_id') }}">
+        <select class="form-control required" name="category_id" id="category_id" value="{{ old('category_id') }}">
             <option value="">// -- //</option>
             @foreach($categories as $index => $category)
                 <option disabled>[{{ $index }}]</option>
@@ -20,11 +20,11 @@
     </div>
     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
         <label class="control-label" for="name">{{ trans('company.create-name') }}:</label>
-        <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}" />
+        <input type="text" class="form-control required" name="name" id="name" value="{{ old('name') }}" />
     </div>
     <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
         <label class="control-label" for="address">{{ trans('company.create-address') }}:</label>
-        <input type="text" class="form-control" name="address" id="address" />
+        <input type="text" class="form-control required" name="address" id="address" />
     </div>
     <div class="form-group{{ $errors->has('tel') ? ' has-error' : '' }}">
         <label class="control-label" for="tel">{{ trans('company.create-tel') }}:</label>
