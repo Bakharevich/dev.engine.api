@@ -3,6 +3,9 @@ use App\Scrapers\Yelp;
 use App\Repositories\CompanyRepository;
 //use GuzzleHttp;
 
+Route::get('/companies/create', 'Web\CompanyController@create');
+Route::post('/companies/create', 'Web\CompanyController@store');
+Route::get('/companies/success', 'Web\CompanyController@success');
 Route::get('/page/{slug}', 'Web\PageController@show');
 Route::get('/logout', 'Auth\LoginController@logout');
 Auth::routes();
@@ -19,10 +22,6 @@ foreach ($domains as $domain) {
         Route::get('/reviews', 'Web\CompanyController@reviewsGet');
     });
 }
-
-Route::group(['domain' => '{companyDomain}.ibelarus.by'], function() {
-    Route::get('/', 'Web\CompanyController@show');
-});
 
 Route::get('/test/', function() {
     /*

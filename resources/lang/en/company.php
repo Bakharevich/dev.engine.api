@@ -9,6 +9,21 @@ return [
     'reviews-all' => 'All reviews',
     'hours' => 'Hours',
 
+    /* ADD A BUSINESS */
+    'create-heading' => 'Add a Business',
+    'create-category' => 'Выберите категорию',
+    'create-name' => 'Name',
+    'create-address' => 'Address',
+    'create-tel' => 'Telephone',
+    'create-website' => 'Website',
+    'create-description' => 'Description',
+    'create-price-range' => 'Price range',
+    'create-photos' => 'Photos',
+    'create-btn-create' => 'Add',
+
+    'create-success-heading' => 'Success!',
+    'create-success-description' => '<p>You\'ve sent application successfully</p><p>We need about <b>4 hours</b> to check the data</p>',
+
     /* META */
     'meta-description-default' => 'Reviews, photos, hours, contacts',
 
