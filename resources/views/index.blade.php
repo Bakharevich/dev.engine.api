@@ -2,28 +2,6 @@
 
 @section('content')
     <style>
-        body {
-            padding-top: 50px;
-            background: #f0f1f2;
-        }
-        A {
-            /*color: #00928c;*/
-        }
-        .index-link-category:hover {
-            text-decoration: none;
-        }
-        .navbar-default {
-            background: #f53118;
-            background: #f0f1f2;
-        }
-        /*
-        .navbar-default A {
-            color: #FFF !important;
-        }
-        */
-        .blur {
-            -webkit-filter: blur(10px); filter: blur(10px);
-        }
         .index-bg {
             background: linear-gradient(
                 to bottom,
@@ -76,7 +54,32 @@
                     @endforeach
                 </div>
             @else
-                Нет категорий.
+                {{ trans('index.index-no-categories') }}
+            @endif
+
+            @if (count($news) > 0)
+                <h2>{{ trans('index.index-news') }}</h2>
+
+                <div class="row index-news">
+                    @foreach ($news as $post)
+                    <div class="col-md-3">
+                        <div class="index-news-block">
+                            <a href="{{ $post->url }}">
+                                @if ($post->photo)
+                                <img src="{{ $post->photo }}" class="img-responsive" />
+                                @endif
+
+                                <div class="index-news-block-description">
+                                    <p class="title"><b>{{ $post->title }}</b></p>
+
+                                    <p>{{ str_limit($post->description, 100) }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                <!-- /News -->
             @endif
 
             <div class="text-center" style="font-size: 0.85em; line-height: 1.3em; color: #666;">
