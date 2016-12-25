@@ -7,7 +7,11 @@ Route::get('/companies/create', 'Web\CompanyController@create');
 Route::post('/companies/create', 'Web\CompanyController@store');
 Route::get('/companies/success', 'Web\CompanyController@success');
 Route::get('/page/{slug}', 'Web\PageController@show');
+Route::get('/blog/{slug}', 'Web\NewsController@show');
 Route::get('/logout', 'Auth\LoginController@logout');
+
+Route::get('/admin/companies', 'Admin\CompanyController@index');
+
 Auth::routes();
 
 $domains = [
