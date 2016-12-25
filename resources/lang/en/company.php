@@ -11,7 +11,7 @@ return [
 
     /* ADD A BUSINESS */
     'create-heading' => 'Add a Business',
-    'create-category' => 'Выберите категорию',
+    'create-category' => 'Category',
     'create-name' => 'Name',
     'create-address' => 'Address',
     'create-tel' => 'Telephone',
