@@ -19,6 +19,10 @@
 
 
         }
+        body {
+            padding-top: 50px;
+            background: #f0f1f2;
+        }
     </style>
 
     <div style="padding-bottom: 10px;">
