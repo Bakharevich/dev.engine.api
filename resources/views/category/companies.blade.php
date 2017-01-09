@@ -12,6 +12,7 @@
     .company-premium {
         background: #fff1c7;
         padding-top: 15px;
+        padding-bottom: 15px;
         border-radius: 4px;
     }
     .company-premium A {
