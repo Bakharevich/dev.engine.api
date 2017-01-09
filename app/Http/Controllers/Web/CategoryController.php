@@ -26,10 +26,16 @@ class CategoryController extends Controller
             $companies = Company::whereHas('options', function ($query) use ($selectedOptions) {
                 // if have options, get companies with them
                 if (!empty($selectedOptions)) $query->whereIn('option_id', $selectedOptions);
-            })->where('category_id', $category->id)->paginate(20);
+            })
+                ->where('category_id', $category->id)
+                ->orderBy('is_premium', 'desc')
+                ->paginate(20);
         }
         else {
-            $companies = Company::with('options')->where('category_id', $category->id)->paginate(20);
+            $companies = Company::with('options')
+                ->where('category_id', $category->id)
+                ->orderBy('is_premium', 'desc')
+                ->paginate(20);
         }
 
         // generate meta
