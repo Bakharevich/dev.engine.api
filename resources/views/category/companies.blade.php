@@ -9,12 +9,19 @@
         font-weight: bold;
 
     }
+    .company-premium {
+        background: #fff1c7;
+        padding-top: 15px;
+        border-radius: 4px;
+    }
+    .company-premium A {
+        color: #cd4500;
+    }
 </style>
 
 @if (count($companies) > 0)
-
         @foreach ($companies as $company)
-            <div class="row" style="margin-bottom: 30px;">
+            <div class="row @if(!empty($company->is_premium)) company-premium @endif" style="margin-bottom: 30px;">
                 <div class="col-sm-3">
                     <a href="{{ $company->url }}">
                         @if ($company->main_photo_url)
