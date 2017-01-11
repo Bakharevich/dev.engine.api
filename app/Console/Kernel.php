@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\ProcessScraper::class,
-        Commands\GenerateSitemap::class
+        Commands\GenerateSitemap::class,
+        Commands\PrepareSite::class,
     ];
 
     /**
