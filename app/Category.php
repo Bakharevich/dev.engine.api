@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $table = 'categories';
-    protected $fillable = [];
+    protected $fillable = [
+        'site_id', 'city_id', 'category_group_id', 'name', 'name_single', 'description_top', 'description_bottom', 'domain', 'icon',
+        'url'
+    ];
 
     /* Relationships */
     public function country()
