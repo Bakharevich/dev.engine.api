@@ -24,3 +24,7 @@ Artisan::command('scrape', function () {
 Artisan::command('sitemap', function () {
     Artisan::call('sitemap:generate');
 })->describe('Generate sitemap.xml for every site');
+
+Artisan::command('prepare', function () {
+    Artisan::call('scrapers:prepare-site');
+})->describe('Creating new categories, jobs and other stuff');
