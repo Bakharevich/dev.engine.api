@@ -16,7 +16,7 @@ class DefineCity
      */
     public function handle($request, Closure $next)
     {
-        $cities = City::where('country_id', $request->site->country_id)->get();
+        $cities = City::where('country_id', $request->site->country_id)->where('is_active', 1)->orderBy('population', 'desc')->get();
         $request->merge(compact('cities'));
 
         return $next($request);
