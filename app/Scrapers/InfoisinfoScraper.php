@@ -149,7 +149,9 @@ class InfoisinfoScraper
 
         if (!empty($matches[1][0])) {
             $descrip = str_replace('\r\n\r\n\r\n', '<br/>', $matches[1][0]);
+            $descrip = str_replace('\r\n\r\n', '<br/>', $matches[1][0]);
             $descrip = str_replace('\n\n', '<br/>', $descrip);
+            $descrip = str_replace('\r\n', '<br/>', $descrip);
             $descrip = str_replace('\u', ' &dash; ', $descrip);
 
             $descrip = strip_tags($descrip, '<br>');
