@@ -33,14 +33,14 @@ class Scraper  {
             //['proxy' => 'http://RUS185759:iaNDMQh6b2@146.185.201.243:8080']
             );
 
-            $file = $res->getBody()->getContents();
+            $body = $res->getBody()->getContents();
 
-            $this->source = $file;
+            $this->source = $body;
 
-            return $file;
+            return $body;
         }
         catch (GuzzleHttp\Exception\ClientException $e) {
-            echo "Problem with url " . $e->getMessage();
+            echo "!!! Problem with url: " . $e->getMessage();
 
             return '';
         }
@@ -232,7 +232,7 @@ class Scraper  {
                 ]);
             }
             else {
-                return false;
+                $lastPhoto = false;
             }
         }
 
