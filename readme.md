@@ -21,4 +21,18 @@ It's using all parts of Laravel framework:
 - setup .env file with your credentials
 - php artisan migrate
 
+## Customer Artisan commands
+
+Prepare site - get cities, categories, generate jobs:
+
+`
+php artisan scrapers:prepare-site target our-domain
+`
+
+Start scraping:
+
+`
+php artisan scrape
+`
+
 To be continued...
