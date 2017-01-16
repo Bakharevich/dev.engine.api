@@ -36,12 +36,14 @@ class Scraper  {
             $file = $res->getBody()->getContents();
 
             $this->source = $file;
+
+            return $file;
         }
         catch (GuzzleHttp\Exception\ClientException $e) {
             echo "Problem with url " . $e->getMessage();
-        }
 
-        return $file;
+            return '';
+        }
     }
 
     public function checkIfExists($siteId, $scraperUnique)
@@ -204,27 +206,34 @@ class Scraper  {
         foreach ($photos as $url) {
             $file = $this->request($url);
 
-            // get image extension
-            $extension = File::extension($url);
+            if (!empty($file)) {
 
-            // use default extension as some sites returns photos without it
-            if (empty($extension)) $extension = "jpg";
+                // get image extension
+                $extension = File::extension($url);
 
-            // generate unique name
-            $name = uniqid() . "." . $extension;
+                // use default extension as some sites returns photos without it
+                if (empty($extension)) $extension = "jpg";
 
-            // resize and save photos
-            Image::make($file)
-                ->save($this->getParam('media_path') . "companies/" . $name, 75)
-                ->fit(500, null, function($constraint) {})
-                ->save($this->getParam('media_path') . "companies/500/" . $name, 75);
+                // generate unique name
+                $name = uniqid() . "." . $extension;
 
-            // add photo to DB
-            $lastPhoto = CompanyPhoto::create([
-                'company_id' => $companyId ,
-                'filename' => $name,
-                'url' => $this->getParam('media_url') . 'companies/500/' . $name
-            ]);
+                // resize and save photos
+                Image::make($file)
+                    ->save($this->getParam('media_path') . "companies/" . $name, 75)
+                    ->fit(500, null, function ($constraint) {
+                    })
+                    ->save($this->getParam('media_path') . "companies/500/" . $name, 75);
+
+                // add photo to DB
+                $lastPhoto = CompanyPhoto::create([
+                    'company_id' => $companyId,
+                    'filename' => $name,
+                    'url' => $this->getParam('media_url') . 'companies/500/' . $name
+                ]);
+            }
+            else {
+                return false;
+            }
         }
 
         return $lastPhoto;
