@@ -26,15 +26,20 @@ class Scraper  {
     {
         $client = new GuzzleHttp\Client();
 
-        $res = $client->request(
-            'GET',
-            $url
+        try {
+            $res = $client->request(
+                'GET',
+                $url
             //['proxy' => 'http://RUS185759:iaNDMQh6b2@146.185.201.243:8080']
-        );
+            );
 
-        $file = $res->getBody()->getContents();
+            $file = $res->getBody()->getContents();
 
-        $this->source = $file;
+            $this->source = $file;
+        }
+        catch (GuzzleHttp\Exception\ClientException $e) {
+            echo "Problem with url " . $e->getMessage();
+        }
 
         return $file;
     }
