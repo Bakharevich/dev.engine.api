@@ -149,10 +149,15 @@ class InfoisinfoScraper
 
         if (!empty($matches[1][0])) {
             $descrip = str_replace('\r\n\r\n\r\n', '<br/>', $matches[1][0]);
-            $descrip = str_replace('\r\n\r\n', '<br/>', $matches[1][0]);
+            $descrip = str_replace('\r\n\r\n', '<br/>', $descrip);
             $descrip = str_replace('\n\n', '<br/>', $descrip);
             $descrip = str_replace('\r\n', '<br/>', $descrip);
             $descrip = str_replace('\u', ' &dash; ', $descrip);
+            $descrip = str_replace('\u', ' &dash; ', $descrip);
+            $descrip = str_replace('\t', ' ', $descrip);
+            $descrip = str_replace('\n', ' ', $descrip);
+            $descrip = str_replace('\"', '"', $descrip);
+            $descrip = str_replace('\/', ' ', $descrip);
 
             $descrip = strip_tags($descrip, '<br>');
         }
@@ -210,6 +215,7 @@ class InfoisinfoScraper
             'Friday' => 'Fri',
             'Saturday' => 'Sat',
             'Sunday' => 'Sun',
+            'Mondays to fridays' => 'Mon'
         ];
 
         return $days[$day];
