@@ -21,7 +21,8 @@ class InfoisinfoScraper
 {
     public static function getCompaniesList($page, $limit = 0)
     {
-        $reg = '|<a itemprop="url" href="(.+?)">|';
+        $reg = '|<a class="titcom titlex" href="(.+?)".*?>(.+?)</a>
+        |';
 
         preg_match_all($reg, $page, $companiesScraped);
 
@@ -29,9 +30,7 @@ class InfoisinfoScraper
         if (!empty($companiesScraped)) {
             foreach ($companiesScraped[1] as $index => $value) {
                 $companies[] = [
-                    'domain' => $value,
-                    'page' => $value,
-                    'photos' => $value . 'foto/',
+                    'domain' => $companiesScraped[1][$index]
                 ];
             }
         }
@@ -149,7 +148,8 @@ class InfoisinfoScraper
         $descrip = "";
 
         if (!empty($matches[1][0])) {
-            $descrip = str_replace('\n\n', '<br/>', $matches[1][0]);
+            $descrip = str_replace('\r\n\r\n\r\n', '<br/>', $matches[1][0]);
+            $descrip = str_replace('\n\n', '<br/>', $descrip);
             $descrip = str_replace('\u', ' &dash; ', $descrip);
 
             $descrip = strip_tags($descrip, '<br>');
