@@ -65,7 +65,8 @@ class Infoisinfo extends Scraper implements ScraperInterface
             // get photo page
             $photos = InfoisinfoScraper::photos($companyPage);
             if (!empty($photos)) {
-                $this->processPhotos($companyInfo->id, $photos);
+                $lastPhoto = $this->processPhotos($companyInfo->id, $photos);
+                $companyInfo->main_photo_url = $lastPhoto->url;
             }
 
             // save updated columns
