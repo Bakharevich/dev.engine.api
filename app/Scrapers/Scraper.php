@@ -202,6 +202,9 @@ class Scraper  {
             // get image extension
             $extension = File::extension($url);
 
+            // use default extension as some sites returns photos without it
+            if (empty($extension)) $extension = "jpg";
+
             // generate unique name
             $name = uniqid() . "." . $extension;
 
