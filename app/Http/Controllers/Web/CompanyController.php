@@ -15,6 +15,7 @@ use App\Http\Requests;
 
 use App\Category;
 use App\Company;
+use App\City;
 use App\Http\Requests\CompanyCreate;
 
 
@@ -62,7 +63,18 @@ class CompanyController extends Controller
                             }])->
                             with('hours')->
                             where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
-        //dd($company);
+
+        if (!$company) {
+            throw new HttpException(404);
+        }
+
+        // get city of company
+        $city = City::where('id', $company->category->city_id)->first();
+        //dd($city);
+        if (!$city) {
+            throw new HttpException(404);
+        }
+        $request->merge(compact('city'));
 
         /**********************
          *      SET META

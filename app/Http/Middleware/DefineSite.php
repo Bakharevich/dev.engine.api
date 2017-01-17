@@ -24,7 +24,7 @@ class DefineSite
             $request->domain = preg_replace("|" . $request->companyDomain . "\.|", "", $request->domain);
         }
 
-        $site = Site::with('city')->where('domain', $request->domain)->first();
+        $site = Site::where('domain', $request->domain)->first();
 
         if (!isset($site->id)) {
             throw new \Exception('Invalid site host');

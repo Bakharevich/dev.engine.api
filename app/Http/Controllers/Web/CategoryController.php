@@ -9,17 +9,32 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Category;
 use App\Company;
+use App\City;
 use Input;
 use DB;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CategoryController extends Controller
 {
-    public function show(Request $request, $city, $domain)
+    public function show(Request $request, $cityDomain, $domain)
     {
         $selectedOptions = $request->input('option', []);
 
+        // get city
+        $city = City::where('country_id', $request->site->country_id)->where('domain', $cityDomain)->first();
+        if (!$city) {
+            throw new HttpException(404);
+        }
+        $request->merge(compact('city'));
+
         // get category with options
-        $category = Category::with('options_groups.options')->where('domain', $domain)->where('site_id', $request->site->id)->first();
+        $category = Category::with('options_groups.options')->
+            where('domain', $domain)->
+            where('city_id', $city->id)->
+            first();
+        if (!$category) {
+            throw new HttpException(404);
+        }
 
         // if there are selected companies, need different query
         if (!empty($selectedOptions)) {

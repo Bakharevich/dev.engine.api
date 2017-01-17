@@ -22,12 +22,14 @@
             <div class="btn-group">
                 <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="glyphicon glyphicon-map-marker"></span>
-                    @foreach (Request::get('cities') as $city)
-                        @if ($city->id == Request::get('site')->city_id)
-                            {{ $city->name }}
-                            @break
-                        @endif
-                    @endforeach
+                    @if (!empty(Request::get('city')->id))
+                        @foreach (Request::get('cities') as $city)
+                            @if ($city->id == Request::get('city')->id)
+                                {{ $city->name }}
+                                @break
+                            @endif
+                        @endforeach
+                    @endif
                 </a>
 
                 <ul class="dropdown-menu">
