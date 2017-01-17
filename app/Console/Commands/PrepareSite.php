@@ -146,6 +146,7 @@ class PrepareSite extends Command
                             'category_group_id' => 0,
                             'name' => $name,
                             'name_single' => $name,
+                            'meta_title' => $name . ' in ' . $cityData->name,
                             'description_top' => '',
                             'description_bottom' => '',
                             'domain' => $newDomain,
