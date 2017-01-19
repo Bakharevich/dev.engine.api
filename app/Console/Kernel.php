@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\ProcessScraper::class,
         Commands\GenerateSitemap::class,
         Commands\PrepareSite::class,
+        Commands\UpdateCompaniesPosition::class
     ];
 
     /**
