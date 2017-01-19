@@ -86,7 +86,7 @@ class CompanyController extends Controller
         }
         else {
             $metaTitle = $company->category->name_single . " " . $company->name .
-                " " . trans('cities.in') . " " . trans('cities.' . $request->site->city->name . '_where');
+                " - " . $city->name;
         }
 
         // description
@@ -96,7 +96,7 @@ class CompanyController extends Controller
         else {
             $metaDescription =
                 $company->category->name_single . " " . $company->name .
-                " " . trans('cities.in') . " " . trans('cities.' . $request->site->city->name . '_where') . ". 
+                " - " . $city->name . ". 
                 " . trans('company.meta-description-default');
         }
 
@@ -106,7 +106,7 @@ class CompanyController extends Controller
         }
         else {
             $metaKeywords =
-                $company->name . ", " . $company->category->name_single . ", " . trans('cities.' . $request->site->city->name)
+                $company->name . ", " . $company->category->name_single . ", " . $city->name
                  . ", " . trans('company.meta-description-default');
         }
 
