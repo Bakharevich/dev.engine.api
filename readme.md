@@ -35,4 +35,10 @@ Start scraping:
 php artisan scrape
 `
 
+Update companies positions to move nice companies to the top:
+
+`
+php artisan companies:update-position SITE_ID
+`
+
 To be continued...
