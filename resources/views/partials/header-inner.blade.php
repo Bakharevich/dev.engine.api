@@ -16,7 +16,7 @@
             </form>
         </div>
         <div class="col-sm-5 col-md-4 text-right site-header-buttons">
-            <a href="/companies/create" class="btn btn-chatoff">{{ trans('common.footer_add_business') }}</a>
+            <a href="http://<?= Request::get('site')->domain ?>/companies/create" class="btn btn-chatoff">{{ trans('common.footer_add_business') }}</a>
             &nbsp;&nbsp;
 
             <div class="btn-group">
