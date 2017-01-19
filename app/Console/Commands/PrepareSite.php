@@ -2,11 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\CategoryGroup;
 use Illuminate\Console\Command;
 use App\Site;
 use App\City;
 use App\JobScraper;
 use App\Category;
+use MongoDB\Driver\Exception\AuthenticationException;
 
 class PrepareSite extends Command
 {
@@ -45,6 +47,7 @@ class PrepareSite extends Command
 
         $target = $this->argument('target');
         $domain = $this->argument('domain');
+
         $citiesLimit = $this->ask('How many cities you want to add?', 0);
 
         // check if domain has http
@@ -136,7 +139,7 @@ class PrepareSite extends Command
                             ->first();
 
                         if ($existingCategory) {
-                            $this->info("Category {$name} exists");
+                            $this->line("Category {$name} exists");
                             continue;
                         }
 
@@ -184,7 +187,56 @@ class PrepareSite extends Command
                     }
                 }
 
-                //exit();
+                // add categories group
+                $groups = $this->getGroups();
+
+                if (!empty($groups)) {
+                    foreach ($groups as $group) {
+                        $name1 = !empty($group['name1']) ? $group['name1'] : '';
+                        $name2 = !empty($group['name2']) ? $group['name2'] : '';
+
+                        // check if such group exists
+                        $check = CategoryGroup::where('site_id', $siteId)->
+                            where('city_id', $cityData->id)->
+                            where('name1', $name1)->
+                            where('name2', $name2)->
+                            first();
+
+                        if (!$check) {
+                            CategoryGroup::create([
+                                'site_id' => $siteId,
+                                'city_id' => $cityData->id,
+                                'name1' => $name1,
+                                'name2' => $name2
+                            ]);
+
+                            $this->info("Group {$name1} added");
+                        }
+                        else {
+                            $this->line("Group {$name1} exist. Skipped.");
+                        }
+                    }
+                }
+
+                // put all categories in categories_group
+                $this->info('Add categories in categories_group');
+                $categories = Category::where('site_id', $siteId)->where('city_id', $cityData->id)->get();
+
+                foreach ($categories as $category) {
+                    $groupId = $this->getGroupId($siteId, $cityData->id, $category->name);
+
+                    if (!empty($groupId)) {
+                        if (empty($category->category_group_id)) {
+                            $category->category_group_id = $groupId;
+                            $category->save();
+
+                            $this->info("Category {$category->name} added to group {$groupId}");
+                        }
+                    }
+                    else {
+                        $this->error("Couldn't find group for category {$category->name}");
+                    }
+                }
             }
             else {
                 $this->error("{$city['name']} not exists");
@@ -216,6 +268,104 @@ class PrepareSite extends Command
         curl_close ($ch);
 
         return $data;
+    }
+
+    protected function getGroups()
+    {
+        $res = [];
+
+        $arr = $this->getGroupedCategories();
+        foreach ($arr as $index => $value) {
+            $exploded = explode(" ", $index);
+
+            if (count($exploded) > 1) {
+                $res[] = [
+                    'name1' => $exploded[0],
+                    'name2' => $exploded[1]
+                ];
+            }
+            else {
+                $res[] = [
+                    'name1' => $exploded[0]
+                ];
+            }
+        }
+
+        return $res;
+    }
+
+    protected function getGroupId($siteId, $cityId, $name)
+    {
+        // find group name by category name
+        $categoriesInGroups = $this->getGroupedCategories();
+
+        $groupName = "";
+        $groupId = 0;
+
+        foreach ($categoriesInGroups as $group => $arr) {
+            foreach ($arr as $category) {
+                if ($category == $name) {
+                    $groupName = $group;
+                    break;
+                }
+            }
+        }
+
+        if (!empty($groupName)) {
+            // find id of group
+            $exploded = explode(" ", $groupName);
+
+            if (count($exploded) > 1) {
+                $result = CategoryGroup::where('site_id', $siteId)->
+                    where('city_id', $cityId)->
+                    where('name1', $exploded[0])->
+                    where('name2', $exploded[1])->
+                    first();
+
+                if ($result) $groupId = $result->id;
+            }
+            else {
+                $result = CategoryGroup::where('site_id', $siteId)->
+                    where('city_id', $cityId)->
+                    where('name1', $exploded[0])->
+                    first();
+
+                if ($result) $groupId = $result->id;
+            }
+        }
+
+        return $groupId;
+    }
+
+    protected function getGroupedCategories()
+    {
+        $categoriesInGroups['Public Services'] = [
+            'Restaurant', 'Hotel', 'Tourism', 'Travel', 'Dance', 'Film', 'Sports', 'Beauty', 'Beauty Parlour',
+            'College', 'School', 'Doctor', 'Health', 'Homeopathy', 'Hospital', 'Medicine','Book'
+        ];
+        $categoriesInGroups['Home Services'] = [
+            'Air Conditioner', 'Bed', 'Home', 'Kitchen', 'Real Estate', 'Tiles'
+        ];
+        $categoriesInGroups['Professional Services'] = [
+            'Accounting', 'Advertising', 'Box', 'Computer', 'Computer Hardware', 'Computer Software', 'Design', 'Electricity',
+            'Energy', 'Engineering', 'Environment', 'Fan', 'Gas', 'Hardware', 'Houses', 'Internet', 'Iron', 'Logistics',
+            'Marketing', 'Mobile', 'Music', 'Paper', 'Plastic', 'Power', 'Rice', 'Sales', 'Security', 'Share Market',
+            'Software', 'Steel', 'Ups', 'Video', 'Web', 'Web Designing', 'www', 'Machine', 'Cotton', 'Construction',
+            'Aluminium', 'Agriculture', 'Customized .Net Application', 'Courier', 'Courier Services', 'Coffee', 'Food', 'Tea'
+        ];
+        $categoriesInGroups['Automotive'] = [
+            'Automobile', 'Bikes', 'Car', 'Car Accessories', 'Transport'
+        ];
+        $categoriesInGroups['Financial Services'] = [
+            'Bank', 'Banking', 'Finance', 'Insurance'
+        ];
+        $categoriesInGroups['Shopping'] = [
+            'Battery', 'Camera', 'Craft', 'Diamond Jewellery', 'Diamond Rings', 'Dress', 'Fashion', 'Footwear', 'Furniture',
+            'Gems', 'Gift', 'Gold', 'Jeans', 'Jewellery', 'Jewelry', 'Mobile Phone', 'Saree', 'Shirts', 'Shop', 'T-Shirt', 'Diamond',
+            'Bags'
+        ];
+
+        return $categoriesInGroups;
     }
 
     protected function getIconByName($category)
