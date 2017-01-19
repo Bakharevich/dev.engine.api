@@ -44,12 +44,14 @@ class CategoryController extends Controller
             })
                 ->where('category_id', $category->id)
                 ->orderBy('is_premium', 'desc')
+                ->orderBy('pos', 'asc')
                 ->paginate(20);
         }
         else {
             $companies = Company::with('options')
                 ->where('category_id', $category->id)
                 ->orderBy('is_premium', 'desc')
+                ->orderBy('pos', 'asc')
                 ->paginate(20);
         }
 
