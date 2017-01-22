@@ -21,7 +21,7 @@
                 <form action="" method="GET" id="form_options">
                     <div class="btn-group btn-group-sm" role="group" aria-label="..." style="margin-right: 5px;">
                         @for($i=1;$i<5;$i++)
-                            <button type="button" class="btn btn-default one-click">
+                            <button type="button" class="btn btn-default one-click"  onclick="alert('{{ trans('common.alert-not-done') }}');">
                                 @for($c=0; $c<$i; $c++){{ Request('site')->currency }}@endfor
                             </button>
                         @endfor
