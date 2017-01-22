@@ -26,8 +26,10 @@
                         <button type="button" class="btn btn-default one-click">&pound;&pound;&pound;&pound;</button>
                     </div>
 
-                    <button class="btn btn-default btn-sm one-click" style="margin-right: 5px;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ trans('category.option-open-now') }}</button>
+                    <button class="btn btn-default btn-sm one-click" style="margin-right: 5px;" onclick="alert('{{ trans('common.alert-not-done') }}');"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ trans('category.option-open-now') }}</button>
+                    <!--
                     <button class="btn btn-default btn-sm one-click" style="margin-right: 7px;"><i class="fa fa-wifi" aria-hidden="true"></i> {{ trans('category.option-wifi') }}</button>
+                    -->
 
                     @if ($category->options_groups)
                         @foreach ($category->options_groups as $options_group)
