@@ -20,10 +20,11 @@
             <div style="padding: 0px 14px; margin-bottom: 13px;">
                 <form action="" method="GET" id="form_options">
                     <div class="btn-group btn-group-sm" role="group" aria-label="..." style="margin-right: 5px;">
-                        <button type="button" class="btn btn-default one-click">&pound;</button>
-                        <button type="button" class="btn btn-default one-click">&pound;&pound;</button>
-                        <button type="button" class="btn btn-default one-click">&pound;&pound;&pound;</button>
-                        <button type="button" class="btn btn-default one-click">&pound;&pound;&pound;&pound;</button>
+                        @for($i=1;$i<5;$i++)
+                            <button type="button" class="btn btn-default one-click">
+                                @for($c=0; $c<$i; $c++){{ Request('site')->currency }}@endfor
+                            </button>
+                        @endfor
                     </div>
 
                     <button class="btn btn-default btn-sm one-click" style="margin-right: 5px;" onclick="alert('{{ trans('common.alert-not-done') }}');"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ trans('category.option-open-now') }}</button>
