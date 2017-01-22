@@ -72,6 +72,11 @@ class CompanyController extends Controller
 
         $selectedOptions = $request->input('option', []);
 
+        // get category with options
+        $category = Category::with('options_groups.options')->
+                        where('id', $request->input('category_id'))->
+                        first();
+
         // get company
         $companies = Company::whereHas('options', function($query) use ($selectedOptions) {
             // if have options, get companies with them
@@ -82,6 +87,7 @@ class CompanyController extends Controller
         $companies->setPath('');
 
         return view('category.companies', [
+            'category' => $category,
             'companies' => $companies,
             'selectedOptions' => $selectedOptions
         ]);
