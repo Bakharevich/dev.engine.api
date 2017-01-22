@@ -7,6 +7,7 @@ use DB;
 use App\Site;
 use App\Category;
 use App\Company;
+use App\News;
 
 class GenerateSitemap extends Command
 {
@@ -41,7 +42,7 @@ class GenerateSitemap extends Command
      */
     public function handle()
     {
-        echo "Started to generate sitemap.xml...\n";
+        $this->info("Started to generate sitemap.xml...");
 
         // main sitemap file
         $xmlSitemapIndex = new \SimpleXMLElement('<sitemapindex />');
@@ -51,7 +52,7 @@ class GenerateSitemap extends Command
         $sites = Site::all();
 
         foreach ($sites as $site) {
-            echo "\n=== " . $site->domain . " ===\n\n";
+            $this->info($site->domain);
 
             // init xml
             $xml = new \SimpleXMLElement('<urlset />');
@@ -64,29 +65,61 @@ class GenerateSitemap extends Command
              */
             $categories = Category::where('site_id', $site->id)->get();
 
-            foreach ($categories as $category) {
-                echo "Category " . $category->name . "\n";
+            if (!empty($categories)) {
+                foreach ($categories as $category) {
+                    $this->line("Category " . $category->name);
 
-                $url = $xml->addChild('url');
-                $url->addChild('loc', $category->url);
-                $url->addChild('priority', 0.9);
-
-                /*
-                 * COMPANIES
-                 */
-                $companies = Company::where('category_id', $category->id)->get();
-
-                foreach ($companies as $company) {
                     $url = $xml->addChild('url');
-                    $url->addChild('loc', $company->url);
-                    $url->addChild('priority', 0.8);
-                    $url->addChild('lastmod', date("c", strtotime($company['updated_at'])));
+                    $url->addChild('loc', $category->url);
+                    $url->addChild('priority', 0.9);
+
+                    /*
+                     * COMPANIES
+                     */
+                    $companies = Company::where('category_id', $category->id)->get();
+
+                    foreach ($companies as $company) {
+                        if (!preg_match("|/$|", $company->url)) $companyUrl = $company->url . "/";
+                        else $companyUrl = $company->url;
+
+                        // main company URL
+                        $url = $xml->addChild('url');
+                        $url->addChild('loc', $company->url);
+                        $url->addChild('priority', 0.8);
+                        $url->addChild('lastmod', date("c", strtotime($company['updated_at'])));
+
+                        // reviews
+                        $url = $xml->addChild('url');
+                        $url->addChild('loc', $companyUrl . 'reviews');
+                        $url->addChild('priority', 0.7);
+                        $url->addChild('lastmod', date("c", strtotime($company['updated_at'])));
+
+                        // photos
+                        $url = $xml->addChild('url');
+                        $url->addChild('loc', $companyUrl . 'photos');
+                        $url->addChild('priority', 0.7);
+                        $url->addChild('lastmod', date("c", strtotime($company['updated_at'])));
+                    }
+                }
+            }
+
+            /*
+             * NEWS
+             */
+            $news = News::where('site_id', $site->id)->get();
+
+            if (!empty($news)) {
+                foreach ($news as $new) {
+                    $url = $xml->addChild('url');
+                    $url->addChild('loc', $new->url);
+                    $url->addChild('priority', 0.7);
+                    $url->addChild('lastmod', date("c", strtotime($new['updated_at'])));
                 }
             }
 
             $xml->asXML("public/sitemaps/sitemap_{$site->domain}.xml");
         }
 
-        echo "\nGeneration finished.\n";
+        $this->info('Generation finished');
     }
 }

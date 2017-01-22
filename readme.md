@@ -41,4 +41,10 @@ Update companies positions to move nice companies to the top:
 php artisan companies:update-position SITE_ID
 `
 
+Generate sitemap for all sites:
+
+`
+php artisan sitemap-generate
+`
+
 To be continued...
