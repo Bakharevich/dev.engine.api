@@ -9,7 +9,7 @@ class Category extends Model
     protected $table = 'categories';
     protected $fillable = [
         'site_id', 'city_id', 'category_group_id', 'name', 'name_single', 'description_top', 'description_bottom', 'domain', 'icon',
-        'url'
+        'url', 'image', 'meta_image', 'meta_keywords', 'meta_description', 'meta_title', 'created_at', 'updated_at'
     ];
 
     /* Relationships */
