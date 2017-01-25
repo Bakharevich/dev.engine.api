@@ -29,6 +29,12 @@ Prepare site - get cities, categories, generate jobs:
 php artisan scrapers:prepare-site target our-domain
 `
 
+Prepare tam:
+
+`
+php artisan scrapers:prepare-tam ibelarus.dev
+`
+
 Start scraping:
 
 `
