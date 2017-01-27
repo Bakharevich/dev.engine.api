@@ -20,6 +20,7 @@ class CreateTableCategoryCompany extends Migration
 
             $table->index('company_id');
             $table->index('category_id');
+            $table->unique(['company_id', 'category_id']);
         });
     }
 
