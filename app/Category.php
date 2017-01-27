@@ -23,7 +23,7 @@ class Category extends Model
         return $this->hasOne(City::class);
     }
 
-    public function companies()
+    public function companies_()
     {
         return $this->hasMany('App\Company');
     }
@@ -36,6 +36,11 @@ class Category extends Model
     public function options_groups()
     {
         return $this->belongsToMany('App\OptionGroup');
+    }
+
+    public function companies()
+    {
+        return $this->belongsToMany('App\Company', 'category_company', 'category_id', 'company_id');
     }
 
     /* Scopes */
