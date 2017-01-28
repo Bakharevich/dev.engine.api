@@ -61,6 +61,8 @@ class CompanyRepository {
             $query->whereIn('company_option.option_id', $selectedOptions);
         }
 
+        $query->orderBy('is_premium', 'desc')->orderBy('pos', 'asc');
+
         $companies = $query->paginate(20);
 
         return $companies;
