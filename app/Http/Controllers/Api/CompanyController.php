@@ -12,6 +12,11 @@ use Validator;
 use DB;
 class CompanyController extends Controller
 {
+    public function __construct()
+    {
+        $this->companyRepository = new \App\Repositories\CompanyRepository();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -41,19 +46,8 @@ class CompanyController extends Controller
         // set page values for paginator
         $request->page = $request->input('page', 1);
 
-        // get companies for category
-        if (!empty($selectedOptions)) {
-            $companies = Company::whereHas('options', function ($query) use ($selectedOptions) {
-                // if have options, get companies with them
-                if (!empty($selectedOptions)) $query->whereIn('option_id', $selectedOptions);
-            })->where('category_id', $request->input('category_id'))->paginate(20);
-        }
-        else {
-            $companies = Company::with('options')->where('category_id', $request->input('category_id'))->paginate(20);
-        }
-
-
-        //print_r(DB::getQueryLog());
+        // get companies from repo
+        $companies = $this->companyRepository->getByCategory($request->input('category_id'), $selectedOptions);
 
         return response()->json(
             $companies
@@ -77,11 +71,8 @@ class CompanyController extends Controller
                         where('id', $request->input('category_id'))->
                         first();
 
-        // get company
-        $companies = Company::whereHas('options', function($query) use ($selectedOptions) {
-            // if have options, get companies with them
-            if (!empty($selectedOptions)) $query->whereIn('option_id', $selectedOptions);
-        })->where('category_id', $request->input('category_id'))->paginate(20);
+        // get companies from repo
+        $companies = $this->companyRepository->getByCategory($request->input('category_id'), $selectedOptions);
 
         // set custom link for pagination
         $companies->setPath('');

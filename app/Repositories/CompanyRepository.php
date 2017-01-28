@@ -47,4 +47,27 @@ class CompanyRepository {
 
         return $company;
     }
+
+    public function getByCategory($categoryId, $selectedOptions)
+    {
+        $query = Company::query();
+
+        // get companies for specific categories
+        $query->whereHas('categories', function ($query) use ($categoryId) {
+            $query->where('category_id', $categoryId);
+        });
+
+        // get according options
+        if (!empty($selectedOptions)) {
+            $query->whereHas('options', function ($query) use ($selectedOptions) {
+                if (!empty($selectedOptions)) $query->whereIn('option_id', $selectedOptions);
+            });
+        }
+
+        $query->orderBy('is_premium', 'desc')->orderBy('pos', 'asc');
+
+        $companies = $query->paginate(20);
+
+        return $companies;
+    }
 }

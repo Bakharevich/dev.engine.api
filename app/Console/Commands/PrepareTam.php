@@ -144,7 +144,7 @@ class PrepareTam extends Command
                             'category_group_id' => 0,
                             'name' => $name,
                             'name_single' => $name,
-                            'meta_title' => $name . ', ' . $city->name,
+                            'meta_title' => $name . ' в ' . $city->name_where,
                             'description_top' => '',
                             'description_bottom' => '',
                             'domain' => $newDomain,

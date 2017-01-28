@@ -38,4 +38,9 @@ class Company extends Model
     {
         return $this->hasMany('App\CompanyHour');
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany('App\Category', 'category_company', 'company_id', 'category_id');
+    }
 }
