@@ -50,15 +50,23 @@ class CompanyRepository {
 
     public function getByCategory($categoryId, $selectedOptions)
     {
-        $companies = Company::whereHas('categories', function ($query) use ($categoryId) {
+        $query = Company::query();
+
+        // get companies for specific categories
+        $query->whereHas('categories', function ($query) use ($categoryId) {
             $query->where('category_id', $categoryId);
-        })->
-        whereHas('options', function ($query) use ($selectedOptions) {
-            if (!empty($selectedOptions)) $query->whereIn('option_id', $selectedOptions);
-        })->
-        orderBy('is_premium', 'desc')->
-        orderBy('pos', 'asc')->
-        paginate(20);
+        });
+
+        // get according options
+        if (!empty($selectedOptions)) {
+            $query->whereHas('options', function ($query) use ($selectedOptions) {
+                if (!empty($selectedOptions)) $query->whereIn('option_id', $selectedOptions);
+            });
+        }
+
+        $query->orderBy('is_premium', 'desc')->orderBy('pos', 'asc');
+
+        $companies = $query->paginate(20);
 
         return $companies;
     }
