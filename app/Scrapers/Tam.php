@@ -2,6 +2,7 @@
 namespace App\Scrapers;
 
 use App\Category;
+use App\CategoryCompany;
 use App\Company;
 use App\CompanyPhoto;
 use App\CompanyReview;
@@ -25,6 +26,8 @@ class Tam extends Scraper implements ScraperInterface
     {
         $this->limitPhotos = 20;
         $this->limitCompanies = 10; // 0 means unlimited
+
+        $this->companyRepository = new \App\Repositories\CompanyRepository();
     }
 
     public function process($url)
@@ -35,16 +38,37 @@ class Tam extends Scraper implements ScraperInterface
         // parse category for all companies
         $companies = TamScraper::getCompaniesList($categoryPage, $this->limitCompanies);
 
+        //print_r($companies); exit();
+
         foreach ($companies as $company) {
-            // check if company exists
-            $checkResult = $this->checkIfExists($this->getParam('site_id'), $company['domain']);
-            //$checkResult = '';
-            if ($checkResult) {
-                echo $company['page'] . " exists. Skipping...\n";
+            echo "Company {$company['domain']} is being processed...\n";
+
+            $checkCompany = $this->checkIfExists($this->getParam('site_id'), $company['domain']);
+
+            // if company exists, check it for category
+            if ($checkCompany) {
+                echo "Company {$checkCompany->original_url} exists. Checking category...\n";
+
+                $checkIfCompanyExistsInCategory = $this->checkIfCompanyExistInCategory($this->getParam('category_id'), $checkCompany->id);
+
+                if (!$checkIfCompanyExistsInCategory) {
+                    // company doesn't exist with that category, add it
+                    echo "Company {$checkCompany->original_url} DOES NOT exist in category {$this->getParam('category_id')}. Added.\n\n";
+
+                    CategoryCompany::create([
+                        'category_id' => $this->getParam('category_id'),
+                        'company_id' => $checkCompany->id
+                    ]);
+                }
+                else {
+                    // company exist in that category, skip it
+                    echo "Company {$checkCompany->original_url} exist in category {$this->getParam('category_id')}. Skipped.\n\n";
+                }
+
                 continue;
             }
             else {
-                echo $company['page'] . " started...\n";
+                echo "Does not exist\n";
             }
 
             // set company url
@@ -55,7 +79,9 @@ class Tam extends Scraper implements ScraperInterface
 
             // get text from page
             $companyData = $this->prepareCompany($companyPage);
-            $companyInfo = $this->processCompany($this->getParam('site_id'), $companyData);
+
+            //$companyInfo = $this->processCompany($this->getParam('site_id'), $companyData);
+            $companyInfo = CompanyRepository::create($companyData);
 
             // hours
             $hours = TamScraper::hours($companyPage);
@@ -70,13 +96,20 @@ class Tam extends Scraper implements ScraperInterface
              */
 
             // get photo page
-            $photosPage = $this->request($company['photos']);
+            //$photosPage = $this->request($company['photos']);
 
-            //$photos = TamScraper::photos($photosPage);
+            $photos = TamScraper::photos($companyPage);
+            if (!empty($photos)) {
+                echo "Has " . count($photos) . " photos\n";
 
+                $lastPhoto = $this->processPhotos($companyInfo->id, $photos);
+                $companyInfo->main_photo_url = $lastPhoto->url;
+
+                echo count($photos) . " are being processed\n";
+            }
+
+            /*
             $foursquareUrl = TamScraper::foursquareUrl($companyPage);
-
-
             if (!empty($foursquareUrl)) {
                 // reviews
                 echo "Taking reviews from Foursquare...\n";
@@ -95,11 +128,13 @@ class Tam extends Scraper implements ScraperInterface
                 $companyInfo->last_review = $lastReview;
                 $companyInfo->amount_comments = count($reviews);
             }
+            */
 
             // save updated columns
             $companyInfo->save();
 
-            echo $companyInfo->name . " added.\n";
+            echo $companyInfo->name . " added.\n\n";
+            exit();
         }
     }
 
@@ -119,26 +154,31 @@ class Tam extends Scraper implements ScraperInterface
         $data['latitude']         = TamScraper::latitude($page);
         $data['longitude']        = TamScraper::longitude($page);
         $data['description']      = TamScraper::description($page);
-        $data['domain']           = str_slug($data['name']);
         $data['scraper_unique']   = $this->getParam('company_url');
         $data['last_review']      = '';
-        $data['url']              = "http://" . $data['domain'] . "." . $this->getParam('domain') . "/";
 
-//        $data['reviews']                     = $this->getReviews($page);
-//        $data['company']['amount_comments']  = count($data['reviews']);
-//        $data['types']                       = $this->getTypes($page);
-//
-//        // add meta data
-//        $data['company']['meta_title']       = $data['company']['name'] . " - " . $this->getParam('city')->name;
-//        $data['company']['meta_keywords']    = $data['company']['name'] . ", " . $this->getParam('city')->name . ", " . $this->getParam('category')->name . ", reviews of " . $data['company']['name'];
-//        $data['company']['meta_description'] = "Reviews of " . $data['company']['name'] . " in " . $this->getParam('city')->name . ": ";
-//
-//        if (!empty($data['reviews'][0]['review'])) $data['company']['meta_description'] .= str_limit(strip_tags($data['reviews'][0]['review']), $limit = 80, $end = '...');
+        // get original slug
+        $slug = TamScraper::getSlug($this->getParam('company_url'));
+
+        // check if slug will be very long
+        if (!empty($slug)) {
+            $slugOur = strlen(str_slug($data['name']));
+            $slugOriginal = strlen($slug);
+
+            $lenDifference = abs($slugOriginal - $slugOur);
+
+            if ($lenDifference > 4) {
+                $data['domain'] = $slug;
+            }
+            else {
+                $data['domain'] = str_slug($data['name']);
+            }
+        }
+
+        $data['url'] = "http://" . $data['domain'] . "." . $this->getParam('domain') . "/";
 
         return $data;
     }
-
-
 
     public function getPagePartOfUrl($page)
     {

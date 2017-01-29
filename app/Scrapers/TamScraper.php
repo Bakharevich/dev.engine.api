@@ -28,31 +28,35 @@ class TamScraper
         $companies = [];
         if (!empty($companiesScraped)) {
             foreach ($companiesScraped[1] as $index => $value) {
+                $parse = parse_url($value);
+
+                if (!empty($parse['host'])) {
+                    $domain = $parse['scheme'] . "://" . $parse['host'] . $parse['path'];
+                }
+                else {
+                    $domain = "";
+                }
+
                 $companies[] = [
-                    'domain' => $value,
-                    'page' => $value,
-                    'photos' => $value . 'foto/',
+                    'domain' => $domain,
+                    'page' => $domain,
+                    'photos' => $domain . 'foto/',
                 ];
             }
         }
 
-        // slice to 1 company for testing purposes
+        // slice array of companies
         if (!empty($limit)) $companies = array_slice($companies, 0, $limit);
-
-//        $companies = [];
-//        $companies[] = [
-//            'page' => 'https://yelp.com/biz/museum-dental-suites-london?sort_by=date_desc',
-//            'photos' => 'https://yelp.com/biz_photos/yarok-berlin',
-//            'domain' => 'museum-dental-suites-london'
-//        ];
 
         return $companies;
     }
 
     public static function name($page)
     {
-        $reg = "|<h1 itemprop=\"name\">(.+?)</h1>|";
+        $reg = "|<h1 itemprop=\"name\".*?>(.+?)</h1>|";
         preg_match_all($reg, $page, $matches);
+
+        //print_r($matches); exit();
 
         if (!empty($matches[1][0])) {
             return trim(htmlspecialchars_decode($matches[1][0], ENT_QUOTES));
@@ -155,8 +159,10 @@ class TamScraper
 
     public static function description($page)
     {
-        $reg = "|<div class=\"b-article js-cut_wrapper\">(.+?)</div>|is";
+        $reg = "|<div.*?class=\"b-article\".*?>(.+?)</div>|is";
         preg_match_all($reg, $page, $matches);
+
+        //print_r($matches);
 
         $res = "";
 
@@ -169,7 +175,7 @@ class TamScraper
                 foreach ($descrip[1] as $par) {
                     $par = strip_tags($par, '<br>');
 
-                    if (!empty($par)) $res .= "<p>" . $par . "</p>";
+                    if (!empty($par)) $res .= "<p>" . trim($par) . "</p>";
                 }
             }
         }
@@ -249,12 +255,17 @@ class TamScraper
 
     public static function photos($page)
     {
-        // we're not taking photos, as it's tut.by
+        $reg = "|<a href=\"(.*?4sqi.net.*?)\".*?>|";
+        preg_match_all($reg, $page, $matches);
+
+        if (!empty($matches[1])) {
+            return $matches[1];
+        }
     }
 
     public static function foursquareUrl($page)
     {
-        $reg = "|<a.*?href=\"(https://foursquare.com/.+?)\" class=\"comments__type-name\">|";
+        $reg = "|<a href=\"(.*?4sqi.net.*?)\".*?>|";
         preg_match_all($reg, $page, $matches);
 
         if (!empty($matches[1][0])) {
@@ -286,5 +297,24 @@ class TamScraper
         ];
 
         return $days[$day];
+    }
+
+    public static function getSlug($url)
+    {
+        $parse = parse_url($url);
+
+        $slug = '';
+
+        if (!empty($parse['host'])) {
+            $domain = $parse['scheme'] . "://" . $parse['host'] . $parse['path'];
+
+            preg_match_all("|:\/\/(.+?)\.tam\.by|", $domain, $matches);
+
+            if (!empty($matches[1][0])) {
+                $slug = $matches[1][0];
+            }
+        }
+
+        return $slug;
     }
 }
