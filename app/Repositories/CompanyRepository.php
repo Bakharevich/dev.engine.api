@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 
+use App\CategoryCompany;
 use App\Company;
 use App\Site;
 
@@ -11,14 +12,13 @@ class CompanyRepository {
         $site = Site::find($request['site_id']);
 
         // set domain
-        $request['domain'] = str_slug($request['name']);
         $request['url'] = "http://" . $request['domain'] . "." . $site->domain . "";
 
         // check if company with such URL exists
         $ifExists = Company::where('site_id', $request['site_id'])->where('url', $request['url'])->first();
 
         if ($ifExists) {
-            for ($i = 1; $i <= 50; $i++) {
+            for ($i = 1; $i <= 100; $i++) {
                 // set new domain and url
                 $newDomain = $request['domain'] . "-" . $i;
                 $newUrl = "http://" . $newDomain . "." . $site->domain;;
@@ -44,6 +44,12 @@ class CompanyRepository {
 
         // save updated data
         $company->save();
+
+        // add to categories
+        CategoryCompany::firstOrCreate([
+            'category_id' => $request['category_id'],
+            'company_id' => $company->id
+        ]);
 
         return $company;
     }
