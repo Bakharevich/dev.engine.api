@@ -159,7 +159,7 @@ class PrepareTam extends Command
                             'category_id' => $newCategory->id,
                             'city_id' => $city->id,
                             'url' => $categoryOriginalUrl,
-                            'pages' => 15
+                            'pages' => 2
                         ]);
 
                         $this->line("Category {$name} added");
