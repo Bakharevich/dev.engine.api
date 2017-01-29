@@ -40,6 +40,11 @@ class Scraper  {
 
             return $body;
         }
+        catch (GuzzleHttp\Exception\ServerException $e) {
+            echo "!!! ERROR 500: " . $e->getMessage();
+
+            return '';
+        }
         catch (GuzzleHttp\Exception\ClientException $e) {
             echo "!!! Problem with url: " . $e->getMessage();
 

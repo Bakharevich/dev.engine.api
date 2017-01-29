@@ -25,7 +25,7 @@ class Tam extends Scraper implements ScraperInterface
     public function __construct()
     {
         $this->limitPhotos = 20;
-        $this->limitCompanies = 10; // 0 means unlimited
+        $this->limitCompanies = 0; // 0 means unlimited
 
         $this->companyRepository = new \App\Repositories\CompanyRepository();
     }
@@ -134,7 +134,7 @@ class Tam extends Scraper implements ScraperInterface
             $companyInfo->save();
 
             echo $companyInfo->name . " added.\n\n";
-            exit();
+            //exit();
         }
     }
 

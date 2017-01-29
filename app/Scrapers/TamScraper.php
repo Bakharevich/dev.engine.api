@@ -258,9 +258,15 @@ class TamScraper
         $reg = "|<a href=\"(.*?4sqi.net.*?)\".*?>|";
         preg_match_all($reg, $page, $matches);
 
-        if (!empty($matches[1])) {
-            return $matches[1];
+        $photos = [];
+
+        foreach ($matches[1] as $photo) {
+            if (!preg_match("|tam\.by|", $photo)) {
+                $photos[] = $photo;
+            }
         }
+
+        return $photos;
     }
 
     public static function foursquareUrl($page)
