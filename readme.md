@@ -21,6 +21,15 @@ It's using all parts of Laravel framework:
 - setup .env file with your credentials
 - php artisan migrate
 
+## Launch new site
+
+`
+php artisan scrapers:prepare-tam ibelarus.dev
+`
+`
+php artisan scrapers:process
+`
+
 ## Customer Artisan commands
 
 Prepare site - get cities, categories, generate jobs:
