@@ -45,13 +45,18 @@
                 <div class="row" style="margin-bottom: 20px;">
                     @foreach ($categories as $category)
                         <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 text-center" style="margin-bottom: 25px; ">
-                            <a href="{{ $category->url }}" class="index-link-category">
-                                <div style="border: 1px solid #CCC; padding: 35px 0px 35px 0px; background: #FFF; border-radius: 5px; box-shadow: 4px; box-shadow: 0 1px 3px rgba(48, 53, 64, .3);">
-                                    <div>
-                                        <i class="{{ $category->icon }}" aria-hidden="true" style="font-size: 64px;"></i>
+                            <a href="{{ $category->url }}" class="index-link-category" style="line-height: 1.2em; color: #1a65a5;">
+                                <div style="border: 1px solid #CCC; background: #FFF; border-radius: 5px; box-shadow: 0 1px 3px rgba(48, 53, 64, .3);">
+                                    <div style="margin-bottom: 10px; height: 110px; border-bottom: 1px solid #e4e4e4; padding: 20px 0px 20px 0px; margin: 0 auto;" class="text-center">
+                                        @if (!empty($category->icon))
+                                            <i class="{{ $category->icon }}" aria-hidden="true" style="font-size: 64px; color: #8a8f9a;"></i>
+                                        @else
+                                            <i class="fa fa-chevron-circle-right" aria-hidden="true" style="font-size: 64px; color: #8a8f9a;"></i>
+                                        @endif
                                     </div>
-
-                                    {{ $category->name }}
+                                    <div style="height: 65px; padding: 0px 10px 0px 10px; font-weight: bold; padding-top: 10px;">
+                                        {{ $category->name }}
+                                    </div>
                                 </div>
                             </a>
                         </div>
