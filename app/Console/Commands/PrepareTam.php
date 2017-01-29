@@ -222,9 +222,19 @@ class PrepareTam extends Command
                     $this->error("Couldn't find group for category {$category->name}");
                 }
             }
+
+            // update categories of city
+            $this->info('Update categories icons');
+            $categories = Category::where('site_id', $siteId)->where('city_id', $city->id)->get();
+
+            foreach ($categories as $category) {
+                if (empty($category->icon)) {
+                    $category->icon = $this->getIconByName($category->name);
+                    $category->save();
+                    $this->line($category->name . ' icon updated');
+                }
+            }
         }
-
-
 
         //$bar->finish();
         $this->line('');
@@ -400,12 +410,31 @@ class PrepareTam extends Command
 
     protected function getIconByName($category)
     {
-        $arr = [
-            'Environment' => 'fa fa-globe',
-            'Computer' => 'fa fa-laptop'
-        ];
+        $cats = file_get_contents(storage_path('scrapers/tam.txt'));
+        $icons = file_get_contents(storage_path('scrapers/tam_icons.txt'));
 
-        if (!empty($arr[$category])) return $arr[$category];
+        $catsArr = explode("\n", $cats);
+        $iconsArr = explode("\n", $icons);
+
+        $res = [];
+
+        foreach ($catsArr as $index => $cat) {
+            $name = explode("|", $cat);
+
+            // check for fa-
+            if (!preg_match("|^fa-|", $iconsArr[$index]) && !preg_match("|^glyphicon|", $iconsArr[$index])) {
+                $iconsArr[$index] = "fa-" . $iconsArr[$index];
+            }
+
+            // add fa prefix
+            if (!preg_match("|^glyphicon|", $iconsArr[$index])) {
+                $iconsArr[$index] = "fa " . $iconsArr[$index];
+            }
+
+            $res[$name[1]] = $iconsArr[$index];
+        }
+
+        if (!empty($res[$category])) return $res[$category];
         else return '';
     }
 }
