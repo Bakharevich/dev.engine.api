@@ -12,7 +12,7 @@ class CompanyRepository {
         $site = Site::find($request['site_id']);
 
         // set domain
-        $request['url'] = "http://" . $request['domain'] . "." . $site->domain . "";
+        $request['url'] = "http://" . $request['domain'] . "." . $site->domain . "/";
 
         // check if company with such URL exists
         $ifExists = Company::where('site_id', $request['site_id'])->where('url', $request['url'])->first();
@@ -21,7 +21,7 @@ class CompanyRepository {
             for ($i = 1; $i <= 100; $i++) {
                 // set new domain and url
                 $newDomain = $request['domain'] . "-" . $i;
-                $newUrl = "http://" . $newDomain . "." . $site->domain;;
+                $newUrl = "http://" . $newDomain . "." . $site->domain . "/";
 
                 // check if it's free
                 $isFree = Company::where('site_id', $request['site_id'])->where('url', $newUrl)->first();
