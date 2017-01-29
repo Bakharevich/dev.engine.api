@@ -1,6 +1,7 @@
 <?php
 namespace App\Scrapers;
 
+use App\CategoryCompany;
 use App\Company;
 use App\CompanyPhoto;
 use App\CompanyReview;
@@ -50,7 +51,14 @@ class Scraper  {
     {
         $res = Company::where('site_id', $siteId)->where('scraper_unique', $scraperUnique)->first();
 
-        if ($res) return true;
+        if ($res) return $res;
+    }
+
+    public function checkIfCompanyExistInCategory($categoryId, $companyId)
+    {
+        $res = CategoryCompany::where('category_id', $categoryId)->where('company_id', $companyId)->first();
+
+        if ($res) return $res;
     }
 
     public function setParam($key, $content)
@@ -66,40 +74,6 @@ class Scraper  {
     public function getParam($key)
     {
         return $this->params[$key];
-    }
-
-    public function processCompany($siteId, $company)
-    {
-        // check if company with such URL exists
-        $ifExists = Company::where('site_id', $siteId)->where('url', $company['url'])->first();
-
-        if ($ifExists) {
-            // check if such data unique
-            for ($i = 1; $i <= 50; $i++) {
-                // set new domain and url
-                $newDomain = $company['domain'] . "-" . $i;
-                $newUrl = "http://" . $newDomain . "." . $this->getParam('domain') . "/";;
-
-                // check if it's free
-                $isFree = Company::where('site_id', $siteId)->where('url', $newUrl)->first();
-
-                if (!$isFree) {
-                    $company['domain'] = $newDomain;
-                    $company['url'] = $newUrl;
-
-                    $res = Company::create($company);
-                    break;
-                }
-            }
-        }
-        else {
-            $res = Company::create($company);
-        }
-
-        $res->pos = $res->id;
-        $res->save();
-
-        return $res;
     }
 
     public function processHours($companyId, $hours)
@@ -219,10 +193,13 @@ class Scraper  {
 
                 // resize and save photos
                 Image::make($file)
-                    ->save($this->getParam('media_path') . "companies/" . $name, 75)
-                    ->fit(500, null, function ($constraint) {
+                    ->resize(800, null, function ($constraint) {
+                        $constraint->aspectRatio();
                     })
-                    ->save($this->getParam('media_path') . "companies/500/" . $name, 75);
+                    ->save($this->getParam('media_path') . "companies/" . $name, 75)
+                    ->fit(400, null, function ($constraint) {
+                    })
+                    ->save($this->getParam('media_path') . "companies/500/" . $name, 70);
 
                 // add photo to DB
                 $lastPhoto = CompanyPhoto::create([
