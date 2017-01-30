@@ -26,10 +26,32 @@ class IndexController extends Controller
         // get news
         $news = News::where('site_id', $request->site->id)->orderBy('created_at', 'DESC')->take(8)->get();
 
+        // get random category
+        $countCategories = Category::where('site_id', $request->site->id)->where('city_id', $request->site->city_id)->count();
+        $rand = rand(1, $countCategories - 5);
+
+        $categoriesRandom = Category::where('site_id', $request->site->id)->
+            where('city_id', $request->site->city_id)->
+            //where('length(name)')
+            skip($rand)->
+            take(4)->
+            get();
+
+        // arr of colours
+        $colours = [
+            '#ff8600',
+            '#ff1749',
+            '#00c963',
+            '#ffc100',
+            '#ba1f01'
+        ];
+
         return view('index', [
-            'categories' => $categories,
-            'meta' => $meta,
-            'news' => $news
+            'categories'       => $categories,
+            'categoriesRandom' => $categoriesRandom,
+            'meta'             => $meta,
+            'news'             => $news,
+            'colours'          => $colours
         ]);
     }
 }
