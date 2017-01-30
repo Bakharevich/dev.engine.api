@@ -7,7 +7,7 @@
             background: linear-gradient(
                 to bottom,
                 rgba(0, 0, 0, 0),
-                rgba(0, 0, 0, 0.6)
+                rgba(0, 0, 0, 0.4)
         ), url({{ Request::get('site')->media_url }}/backgrounds/index.jpg);
 
             background-size: cover;
@@ -33,11 +33,17 @@
         .no-border {
             border: 0px !important;
         }
+        I {
+            -webkit-transition: color 0.8s ease;
+            -moz-transition: color 0.8s ease;
+            -o-transition: color 0.8s ease;
+            transition: color 0.8s ease;
+        }
     </style>
 
     <div style="padding-bottom: 10px;">
         <div class="index-bg text-center">
-            <div class="container" style="max-width: 1000px; padding-bottom: 100px;">
+            <div class="container" style="max-width: 900px; padding-bottom: 100px;">
                 <div class="col-xs-6 text-left">
                     <!-- Single button -->
                     <div class="btn-group">
@@ -69,7 +75,7 @@
 
             <h1 style="color: #FFF; font-size: 4em; margin-bottom: 35px; text-shadow: 1px 1px #000;">{{ Request::get('site')->name }}</h1>
 
-            <div style="max-width: 1000px; margin: 0 auto; padding: 0px 30px 0px 30px; margin-bottom: 20px;">
+            <div style="max-width: 900px; margin: 0 auto; padding: 0px 30px 0px 30px; margin-bottom: 20px;">
                 <div class="input-group input-group-lg">
                     <input type="text" class="form-control" placeholder="{{ trans('common.search_field_value') }}" id="site-search" autofocus>
 
@@ -98,7 +104,7 @@
                 <div class="row" style="margin-bottom: 20px;">
                     @foreach ($categories as $category)
                         <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 text-center" style="margin-bottom: 25px; ">
-                            <a href="{{ $category->url }}" class="index-link-category" style="line-height: 1.2em; color: #1a65a5;">
+                            <a href="{{ $category->url }}" class="index-link-category" style="line-height: 1.2em; color: #1a65a5;" data-colour="<?php echo \App\Helpers\Helper::getRandom($colours) ?>">
                                 <div style="border: 1px solid #CCC; background: #FFF; border-radius: 5px; box-shadow: 0 1px 3px rgba(48, 53, 64, .3);">
                                     <div style="margin-bottom: 10px; height: 110px; border-bottom: 1px solid #e4e4e4; padding: 20px 0px 20px 0px; margin: 0 auto;" class="text-center">
                                         @if (!empty($category->icon))
@@ -149,4 +155,21 @@
             </div>
         </div>
     </div>
+@stop
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            var returnColour = '';
+
+            $(".index-link-category").hover(function(){
+                var colour = $(this).attr('data-colour');
+                returnColour = $(this).find('I').css('color');
+
+                $(this).find('I').css('color', colour);
+            }, function() {
+                $(this).find('I').css('color', returnColour);
+            });
+        })
+    </script>
 @stop
