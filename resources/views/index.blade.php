@@ -6,9 +6,12 @@
 
             background: linear-gradient(
                 to bottom,
-                rgba(0, 0, 0, 0),
-                rgba(0, 0, 0, 0.4)
-        ), url({{ Request::get('site')->media_url }}/backgrounds/index.jpg);
+                rgba(30, 0, 0, 0.4),
+                rgba(30, 0, 0, 0.4)
+            ), url({{ Request::get('site')->media_url }}/backgrounds/index.jpg);
+
+
+
 
             background-size: cover;
             background-position: left top !important;
