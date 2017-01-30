@@ -66,7 +66,7 @@ class TamScraper
 
     public static function address($page)
     {
-        $reg = "|<p class=\"address\">.*?<a onclick=\".*?\" href=\".*?/karta/\">(.+?)</a>.*?</p>|is";
+        $reg = "|<a onclick=\".*?\" href=\".*?/karta/\">(.+?)</a><span>|is";
         preg_match_all($reg, $page, $matches);
 
         if (!empty($matches[1][0])) {
