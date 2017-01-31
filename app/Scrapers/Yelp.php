@@ -4,6 +4,7 @@ namespace App\Scrapers;
 use App\Category;
 use App\Company;
 use App\CompanyPhoto;
+use App\CategoryCompany;
 use App\CompanyReview;
 use App\CompanyHour;
 use App\Option;
