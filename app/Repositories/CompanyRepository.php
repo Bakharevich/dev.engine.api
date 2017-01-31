@@ -11,6 +11,8 @@ class CompanyRepository {
         // get site info
         $site = Site::find($request['site_id']);
 
+        if (empty($request['domain'])) $request['domain'] = str_slug($request['name']);
+
         // set domain
         $request['url'] = "http://" . $request['domain'] . "." . $site->domain . "/";
 
