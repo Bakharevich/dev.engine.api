@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         Commands\GenerateSitemap::class,
         Commands\PrepareSite::class,
         Commands\PrepareTam::class,
+        Commands\PrepareYelp::class,
         Commands\UpdateCompaniesPosition::class
     ];
 
@@ -30,7 +31,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('scrape')->everyThirtyMinutes();
+        $schedule->command('scrape')->everyTenMinutes();
     }
 
     /**
