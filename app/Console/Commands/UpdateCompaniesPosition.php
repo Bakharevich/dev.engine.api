@@ -64,11 +64,11 @@ class UpdateCompaniesPosition extends Command
                 if (!empty($company->main_photo_url)) $points += 8;
                 if (!empty($company->description)) $points += 1;
                 if (!empty($company->tel) && strlen($company->tel) > 3) $points += 1;
-                if (!empty($company->website)) $points += 2;
+                if (!empty($company->website)) $points += 1;
                 if (!empty($company->latitude) && !empty($company->longitude)) $points += 1;
-                if (!empty($company->last_review) && !empty($company->last_review)) $points += 2;
-                if (!empty($company->rating) && $company->rating > 4) $points += 2;
-                if (!empty($company->amount_comment) && $company->amount_comments > 0) $points += 2;
+                if (!empty($company->last_review) && !empty($company->last_review)) $points += 1;
+                if (!empty($company->rating) && $company->rating > 4) $points += 1;
+                if (!empty($company->amount_comment) && $company->amount_comments > 0) $points += 1;
 
                 $comps[$company->id] = $points;
             }
