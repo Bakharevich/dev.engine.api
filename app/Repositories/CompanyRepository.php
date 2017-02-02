@@ -20,7 +20,7 @@ class CompanyRepository {
         $ifExists = Company::where('site_id', $request['site_id'])->where('url', $request['url'])->first();
 
         if ($ifExists) {
-            for ($i = 1; $i <= 100; $i++) {
+            for ($i = 1; $i <= 300; $i++) {
                 // set new domain and url
                 $newDomain = $request['domain'] . "-" . $i;
                 $newUrl = "http://" . $newDomain . "." . $site->domain . "/";
