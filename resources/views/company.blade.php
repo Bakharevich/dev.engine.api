@@ -70,7 +70,7 @@
                 <?php $banner = \App\Repositories\BannerRepository::banner(3, Request::get('site')->id); ?>
                 @if ($banner)
                 <!-- Central banner -->
-                    <div class="row" style="margin-bottom: 15px;">
+                    <div style="margin-bottom: 15px;">
                         <?= $banner ?>
                     </div>
                 @endif
