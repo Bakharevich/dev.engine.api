@@ -67,6 +67,14 @@
                 </div>
             @endif
             <div class="col-md-8" style="padding-bottom: 30px;">
+                <?php $banner = \App\Repositories\BannerRepository::banner(3, Request::get('site')->id); ?>
+                @if ($banner)
+                <!-- Central banner -->
+                    <div class="row">
+                        <?= $banner ?>
+                    </div>
+                @endif
+
                 @if ($company->description)
                     <h3>{{ trans('company.about_company') }} {{ $company->name }}</h3>
                     <div style="margin-bottom: 30px;">
@@ -107,6 +115,14 @@
                         </tr>
                     @endforeach
                     </table>
+                @endif
+
+                <?php $banner = \App\Repositories\BannerRepository::banner(4, Request::get('site')->id); ?>
+                @if ($banner)
+                    <!-- Central banner -->
+                        <div style="margin-top: 10px;">
+                            <?= $banner ?>
+                        </div>
                 @endif
 
                 <!--

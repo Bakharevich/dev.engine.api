@@ -21,7 +21,17 @@
 </style>
 
 @if (count($companies) > 0)
-        @foreach ($companies as $company)
+        @foreach ($companies as $index => $company)
+            @if ($index == 1)
+                <?php $banner = \App\Repositories\BannerRepository::banner(1, Request::get('site')->id); ?>
+                @if ($banner)
+                    <!-- Central banner -->
+                    <div class="row">
+                        <?= $banner ?>
+                    </div>
+                    <hr>
+                @endif
+            @endif
             <div class="row @if(!empty($company->is_premium)) company-premium @endif" style="margin-bottom: 30px;">
                 <div class="col-sm-3">
                     <a href="{{ $company->url }}">

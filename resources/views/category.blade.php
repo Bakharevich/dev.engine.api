@@ -88,6 +88,14 @@
             </div>
             <div class="col-md-3">
                 <div class="img-thumbnail" id="map" style="width: 100%; height: 300px;"></div>
+
+                <?php $banner = \App\Repositories\BannerRepository::banner(2, Request::get('site')->id); ?>
+                @if ($banner)
+                <!-- Central banner -->
+                    <div style="margin-top: 10px;">
+                        <?= $banner ?>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
