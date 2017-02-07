@@ -62,4 +62,10 @@ Generate sitemap for all sites:
 php artisan sitemap-generate
 `
 
+Update proxy list:
+
+`
+php artisan proxy:update
+`
+
 To be continued...

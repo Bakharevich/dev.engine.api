@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Repositories\ProxyRepository;
+use App\Proxy;
+use DB;
 use Illuminate\Console\Command;
 
 class UpdateProxy extends Command
@@ -41,11 +43,22 @@ class UpdateProxy extends Command
         $login    = getenv('FINEPROXY_LOGIN');
         $password = getenv('FINEPROXY_PASSWORD');
 
+        $this->line('Updating proxies...');
+
         $proxies = file_get_contents("http://account.fineproxy.org/api/getproxy/?format=txt&type=httpip&login={$login}&password={$password}");
 
+        if (empty($proxies)) {
+            $this->warn('No proxies at FineProxy.org');
+            return;
+        }
+
         $arr = explode("\n", $proxies);
+        $this->info(count($arr) . " proxies found");
 
         if (!empty($arr)) {
+            // remove old proxies
+            DB::table('proxies')->delete();
+
             foreach ($arr as $proxy) {
                 if (empty($proxy)) continue;
 
@@ -56,6 +69,8 @@ class UpdateProxy extends Command
                     'ip' => $proxyArr[0],
                     'port' => $proxyArr[1]
                 ]);
+
+                $this->line("Proxy {$proxyArr[0]} added");
             }
         }
     }
