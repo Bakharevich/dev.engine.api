@@ -9,6 +9,7 @@ use App\CompanyHour;
 use App\OptionGroup;
 use App\Option;
 
+use App\Repositories\ProxyRepository;
 use GuzzleHttp;
 use Intervention\Image\ImageManagerStatic as Image;
 use File;
@@ -25,13 +26,31 @@ class Scraper  {
 
     public function request($url, $params = [])
     {
-        $client = new GuzzleHttp\Client();
+        // get proxy
+        $proxy = ProxyRepository::best();
+        $ip   = (string) $proxy->ip;
+        $port = (int) $proxy->port;
+        $proxyString = $ip . ":" . $port;
+
+        // if production, use proxy
+        $curl = [];
+        if (getenv('APP_ENV') == "production") {
+            $curl = [
+                CURLOPT_PROXY => $proxyString,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_FOLLOWLOCATION => 1
+            ];
+        }
+
+        $client = new GuzzleHttp\Client([
+            'timeout' => 15.0,
+            'curl' => $curl
+        ]);
 
         try {
             $res = $client->request(
                 'GET',
                 $url
-            //['proxy' => 'http://RUS185759:iaNDMQh6b2@146.185.201.243:8080']
             );
 
             $body = $res->getBody()->getContents();

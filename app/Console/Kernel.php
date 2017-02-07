@@ -18,7 +18,8 @@ class Kernel extends ConsoleKernel
         Commands\PrepareSite::class,
         Commands\PrepareTam::class,
         Commands\PrepareYelp::class,
-        Commands\UpdateCompaniesPosition::class
+        Commands\UpdateCompaniesPosition::class,
+        Commands\UpdateProxy::class
     ];
 
     /**
