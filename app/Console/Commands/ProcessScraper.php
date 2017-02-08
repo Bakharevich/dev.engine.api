@@ -47,6 +47,12 @@ class ProcessScraper extends Command
 
         if (!empty($jobs)) {
             foreach ($jobs as $job) {
+                // update scraper row before launching of scraper
+                $jobScraper = JobScraper::find($job['id']);
+                $jobScraper->amount_executed += 1;
+                $jobScraper->executed_at = Carbon::now();
+                $jobScraper->save();
+
                 // define class name
                 $className = '\\App\Scrapers\\' . $job->scraper;
                 $scraperObject = new $className;
@@ -82,11 +88,6 @@ class ProcessScraper extends Command
                     // processing scraper
                     $manager->process($scraperObject, $url);
                 }
-
-                $jobScraper = JobScraper::find($job['id']);
-                $jobScraper->amount_executed += 1;
-                $jobScraper->executed_at = Carbon::now();
-                $jobScraper->save();
             }
 
             $this->info('Scraping ended');
