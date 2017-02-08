@@ -108,14 +108,14 @@ class GenerateSitemap extends Command
             $companiesCount = Company::where('site_id', $site->id)->count();
             $this->line("Companies' count: {$companiesCount}");
 
-            for ($i = 0; $i <= $companiesCount; $i = $i + 1000) {
+            for ($i = 0; $i <= $companiesCount; $i = $i + 16000) {
                 $xmlCompanies = new \SimpleXMLElement('<urlset />');
                 $xmlCompanies->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
                 $xmlCompanies->addAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
                 $xmlCompanies->addAttribute('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd');
 
                 // get companies step by step
-                $companies = Company::where('site_id', $site->id)->take(1000)->skip($i)->get();
+                $companies = Company::where('site_id', $site->id)->take(16000)->skip($i)->get();
 
                 foreach ($companies as $company) {
                     if (!preg_match("|/$|", $company->url)) $companyUrl = $company->url . "/";
