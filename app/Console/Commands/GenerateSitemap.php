@@ -168,7 +168,7 @@ class GenerateSitemap extends Command
 
             $news = News::where('site_id', $site->id)->get();
 
-            if (!empty($news)) {
+            if (!empty($news) && count($news) > 0) {
                 foreach ($news as $new) {
                     if (!empty($new['updated_at'])) $date = $new['updated_at'];
                     else $date = date("Y-m-d H:i:s");
@@ -178,15 +178,15 @@ class GenerateSitemap extends Command
                     $url->addChild('priority', 0.);
                     $url->addChild('lastmod', date("c", strtotime($date)));
                 }
+
+                $filename = "sitemap_{$site->domain}_news.xml";
+                $xmlNews->asXML("public/sitemaps/{$filename}");
+
+                // add to main sitemap file
+                $sitemap = $xmlSitemapIndex->addChild('sitemap');
+                $sitemap->addChild('loc', "http://{$site->domain}/sitemaps/{$filename}");
+                $sitemap->addChild('lastmod', date("c"));
             }
-
-            $filename = "sitemap_{$site->domain}_news.xml";
-            $xmlNews->asXML("public/sitemaps/{$filename}");
-
-            // add to main sitemap file
-            $sitemap = $xmlSitemapIndex->addChild('sitemap');
-            $sitemap->addChild('loc', "http://{$site->domain}/sitemaps/{$filename}");
-            $sitemap->addChild('lastmod', date("c"));
 
 
             /*
