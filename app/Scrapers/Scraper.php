@@ -15,6 +15,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use File;
 use DB;
 use Str;
+use App;
 
 class Scraper  {
     public $source;
@@ -31,6 +32,10 @@ class Scraper  {
         $ip   = (string) $proxy->ip;
         $port = (int) $proxy->port;
         $proxyString = $ip . ":" . $port;
+
+        if (App::runningInConsole()) {
+            echo $proxyString . "\n";
+        }
 
         // if production, use proxy
         $curl = [];
