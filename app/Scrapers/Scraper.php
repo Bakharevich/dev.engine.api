@@ -38,7 +38,7 @@ class Scraper  {
             $curl = [
                 CURLOPT_PROXY => $proxyString,
                 CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYHOST => 1,
                 //CURLOPT_SSLVERSION => 3,
                 CURLOPT_FOLLOWLOCATION => FALSE,
                 CURLOPT_TIMEOUT => 30
