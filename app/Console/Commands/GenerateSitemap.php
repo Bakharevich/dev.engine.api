@@ -16,7 +16,7 @@ class GenerateSitemap extends Command
      *
      * @var string
      */
-    protected $signature = 'sitemap:generate';
+    protected $signature = 'sitemap:generate {site_id?}';
 
     /**
      * The console command description.
@@ -44,80 +44,155 @@ class GenerateSitemap extends Command
     {
         $this->info("Started to generate sitemap.xml...");
 
+        $siteId = $this->argument('site_id');
+
         // main sitemap file
         $xmlSitemapIndex = new \SimpleXMLElement('<sitemapindex />');
         $xmlSitemapIndex->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
 
         // get all sites
-        $sites = Site::all();
+        $query = Site::query();
+
+        if (!empty($siteId)) {
+            $query->where('id', $siteId);
+        }
+
+        $sites = $query->get();
+
+        if (count($sites) < 1) {
+            $this->warn("Site with id {$siteId} not found");
+        }
 
         foreach ($sites as $site) {
             $this->info($site->domain);
 
-            // init xml
-            $xml = new \SimpleXMLElement('<urlset />');
-            $xml->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
-            $xml->addAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-            $xml->addAttribute('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd');
+            // main sitemapindex
+            $xmlSitemapIndex = new \SimpleXMLElement('<sitemapindex />');
+            $xmlSitemapIndex->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
 
             /*
              * CATEGORIES
              */
+            // init xml
+            $xmlCategory = new \SimpleXMLElement('<urlset />');
+            $xmlCategory->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+            $xmlCategory->addAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+            $xmlCategory->addAttribute('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd');
+
+            // get categories
             $categories = Category::where('site_id', $site->id)->get();
 
             if (!empty($categories)) {
                 foreach ($categories as $category) {
-                    $this->line("Category " . $category->name);
-
-                    $url = $xml->addChild('url');
+                    $url = $xmlCategory->addChild('url');
                     $url->addChild('loc', $category->url);
+                    $url->addChild('priority', 1);
+                }
+            }
+
+            // save to disc
+            $filename = "sitemap_{$site->domain}_categories.xml";
+            $xmlCategory->asXML("public/sitemaps/{$filename}");
+
+            // add to main sitemap file
+            $sitemap = $xmlSitemapIndex->addChild('sitemap');
+            $sitemap->addChild('loc', "http://{$site->domain}/sitemaps/{$filename}");
+            $sitemap->addChild('lastmod', date("c"));
+
+            $this->line("Categories generated");
+
+
+            /*
+             * COMPANIES
+             */
+            $companiesCount = Company::where('site_id', $site->id)->count();
+            $this->line("Companies' count: {$companiesCount}");
+
+            for ($i = 0; $i <= $companiesCount; $i = $i + 1000) {
+                $xmlCompanies = new \SimpleXMLElement('<urlset />');
+                $xmlCompanies->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+                $xmlCompanies->addAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+                $xmlCompanies->addAttribute('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd');
+
+                // get companies step by step
+                $companies = Company::where('site_id', $site->id)->take(1000)->skip($i)->get();
+
+                foreach ($companies as $company) {
+                    if (!preg_match("|/$|", $company->url)) $companyUrl = $company->url . "/";
+                    else $companyUrl = $company->url;
+
+                    // main company URL
+                    $url = $xmlCompanies->addChild('url');
+                    $url->addChild('loc', $company->url);
                     $url->addChild('priority', 0.9);
+                    $url->addChild('lastmod', date("c", strtotime($company['updated_at'])));
 
-                    /*
-                     * COMPANIES
-                     */
-                    $companies = Company::where('category_id', $category->id)->get();
-
-                    foreach ($companies as $company) {
-                        if (!preg_match("|/$|", $company->url)) $companyUrl = $company->url . "/";
-                        else $companyUrl = $company->url;
-
-                        // main company URL
-                        $url = $xml->addChild('url');
-                        $url->addChild('loc', $company->url);
-                        $url->addChild('priority', 0.8);
-                        $url->addChild('lastmod', date("c", strtotime($company['updated_at'])));
-
-                        // reviews
-                        $url = $xml->addChild('url');
+                    // reviews
+                    if (!empty($company->amount_comments)) {
+                        $url = $xmlCompanies->addChild('url');
                         $url->addChild('loc', $companyUrl . 'reviews');
                         $url->addChild('priority', 0.7);
                         $url->addChild('lastmod', date("c", strtotime($company['updated_at'])));
+                    }
 
-                        // photos
-                        $url = $xml->addChild('url');
+                    // photos
+                    if (!empty($company->main_photo_url)) {
+                        $url = $xmlCompanies->addChild('url');
                         $url->addChild('loc', $companyUrl . 'photos');
                         $url->addChild('priority', 0.7);
                         $url->addChild('lastmod', date("c", strtotime($company['updated_at'])));
                     }
                 }
+
+                $filename = "sitemap_{$site->domain}_companies_{$i}.xml";
+
+                // save XML to disc
+                $xmlCompanies->asXML("public/sitemaps/" . $filename);
+                unset($xmlCompanies);
+
+                // add to main sitemap file
+                $sitemap = $xmlSitemapIndex->addChild('sitemap');
+                $sitemap->addChild('loc', "http://{$site->domain}/sitemaps/{$filename}");
+                $sitemap->addChild('lastmod', date("c"));
             }
+            //exit();
+
 
             /*
              * NEWS
              */
+            $xmlNews = new \SimpleXMLElement('<urlset />');
+            $xmlNews->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+            $xmlNews->addAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+            $xmlNews->addAttribute('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd');
+
             $news = News::where('site_id', $site->id)->get();
 
             if (!empty($news)) {
                 foreach ($news as $new) {
-                    $url = $xml->addChild('url');
+                    if (!empty($new['updated_at'])) $date = $new['updated_at'];
+                    else $date = date("Y-m-d H:i:s");
+
+                    $url = $xmlNews->addChild('url');
                     $url->addChild('loc', $new->url);
-                    $url->addChild('priority', 0.7);
-                    $url->addChild('lastmod', date("c", strtotime($new['updated_at'])));
+                    $url->addChild('priority', 0.);
+                    $url->addChild('lastmod', date("c", strtotime($date)));
                 }
             }
 
-            $xml->asXML("public/sitemaps/sitemap_{$site->domain}.xml");
+            $filename = "sitemap_{$site->domain}_news.xml";
+            $xmlNews->asXML("public/sitemaps/{$filename}");
+
+            // add to main sitemap file
+            $sitemap = $xmlSitemapIndex->addChild('sitemap');
+            $sitemap->addChild('loc', "http://{$site->domain}/sitemaps/{$filename}");
+            $sitemap->addChild('lastmod', date("c"));
+
+
+            /*
+             * MAIN SITEMAP FILE
+             */
+            $xmlSitemapIndex->asXML("public/sitemaps/sitemap_{$site->domain}.xml");
         }
 
         $this->info('Generation finished');
