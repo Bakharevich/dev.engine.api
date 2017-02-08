@@ -40,7 +40,7 @@ class Scraper  {
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_SSL_VERIFYHOST => false,
                 //CURLOPT_SSLVERSION => 3,
-                CURLOPT_FOLLOWLOCATION => 1,
+                CURLOPT_FOLLOWLOCATION => FALSE,
                 CURLOPT_TIMEOUT => 30
             ];
         }
