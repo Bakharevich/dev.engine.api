@@ -175,7 +175,7 @@ class GenerateSitemap extends Command
 
                     $url = $xmlNews->addChild('url');
                     $url->addChild('loc', $new->url);
-                    $url->addChild('priority', 0.);
+                    $url->addChild('priority', 0.8);
                     $url->addChild('lastmod', date("c", strtotime($date)));
                 }
 
