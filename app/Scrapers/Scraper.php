@@ -40,12 +40,13 @@ class Scraper  {
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_SSL_VERIFYHOST => false,
                 //CURLOPT_SSLVERSION => 3,
-                CURLOPT_FOLLOWLOCATION => 1
+                CURLOPT_FOLLOWLOCATION => 1,
+                CURLOPT_TIMEOUT => 30
             ];
         }
 
         $client = new GuzzleHttp\Client([
-            'timeout' => 15.0,
+            'timeout' => 30,
             'curl' => $curl
         ]);
 
