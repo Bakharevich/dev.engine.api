@@ -39,7 +39,7 @@ class Scraper  {
 
         // if production, use proxy
         $curl = [];
-        if (getenv('APP_ENV') == "production") {
+        if (getenv('APP_ENV') == "local") {
             $curl = [
                 CURLOPT_PROXY => $proxyString,
                 CURLOPT_SSL_VERIFYPEER => false,
@@ -74,6 +74,15 @@ class Scraper  {
         }
         catch (GuzzleHttp\Exception\ClientException $e) {
             echo "!!! Problem with url: " . $e->getMessage();
+
+            return '';
+        }
+        catch (GuzzleHttp\Exception\ConnectException $e) {
+            echo "!!! Problem with connection: " . $e->getMessage();
+
+            // turn off proxy
+            $proxy->is_enabled = 0;
+            $proxy->save();
 
             return '';
         }

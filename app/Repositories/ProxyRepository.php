@@ -6,7 +6,7 @@ use App\Proxy;
 class ProxyRepository {
     public static function best()
     {
-        $proxy = Proxy::orderBy('amount_used')->first();
+        $proxy = Proxy::where('is_enabled', 1)->orderBy('amount_used')->first();
         $proxy->amount_used = $proxy->amount_used + 1;
         $proxy->save();
 
