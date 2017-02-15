@@ -31,7 +31,7 @@
         </div>
         <div class="form-group">
             <label class="control-label" for="rating">{{ trans('company.company-review-photo') }}:</label>
-            <input type="file" class="form-control" name="rating" />
+            <input type="file" class="form-control" name="photo" />
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">{{ trans('company.company-review-send') }}</button>
