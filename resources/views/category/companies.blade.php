@@ -22,7 +22,7 @@
 
 @if (count($companies) > 0)
         @foreach ($companies as $index => $company)
-            @if ($index == 1)
+            @if ($index == 1 && !Request::ajax())
                 <?php $banner = \App\Repositories\BannerRepository::banner(1, Request::get('site')->id); ?>
                 @if ($banner)
                     <!-- Central banner -->
