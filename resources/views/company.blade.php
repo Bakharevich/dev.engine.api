@@ -150,40 +150,39 @@
 @stop
 
 @section('scripts')
-    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+    @if ($company->latitude && $company->longitude)
+        <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 
-    <script>
+        <script>
+            ymaps.ready(init);
 
-
-        ymaps.ready(init);
-
-
-        var latitude = {{ $company->latitude }};
-        var longitude = {{ $company->longitude }};
+            var latitude = {{ $company->latitude }};
+            var longitude = {{ $company->longitude }};
 
 
-        function init () {
-            var myMap = new ymaps.Map("map", {
-                        center: [latitude, longitude],
-                        zoom: 16
-                    }, {
-                        searchControlProvider: 'yandex#search'
-                    }),
+            function init () {
+                var myMap = new ymaps.Map("map", {
+                            center: [latitude, longitude],
+                            zoom: 16
+                        }, {
+                            searchControlProvider: 'yandex#search'
+                        }),
 
-            myGeoObject = new ymaps.GeoObject({
-                geometry: {
-                    type: "Point",
-                    coordinates: [latitude, longitude]
-                },
-                // Свойства.
-                properties: {
+                myGeoObject = new ymaps.GeoObject({
+                    geometry: {
+                        type: "Point",
+                        coordinates: [latitude, longitude]
+                    },
+                    // Свойства.
+                    properties: {
 
-                }
-            }, {
-                preset: 'islands#icon'
-            });
+                    }
+                }, {
+                    preset: 'islands#icon'
+                });
 
-            myMap.geoObjects.add(myGeoObject);
-        }
-    </script>
+                myMap.geoObjects.add(myGeoObject);
+            }
+        </script>
+    @endif
 @stop
