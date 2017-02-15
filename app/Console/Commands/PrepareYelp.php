@@ -57,7 +57,8 @@ class PrepareYelp extends Command
 
         // list of websites
         $sites = [
-            159 => 'https://en.yelp.my'
+            159 => 'https://en.yelp.my',
+            77 => 'https://www.yelp.co.uk'
         ];
 
         // set domain of scraped site
@@ -98,7 +99,10 @@ class PrepareYelp extends Command
         }
 
         //print_r($cities); exit();
-        $cities = [['name' => 'Kuala Lumpur', 'url' => 'https://en.yelp.my/kl', 'city_id' => 1735161, 'city_domain' => 'kuala-lumpur']];
+        //$cities = [['name' => 'Kuala Lumpur', 'url' => 'https://en.yelp.my/kl', 'city_id' => 1735161, 'city_domain' => 'kuala-lumpur']];
+        $cities = [['name' => 'London', 'url' => 'https://www.yelp.co.uk/london', 'city_id' => 2643743, 'city_domain' => 'london']];
+        //print_r($cities); exit();
+
 
         foreach ($cities as $row) {
             $link = $scrapedUrl . "/search?find_loc=" . urlencode($row['name']);
@@ -203,9 +207,10 @@ class PrepareYelp extends Command
         }
 
 
-        exit();
+        //exit();
 
         // update categories of city
+        /*
         $this->info('Update categories icons');
         $categories = Category::where('site_id', $siteId)->where('city_id', $city->id)->get();
 
@@ -215,7 +220,7 @@ class PrepareYelp extends Command
                 $category->save();
                 $this->line($category->name . ' icon updated');
             }
-        }
+        }*/
 
 
         //$bar->finish();
