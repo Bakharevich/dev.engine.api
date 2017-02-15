@@ -27,19 +27,19 @@ class Scraper  {
 
     public function request($url, $params = [])
     {
-        // get proxy
-        $proxy = ProxyRepository::best();
-        $ip   = (string) $proxy->ip;
-        $port = (int) $proxy->port;
-        $proxyString = $ip . ":" . $port;
-
-        if (App::runningInConsole()) {
-            echo $proxyString . "\n";
-        }
-
         // if production, use proxy
         $curl = [];
-        if (getenv('APP_ENV') == "local") {
+        if (getenv('APP_ENV') == "production") {
+            // get proxy
+            $proxy = ProxyRepository::best();
+            $ip   = (string) $proxy->ip;
+            $port = (int) $proxy->port;
+            $proxyString = $ip . ":" . $port;
+
+            if (App::runningInConsole()) {
+                echo $proxyString . "\n";
+            }
+
             $curl = [
                 CURLOPT_PROXY => $proxyString,
                 CURLOPT_SSL_VERIFYPEER => false,
