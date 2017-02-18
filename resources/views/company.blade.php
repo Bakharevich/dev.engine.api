@@ -88,7 +88,7 @@
             @endif
 
             <!-- PHOTOS -->
-            @if ($company->photos)
+            @if (count($company->photos) > 1)
                 <div class="company-photos">
                     @foreach ($company->photos as $index => $photo)
                         <?php $isXs = ($index > 1) ? 'hidden-xs' : '' ?>
@@ -113,7 +113,7 @@
 
             <div class="col-md-8" style="padding-bottom: 30px;">
                 <?php $banner = \App\Repositories\BannerRepository::banner(3, Request::get('site')->id); ?>
-                @if ($banner && !empty($ILYA_REMOVE_IT))
+                @if ($banner)
                 <!-- Central banner -->
                     <div style="margin-bottom: 15px;">
                         <?= $banner ?>
