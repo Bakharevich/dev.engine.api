@@ -45,14 +45,19 @@ class Helper {
 
     public static function todayWorkingTime($hours)
     {
+        $res = "";
+
         foreach ($hours as $hour) {
             if (ucfirst($hour->day) == date("D")) {
                 $from = $hour->open;
                 $till = $hour->close;
+
+                $res = $from . " - " . $till;
+                break;
             }
         }
 
-        return $from . " - " . $till;
+        return $res;
     }
 
     public static function removeEmoji($text){
