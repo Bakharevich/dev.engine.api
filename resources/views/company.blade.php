@@ -1,29 +1,56 @@
 @extends('app')
 
 @section('content')
-    <div style="background-color: #f5f5f5; font-size: 0.85em; border-bottom: 1px solid #e7e7e7;">
+    <div style="background-color: #fafafa; font-size: 0.85em;">
         <div class="container">
-            <ol class="breadcrumb" style="margin-bottom: 0px;">
+            <ol class="breadcrumb" style="margin-bottom: 0px; background: #fafafa;">
                 <li><a href="http://{{ Request::get('site')->domain }}/">{{ trans('common.btn_home') }}</a></li>
                 <li><a href="http://{{ Request::get('site')->domain }}/{{ Request::get('site')->city->domain }}">{{ Request::get('site')->city->name }}</a></li>
                 <li><a href="{{ $company->category->url }}">{{ $company->category->name }}</a></li>
                 <li class="active">{{ $company->name }}</li>
             </ol>
+        </div>
+    </div>
 
-            <div class="col-md-8">
-                <h1 style="margin-top: 0; ">{{ $company->name }}</h1>
-
-                @if ($company->rating)
-                    <div class="company-rating" style="margin-bottom: 20px;">
-                        {!! Helper::companyRating($company->rating, 22) !!} &nbsp; {{ $company->amount_comments }} {{ trans('company.number_of_reviews') }}
+    <div style="background-color: #f5f5f5; font-size: 0.85em; padding-top: 15px; border-bottom: 1px solid #e7e7e7; border-top: 1px solid #eeeeee;">
+        <div class="container">
+            <div class="col-md-1 hidden-sm company-icon">
+                @if ($company->main_photo_url)
+                    <img src="{{ $company->main_photo_url }}" class="img-responsive img-rounded hidden-xs hidden-sm" />
+                @else
+                    <div class="hidden-xs hidden-sm text-center no-image">
+                        @if ($company->category->icon)
+                            <i class="{{ $company->category->icon }}" aria-hidden="true"></i>
+                        @else
+                            <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+                        @endif
                     </div>
                 @endif
+            </div>
+            <div class="col-sm-8 col-md-7">
+                <h1 style="margin-top: 0; ">{{ $company->name }}</h1>
+
+                <div>
+                    @if ($company->rating)
+                        <div class="company-rating" style="margin-bottom: 20px; float: left;">
+                            {!! Helper::companyRating($company->rating, 22) !!} &nbsp;
+                        </div>
+                    @endif
+
+                    @if ($company->amount_comments)
+                        <div style="padding-top: 8px; float: left;">
+                            {{ $company->amount_comments }} {{ trans('company.number_of_reviews') }}
+                        </div>
+                    @endif
+                </div>
+
+                <div class="clearfix"></div>
 
                 @if ($company->description)
                     <p style="color: #222;">{!! str_limit(strip_tags($company->description), 250)  !!}</p>
                 @endif
             </div>
-            <div class="col-md-4" style="font-size: 1.1em; padding-top: 5px;">
+            <div class="col-sm-4 col-md-4 company-info" style="font-size: 1.1em; padding-top: 5px;">
                 @if ($company->address)
                     <p><i class="fa fa-map-marker" aria-hidden="true"></i> {!! $company->address !!}</p>
                 @endif
@@ -38,12 +65,21 @@
                         <a href="{!! $company->website !!}" target="_blank" rel="nofollow">{!! $company->website !!}</a>
                     </p>
                 @endif
+
+                @if ($company->hours)
+                    <p>
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <a href="javascript://" data-toggle="modal" data-target="#company_hours" style="border-bottom: 1px dotted #333; color: #333;">
+                            {{ trans('company.hours_today') }} {{ \App\Helpers\Helper::todayWorkingTime($company->hours) }}
+                        </a>
+                    </p>
+                @endif
             </div>
         </div>
     </div>
 
     <div style="background: #FFF; padding-top: 25px;">
-        <div class="container" style="margin: 0 auto;">
+        <div class="container">
             @if(Session::has('message'))
                 <div class="alert alert-success alert-dismissible text-center" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -51,24 +87,33 @@
                 </div>
             @endif
 
+            <!-- PHOTOS -->
             @if ($company->photos)
-                <div class="col-md-12" style="padding: 0px 7px 0px 7px;">
+                <div class="company-photos">
                     @foreach ($company->photos as $index => $photo)
                         <?php $isXs = ($index > 1) ? 'hidden-xs' : '' ?>
+                        <?php $visibleXs = ($index == 1) ? 'visible-xs' : '' ?>
 
-                        <div class="col-md-2 col-sm-2 col-xs-6 {{ $isXs }}" style="padding: 0px 7px 0px 7px; padding-bottom: 10px;">
-                            <img src="{{ $photo->url }}" class="img-responsive img-rounded" />
+                        <div class="col-md-2 col-sm-2 col-xs-6 {{ $isXs }}">
+                            <a href="<?php echo \App\Helpers\Helper::fullPhotoPath($photo->url) ?>" target="_blank">
+                                <img src="{{ $photo->url }}" class="img-responsive img-rounded" />
+                            </a>
+
+                            <div class="more {{ $visibleXs }}">
+                                <a href="<?= $company->url ?>photos" class="more">
+                                    <i class="fa fa-chevron-circle-right" aria-hidden="true"></i><br/>
+                                    {{ trans('company.photos-all') }}
+                                </a>
+                            </div>
                         </div>
                     @endforeach
-
-                    <div class="text-right">
-                        <a href="<?= $company->url ?>photos" class="btn btn-default btn-sm">{{ trans('company.photos-all') }}</a>
-                    </div>
                 </div>
+                <div class="clearfix"></div>
             @endif
+
             <div class="col-md-8" style="padding-bottom: 30px;">
                 <?php $banner = \App\Repositories\BannerRepository::banner(3, Request::get('site')->id); ?>
-                @if ($banner)
+                @if ($banner && !empty($ILYA_REMOVE_IT))
                 <!-- Central banner -->
                     <div style="margin-bottom: 15px;">
                         <?= $banner ?>
@@ -76,7 +121,7 @@
                 @endif
 
                 @if ($company->description)
-                    <h3>{{ trans('company.about_company') }} {{ $company->name }}</h3>
+                    <h3 style="margin-top: 0px;">{{ trans('company.about_company') }} {{ $company->name }}</h3>
                     <div style="margin-bottom: 30px;">
                         {!! $company->description !!}
                     </div>
@@ -98,48 +143,18 @@
                     <a href="<?= $company->url ?>reviews" class="btn btn-primary">{{ trans('company.reviews-all') }}</a>
                 @endif
             </div>
-            <div class="col-md-4 text-left" style="margin-top: 30px;">
+            <div class="col-md-4 text-left" style="margin-top: 0px;">
                 @if ($company->latitude && $company->longitude)
                     <div id="map" class="img-thumbnail" style="width: 100%; height: 300px;"></div>
-                @endif
-
-                <h3>{{ trans('company.hours') }}</h3>
-
-                @if ($company->hours)
-                    <table class="text-left">
-                    @foreach ($company->hours as $hour)
-                        <tr>
-                            <td style="padding-right: 30px;"><b>{{ ucfirst($hour->day) }}</b></td>
-                            <td style="padding-right: 10px;">{{ $hour->open }} - {{ $hour->close }}</td>
-                            <td>{{ Helper::isCompanyOpened($hour->day, $hour->open, $hour->close) }}</td>
-                        </tr>
-                    @endforeach
-                    </table>
                 @endif
 
                 <?php $banner = \App\Repositories\BannerRepository::banner(4, Request::get('site')->id); ?>
                 @if ($banner)
                     <!-- Central banner -->
-                        <div style="margin-top: 10px;">
+                        <div style="margin-top: 25px;">
                             <?= $banner ?>
                         </div>
                 @endif
-
-                <!--
-                <button type="button" class="btn btn-danger" style="margin-right: 10px;">
-                    <i class="fa fa-star" aria-hidden="true" style="color: #FFF; font-size: 1.4em;"></i> Оставить отзыв
-                </button>
-
-                <div class="btn-group btn-group-sm" role="group" aria-label="...">
-
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-share" aria-hidden="true"></i> Поделиться
-                    </button>
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-bookmark" aria-hidden="true"></i> В избранное
-                    </button>
-                </div>
-                -->
             </div>
 
             <div class="col-md-12">
@@ -147,6 +162,34 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="company_hours" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom: 0px solid #e5e5e5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{ trans('company.hours') }} {{ $company->name }}</h4>
+                </div>
+                <div class="modal-body">
+                    @if ($company->hours)
+                        <table class="table table-bordered">
+                            @foreach ($company->hours as $hour)
+                                <tr>
+                                    <td><b>{{ ucfirst($hour->day) }}</b></td>
+                                    <td>{{ $hour->open }} - {{ $hour->close }}</td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    @endif
+                </div>
+                <div class="modal-footer" style="border-top: 0px;">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of modal -->
 @stop
 
 @section('scripts')

@@ -4,10 +4,11 @@ return [
     'latest_reviews' => 'Latest reviews',
     'about_company' => 'About',
     'photos' => 'Photos',
-    'photos-all' => 'All photos',
+    'photos-all' => 'See all photos',
     'reviews' => 'Reviews',
     'reviews-all' => 'All reviews',
     'hours' => 'Hours',
+    'hours_today' => 'Today',
 
     /* ADD A BUSINESS */
     'create-heading' => 'Add a Business',

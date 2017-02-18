@@ -1,4 +1,4 @@
-<div class="jumbotron" style="padding-top: 30px; padding-bottom: 30px;">
+<div class="jumbotron" style="z-index: 1;padding-top: 30px; padding-bottom: 30px; background: #f5f5f5;">
     <h3>{{ trans('company.company-review-write-review') }}</h3>
 
     <form action="/reviews" method="post" class="form-post-review">
@@ -29,10 +29,12 @@
             <label class="control-label" for="review">{{ trans('company.company-review-review') }}:</label>
             <textarea class="form-control required" rows="4" name="review" required></textarea>
         </div>
+        <!--
         <div class="form-group">
             <label class="control-label" for="rating">{{ trans('company.company-review-photo') }}:</label>
             <input type="file" class="form-control" name="photo" />
         </div>
+        -->
         <div class="form-group">
             <button type="submit" class="btn btn-primary">{{ trans('company.company-review-send') }}</button>
         </div>

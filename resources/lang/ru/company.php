@@ -8,6 +8,7 @@ return [
     'reviews' => 'Отзывы',
     'reviews-all' => 'Все отзывы',
     'hours' => 'Время работы',
+    'hours_today' => 'Открыто',
 
     /* ADD A BUSINESS */
     'create-heading' => 'Добавить компанию',

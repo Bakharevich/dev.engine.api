@@ -6,17 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="/bower_components/jquery-ui/themes/base/jquery-ui.min.css" />
+    <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/bower_components/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/bower_components/jquery-ui/themes/base/jquery-ui.min.css" />
 
-    <link rel="stylesheet" href="/css/custom_resolutions.css" />
-    <link rel="stylesheet" href="/css/global.css" />
-    <link rel="stylesheet" href="/css/footer.css" />
-    <link rel="stylesheet" href="/css/menu.css" />
-    <link rel="stylesheet" href="/css/header-inner.css" />
-    <link rel="stylesheet" href="/css/index.css" />
-    <link rel="stylesheet" href="/css/category.css" />
+    <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/css/custom_resolutions.css" />
+    <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/css/global.css" />
+    <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/css/footer.css" />
+    <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/css/menu.css" />
+    <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/css/header-inner.css" />
+    <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/css/index.css" />
+    <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/css/category.css" />
+    <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/css/company.css" />
 
     <meta name="google-site-verification" content="aFNFfQ9ZfnEtfYIV2_Q1FGjANTOr08KgMxB8AjNfOng" />
     <meta name="msvalidate.01" content="0154515FE32C8F8EF4F3F250CFB1AF24" />
@@ -34,10 +35,10 @@
 
     @include('partials.footer')
 
-    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="http://<?= Request::get('site')->domain ?>/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="http://<?= Request::get('site')->domain ?>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="http://<?= Request::get('site')->domain ?>/bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="http://<?= Request::get('site')->domain ?>/js/main.js"></script>
 
     @yield('scripts')
 
