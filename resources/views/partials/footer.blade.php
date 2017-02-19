@@ -4,5 +4,8 @@
     <a href="http://<?= Request::get('site')->domain ?>/companies/create">{{ trans('common.footer_add_business') }}</a> |
     <a href="http://<?= Request::get('site')->domain ?>/page/vacancies">{{ trans('common.footer_vacancies') }}</a>
     <br/>
-    {!! Request::get('site')->name !!}, {{ date("Y") }}
+    <p>{!! Request::get('site')->name !!}, {{ date("Y") }}</p>
+    <p class="site-footer-links">
+        <?php echo \App\Helpers\Helper::footerLinks(); ?>
+    </p>
 </footer>

@@ -7,3 +7,8 @@
     color: #555;
     line-height: 1.8em;
 }
+.site-footer-links A {
+    color: #666;
+    margin-right: 15px;
+    font-size: 0.95em;
+}

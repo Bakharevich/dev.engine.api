@@ -77,4 +77,17 @@ class Helper {
 
         return $url;
     }
+
+    public static function footerLinks()
+    {
+        $sites = \App\Site::all();
+
+        $links = '';
+
+        foreach ($sites as $site) {
+            $links .= "<a href=\"http://{$site->domain}\">{$site->name}</a>";
+        }
+
+        return $links;
+    }
 }
