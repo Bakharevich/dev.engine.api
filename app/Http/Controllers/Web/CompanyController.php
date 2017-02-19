@@ -16,6 +16,7 @@ use App\Http\Requests;
 use App\Category;
 use App\Company;
 use App\City;
+use Mail;
 use App\Http\Requests\CompanyCreate;
 
 
@@ -41,6 +42,12 @@ class CompanyController extends Controller
 
         $company = CompanyRepository::create($params);
         //dd($company);
+
+        Mail::send('emails.notification-company', ['request' => $request->all(), 'site' => $request->site, 'company' => $company], function ($m) use ($request) {
+            $m->from('ilya@bakharevich.by', $request->site->domain);
+
+            $m->to('ilya@bakharevich.by')->subject('New company at ' . $request->site->domain);
+        });
 
         return redirect('/companies/success');
     }
@@ -219,7 +226,7 @@ class CompanyController extends Controller
         }
 
         // get company
-        $company = Company::select('id')->where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
+        $company = Company::select('id', 'name', 'address', 'tel')->where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();
 
         $review = CompanyReview::create([
             'service_id' => 0,
@@ -228,6 +235,12 @@ class CompanyController extends Controller
             'rating' => $request->input('rating'),
             'review' => $request->input('review')
         ]);
+
+        Mail::send('emails.notification-comment', ['request' => $request->all(), 'site' => $request->site, 'company' => $company], function ($m) use ($request) {
+            $m->from('ilya@bakharevich.by', $request->site->domain);
+
+            $m->to('ilya@bakharevich.by')->subject('New comment at ' . $request->site->domain);
+        });
 
         // set flash message
         $request->session()->flash('message', 'Комментарий успешно добавлен');
