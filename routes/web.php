@@ -1,4 +1,5 @@
 <?php
+Route::any('/contact', 'Web\PageController@contact');
 Route::get('/companies/create', 'Web\CompanyController@create');
 Route::post('/companies/create', 'Web\CompanyController@store');
 Route::get('/companies/success', 'Web\CompanyController@success');
