@@ -1,4 +1,27 @@
+<?php
+// get site setting to understand what kind of menu should be
+//$menuType = Request::get('site')->menu_type;
+//
+//// if type == 1 (easy), just get all categories
+//if ($menuType == 1) {
+//    $menu = \App\Category::select(['name', 'domain'])->
+//    where('site_id', $request->site->id)->
+//    where('city_id', $request->city->id)
+//            ->get();
+//}
+//else if ($menuType == 2) {
+//    $menu = \App\CategoryGroup::with('categories')
+//            ->where('site_id', $request->site->id)
+//            ->where('city_id', $request->city->id)
+//            ->get();
+//}
 
+$menu = \App\Helpers\Menu::menu(
+        Request::get('site')->menu_type,
+        Request::get('site')->id,
+        Request::get('city')->id
+    );
+?>
 
 @if (Request::get('site')->menu_type == 1)
     <div class="">
@@ -19,7 +42,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav mainmenu">
-                        @foreach (Request::get('menu') as $index => $value)
+                        @foreach ($menu as $index => $value)
                             <li>
                                 <a href="{{ $value->url }}" class="tab" role="button" aria-expanded="false">
                                     <span class="title">{{ $value->name }}</span>
@@ -49,7 +72,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav mainmenu">
-                        @foreach (Request::get('menu') as $index => $value)
+                        @foreach ($menu as $index => $value)
                             <li>
                                 <a href="" class="tab" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                     <span class="title">{{ $value->name1 }}</span>

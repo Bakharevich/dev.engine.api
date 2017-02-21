@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\City;
 
-class DefineCity
+class DefineCityList
 {
     /**
      * Handle an incoming request.

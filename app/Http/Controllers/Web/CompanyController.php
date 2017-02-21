@@ -74,13 +74,14 @@ class CompanyController extends Controller
         if (!$company) {
             throw new HttpException(404);
         }
-
+//dd($company->category->city_id);
         // get city of company
         $city = City::where('id', $company->category->city_id)->first();
         //dd($city);
         if (!$city) {
             throw new HttpException(404);
         }
+//        dd($city);
         $request->merge(compact('city'));
 
         /**********************

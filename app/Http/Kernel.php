@@ -31,8 +31,10 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\DefineSite::class,
-            \App\Http\Middleware\DefineMenu::class,
-            \App\Http\Middleware\DefineCity::class,
+            \App\Http\Middleware\DefineCurrentCity::class,
+            //\App\Http\Middleware\DefineMenu::class,
+            \App\Http\Middleware\DefineCityList::class,
+
         ],
 
         'api' => [

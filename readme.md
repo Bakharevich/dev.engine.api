@@ -59,7 +59,7 @@ php artisan companies:update-position SITE_ID
 Generate sitemap for all sites:
 
 `
-php artisan sitemap-generate
+php artisan sitemap:generate SITE_ID
 `
 
 Update proxy list:

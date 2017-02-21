@@ -25,17 +25,10 @@ class CategoryController extends Controller
     {
         $selectedOptions = $request->input('option', []);
 
-        // get city
-        $city = City::where('country_id', $request->site->country_id)->where('domain', $cityDomain)->first();
-        if (!$city) {
-            throw new HttpException(404);
-        }
-        $request->merge(compact('city'));
-
         // get category with options
         $category = Category::with('options_groups.options')->
             where('domain', $domain)->
-            where('city_id', $city->id)->
+            where('city_id', $request->city->id)->
             first();
         if (!$category) {
             throw new HttpException(404);

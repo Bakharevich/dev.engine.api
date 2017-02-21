@@ -18,7 +18,7 @@ class IndexController extends Controller
     public function index(Request $request)
     {
         // get categories
-        $categories = Category::where('site_id', $request->site->id)->get();
+        $categories = Category::where('site_id', $request->site->id)->where('city_id', $request->site->city_id)->get();
 
         // get meta
         $meta = Meta::where('site_id', $request->site->id)->where('url', $_SERVER['REQUEST_URI'])->first();
