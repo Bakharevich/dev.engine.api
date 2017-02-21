@@ -62,7 +62,7 @@
                 @if ($company->website)
                     <p>
                         <i class="fa fa-link" aria-hidden="true"></i>
-                        <a href="{!! $company->website !!}" target="_blank" rel="nofollow">{!! $company->website !!}</a>
+                        <a href="{!! $company->website !!}" target="_blank" rel="nofollow" class="company-www">{!! $company->website !!}</a>
                     </p>
                 @endif
 
