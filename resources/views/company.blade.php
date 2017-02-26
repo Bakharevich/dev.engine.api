@@ -80,6 +80,10 @@
 
     <div style="background: #FFF; padding-top: 25px;">
         <div class="container">
+            <div class="hidden-md hidden-lg col-xs-12">
+                <div class="img-thumbnail yandex-map" style="width: 100%; height: 200px; margin-bottom: 20px;"></div>
+            </div>
+
             @if(Session::has('message'))
                 <div class="alert alert-success alert-dismissible text-center" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -145,7 +149,7 @@
             </div>
             <div class="col-md-4 text-left" style="margin-top: 0px;">
                 @if ($company->latitude && $company->longitude)
-                    <div id="map" class="img-thumbnail" style="width: 100%; height: 300px;"></div>
+                    <div id="map" class="img-thumbnail yandex-map hidden-sm hidden-xs" style="width: 100%; height: 300px;"></div>
                 @endif
 
                 <?php $banner = \App\Repositories\BannerRepository::banner(4, Request::get('site')->id); ?>
@@ -204,27 +208,32 @@
 
 
             function init () {
-                var myMap = new ymaps.Map("map", {
-                            center: [latitude, longitude],
-                            zoom: 16
-                        }, {
-                            searchControlProvider: 'yandex#search'
-                        }),
+                var container = $(".yandex-map");
 
-                myGeoObject = new ymaps.GeoObject({
-                    geometry: {
-                        type: "Point",
-                        coordinates: [latitude, longitude]
-                    },
-                    // Свойства.
-                    properties: {
+                $.each(container, function (index, value) {
+                    //console.log(index);
+                    var myMap = new ymaps.Map(container[index], {
+                                center: [latitude, longitude],
+                                zoom: 16
+                            }, {
+                                searchControlProvider: 'yandex#search'
+                            }),
 
-                    }
-                }, {
-                    preset: 'islands#icon'
+                            myGeoObject = new ymaps.GeoObject({
+                                geometry: {
+                                    type: "Point",
+                                    coordinates: [latitude, longitude]
+                                },
+                                // Свойства.
+                                properties: {
+
+                                }
+                            }, {
+                                preset: 'islands#icon'
+                            });
+
+                    myMap.geoObjects.add(myGeoObject);
                 });
-
-                myMap.geoObjects.add(myGeoObject);
             }
         </script>
     @endif
