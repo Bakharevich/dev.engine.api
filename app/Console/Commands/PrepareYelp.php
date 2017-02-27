@@ -101,7 +101,8 @@ class PrepareYelp extends Command
         //print_r($cities); exit();
         //$cities = [['name' => 'Kuala Lumpur', 'url' => 'https://en.yelp.my/kl', 'city_id' => 1735161, 'city_domain' => 'kuala-lumpur']];
         //$cities = [['name' => 'London', 'url' => 'https://www.yelp.co.uk/london', 'city_id' => 2643743, 'city_domain' => 'london']];
-        $cities = [['name' => 'Birmingham', 'url' => 'https://www.yelp.co.uk/birmingham', 'city_id' => 2655603, 'city_domain' => 'birmingham']];
+        //$cities = [['name' => 'Birmingham', 'url' => 'https://www.yelp.co.uk/birmingham', 'city_id' => 2655603, 'city_domain' => 'birmingham']];
+        $cities = [['name' => 'George Town', 'url' => 'https://en.yelp.my/george-town-penang-my', 'city_id' => 1735106, 'city_domain' => 'george-town']];
         //print_r($cities); exit();
 
 
