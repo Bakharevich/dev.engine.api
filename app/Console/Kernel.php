@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('scrape')->cron('*/5 * * * *');
+        $schedule->command('scrape')->cron('*/3 * * * *');
     }
 
     /**
