@@ -71,9 +71,13 @@ class PrepareTam extends Command
         //$citiesArr = $this->request('https://tam.by/?call=catalogCities');
         //$arr = json_decode($citiesArr);
 
+//        $cities[] = [
+//            'name' => 'Минск',
+//            'url' => 'https://tam.by'
+//        ];
         $cities[] = [
-            'name' => 'Минск',
-            'url' => 'https://tam.by'
+            'name' => 'Гомель',
+            'url' => 'https://gomel.tam.by'
         ];
 
         foreach ($cities as $c) {
@@ -91,7 +95,7 @@ class PrepareTam extends Command
             // first get UL
             preg_match_all("|<ul class=\"category-list\">(.+?)</ul>|", $page, $ulResult);
 
-            $reg = "|<a href=\"(.+?)\" onclick=\"window.location='.*?'; return false;\"><span>(.+?)</span></a>|is";
+            $reg = "|<a href=\"(.+?)\".*?><span>(.+?)</span></a>|is";
             preg_match_all($reg, $ulResult[1][0], $citiesPre);
             //print_r($citiesPre); exit();
 
