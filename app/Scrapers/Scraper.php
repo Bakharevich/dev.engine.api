@@ -28,7 +28,13 @@ class Scraper  {
     public function request($url, $params = [])
     {
         // if production, use proxy
-        $curl = [];
+        $curl = [
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_FOLLOWLOCATION => FALSE,
+            CURLOPT_TIMEOUT => 30
+        ];
+
         if (getenv('APP_ENV') == "production") {
             // get proxy
             $proxy = ProxyRepository::best();
@@ -42,11 +48,6 @@ class Scraper  {
 
             $curl = [
                 CURLOPT_PROXY => $proxyString,
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => 2,
-                //CURLOPT_SSLVERSION => 3,
-                CURLOPT_FOLLOWLOCATION => FALSE,
-                CURLOPT_TIMEOUT => 30
             ];
         }
 
