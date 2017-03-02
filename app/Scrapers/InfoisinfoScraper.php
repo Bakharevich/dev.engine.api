@@ -50,10 +50,13 @@ class InfoisinfoScraper
 
     public static function name($page)
     {
-        $reg = "|title_com: \"(.+?)\",|";
+        //$reg = "|title_com: \"(.+?)\",|";
+        $reg = '|"name": "(.+?)"|is';
         preg_match_all($reg, $page, $matches);
+        //echo "<pre>"; print_r($matches[1][0]); echo "</pre>";
 
         if (!empty($matches[1][0])) {
+            //if ()
             return trim(htmlspecialchars_decode($matches[1][0], ENT_QUOTES));
         }
         else return "";
@@ -61,22 +64,28 @@ class InfoisinfoScraper
 
     public static function address($page)
     {
-        $reg = "|address: \"(.+?)\",|is";
+        //$reg = "|address: \"(.+?)\",|is";
+        $reg = '|"address".*?"name": "(.+?)"|is';
         preg_match_all($reg, $page, $matches);
 
         if (!empty($matches[1][0])) {
-            return trim($matches[1][0]);
+            return trim(stripslashes($matches[1][0]));
         }
         else return "";
     }
 
     public static function telephone($page)
     {
-        $reg = "|phone: \"(.+?)\",|is";
-        preg_match_all($reg, $page, $matches);
+        //$reg = "|phone: \"(.+?)\",|is";
+        //echo "XYU"; exit();
+        $arr = json_decode($page);
+        //print_r($arr); exit();
+
+        $reg = "|<a.*?>(.+?)</a>|";
+        preg_match_all($reg, $arr->s_resp, $matches);
 
         if (!empty($matches[1][0])) {
-            return trim($matches[1][0]);
+            return implode(", ", $matches[1]);
         }
         else return '';
     }
@@ -219,5 +228,26 @@ class InfoisinfoScraper
         ];
 
         return $days[$day];
+    }
+
+    public static function getPhoneKey($page)
+    {
+        $reg = '|<div id="phone_cont" class="phone" data-x="(.+?)">|is';
+
+        preg_match_all($reg, $page, $keyArr);
+
+        if (!empty($keyArr[1][0])) {
+            return $keyArr[1][0];
+        }
+    }
+
+    public static function getPhoneUrlPage($url, $key)
+    {
+        if (empty($url)) return '';
+
+        // form url
+        $arr = parse_url($url);
+
+        return $arr['scheme'] . "://" . $arr['host'] . "/ws/getp?p=company&a=get_ph_json&idx=" . $key;
     }
 }

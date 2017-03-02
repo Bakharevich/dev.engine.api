@@ -56,7 +56,7 @@ class Infoisinfo extends Scraper implements ScraperInterface
 
             // get text from page
             $companyData = $this->prepareCompany($companyPage);
-            $companyInfo = $this->processCompany($this->getParam('site_id'), $companyData);
+            $companyInfo = CompanyRepository::create($companyData);
 
             // hours
             $hours = InfoisinfoScraper::hours($companyPage);
@@ -76,6 +76,7 @@ class Infoisinfo extends Scraper implements ScraperInterface
             $companyInfo->save();
 
             echo $companyInfo->name . " added.\n";
+            //exit();
         }
     }
 
@@ -88,7 +89,6 @@ class Infoisinfo extends Scraper implements ScraperInterface
         $data['original_url']     = $this->getParam('company_url');
         $data['name']             = InfoisinfoScraper::name($page);
         $data['address']          = InfoisinfoScraper::address($page);
-        $data['tel']              = InfoisinfoScraper::telephone($page);
         $data['website']          = InfoisinfoScraper::website($page);
         $data['rating']           = InfoisinfoScraper::rating($page);
         $data['latitude']         = InfoisinfoScraper::latitude($page);
@@ -97,6 +97,25 @@ class Infoisinfo extends Scraper implements ScraperInterface
         $data['domain']           = str_slug($data['name']);
         $data['scraper_unique']   = $this->getParam('company_url');
         $data['last_review']      = '';
+
+        // get telephone number
+        $key = InfoisinfoScraper::getPhoneKey($page);
+
+        if (!empty($key)) {
+            // get url link for phones
+            $phoneUrl = InfoisinfoScraper::getPhoneUrlPage($this->getParam('company_url'), $key);
+
+            $pagePhone = $this->request($phoneUrl);
+
+            $data['tel'] = InfoisinfoScraper::telephone($pagePhone);
+        }
+
+        // set slug
+        if (strlen($data['domain']) > 40) {
+            $data['domain'] = substr($data['domain'], 0, 40);
+        }
+
+        // set url
         $data['url']              = "http://" . $data['domain'] . "." . $this->getParam('domain') . "/";
 
         return $data;
