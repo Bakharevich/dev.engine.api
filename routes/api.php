@@ -32,6 +32,7 @@ Route::get('companies/getAllByCategoryId', 'Api\CompanyController@getAllByCatego
 Route::get('companies/getHtmlByCategoryId', 'Api\CompanyController@getHtmlByCategoryId')->name('companies.getHtmlByCategoryId');
 Route::get('companies/getByDomain', 'Api\CompanyController@getByDomain')->name('companies.getByDomain');
 Route::get('companies/search', 'Api\CompanyController@search')->name('companies.search');
+Route::post('companies/quote', 'Api\CompanyController@quote')->name('companies.quote');
 Route::resource('companies', \Api\CompanyController::class);
 
 

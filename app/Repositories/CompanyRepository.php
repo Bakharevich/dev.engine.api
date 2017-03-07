@@ -75,4 +75,12 @@ class CompanyRepository {
 
         return $companies;
     }
+
+    public static function quote($request)
+    {
+        // add quote to DB
+
+
+        // send email
+    }
 }

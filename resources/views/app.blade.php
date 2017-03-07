@@ -39,6 +39,7 @@
     <script src="http://<?= Request::get('site')->domain ?>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="http://<?= Request::get('site')->domain ?>/bower_components/jquery-ui/jquery-ui.min.js"></script>
     <script src="http://<?= Request::get('site')->domain ?>/js/main.js"></script>
+    <script src="http://<?= Request::get('site')->domain ?>/js/ajax.js"></script>
 
     @yield('scripts')
 
