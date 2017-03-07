@@ -23,6 +23,8 @@ $menu = \App\Helpers\Menu::menu(
     );
 ?>
 
+<?php /* TODO: Rewrite menu in right way */ ?>
+
 @if (Request::get('site')->menu_type == 1)
     <div class="">
         <nav class="navbar navbar-chatoff">
@@ -73,7 +75,7 @@ $menu = \App\Helpers\Menu::menu(
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav mainmenu">
                         @foreach ($menu as $index => $value)
-                            <li>
+                            <li class="mainmenu-row">
                                 <a href="" class="tab" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                     <span class="title">{{ $value->name1 }}</span>
                                     @if ($value->name2)
@@ -85,13 +87,7 @@ $menu = \App\Helpers\Menu::menu(
                                     @endif
                                 </a>
 
-                                @if ($value->categories)
-                                    <ul class="dropdown-menu">
-                                    @foreach ($value->categories as $category)
-                                        <li><a href="{{ $category->url }}">{{ $category->name }}</a></li>
-                                    @endforeach
-                                    </ul>
-                                @endif
+                                <?php echo \App\Helpers\Menu::formatSubcategories($value->categories); ?>
                             </li>
                         @endforeach
                     </ul>

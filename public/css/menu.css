@@ -53,3 +53,27 @@
 .navbar-toggle .icon-bar  {
     background: #CCC;
 }
+
+/* Custom dropdown */
+UL.subcategories {
+    padding: 15px;
+}
+UL.subcategories LI {
+    margin-bottom: 8px;
+    line-height: 1.2em !important;
+}
+UL.subcategories LI A {
+    color: #006699;
+}
+.custom-dropdown-col-sm-12 {
+    width: 180px;
+}
+.custom-dropdown-col-sm-6 {
+    width: 400px;
+}
+.custom-dropdown-col-sm-4 {
+    width: 550px;
+}
+.custom-dropdown-col-sm-3 {
+    width: 750px;
+}
