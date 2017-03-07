@@ -65,6 +65,11 @@ UL.subcategories LI {
 UL.subcategories LI A {
     color: #006699;
 }
+@media (max-width: 767px) {
+    UL.subcategories LI A {
+        color: #FFFFFF;
+    }
+}
 .custom-dropdown-col-sm-12 {
     width: 180px;
 }
