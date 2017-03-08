@@ -10,13 +10,12 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
 use DB;
-use App\Repositories;
 
 class CompanyController extends Controller
 {
     public function __construct()
     {
-        $this->companyRepository = new CompanyRepository();
+        $this->companyRepository = new \App\Repositories\CompanyRepository();
     }
 
     /**
@@ -151,21 +150,6 @@ class CompanyController extends Controller
         }
 
         return response()->json($result, 200);
-    }
-
-    public function quote(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'company_id'    => 'required|integer',
-            'quote'         => 'required|string',
-            'tel'           => 'required|string'
-        ]);
-
-        if ( $validator->fails() ) {
-            return response()->json( ['error' => $validator->errors()->all()], 406 );
-        }
-
-        $quote = Repositories\CompanyRepository::quote($request);
     }
 
     /**

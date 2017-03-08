@@ -36,4 +36,9 @@ return [
     'company-review-photo' => 'Photo',
     'company-review-send' => 'Post Review',
     'company-review-success' => 'Your review is now live!',
+
+    /* QUOTES */
+    'quote-btn-request' => 'Request a Quote',
+    'quote-success-title' => 'Thank you!',
+    'quote-success-text' => 'Your request has been sent. It will be processed soon.'
 ];

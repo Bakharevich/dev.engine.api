@@ -34,6 +34,7 @@
     @yield('content')
 
     @include('partials.footer')
+    @include('partials.modals');
 
     <script src="http://<?= Request::get('site')->domain ?>/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="http://<?= Request::get('site')->domain ?>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

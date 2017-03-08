@@ -12,45 +12,6 @@
         </div>
     </div>
 
-    <div class="modal_ fade_" tabindex="-1" role="dialog">
-        <form class="submit-quote">
-            <input type="hidden" name="company_id" value="1" />
-
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Заявка</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="quote-status"></div>
-                            <div class="form-group">
-                                <p>
-                                    <label for="exampleInputEmail1">Для:</label> Название компании
-                                </p>
-                            </div>
-                            <div class="form-group">
-                                <label for="quote_text">Текст заявки:</label>
-                                <textarea id="quote_text" name="quote" class="form-control" rows="6" placeholder="Добрый день! Интересует следующий вопрос... Как быстро вы сможете и сколько стоит... ? Спасибо!"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="quote_tel">Телефон:</label>
-                                <input type="text" class="form-control" id="quote_tel" name="tel" placeholder="Telephone">
-                            </div>
-                            <div class="form-group">
-                                <label for="quote_email">Email:</label>
-                                <input type="text" class="form-control" id="quote_email" name="email" placeholder="Email">
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                        <button type="submit" class="btn btn-primary btn-send-quote">Отправить</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-
     <div style="background-color: #f5f5f5; font-size: 0.85em; padding-top: 15px; border-bottom: 1px solid #e7e7e7; border-top: 1px solid #eeeeee;">
         <div class="container">
             <div class="col-md-1 hidden-sm company-icon">
@@ -84,6 +45,10 @@
                 </div>
 
                 <div class="clearfix"></div>
+
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".modal-quote">
+                    {{ trans('company.quote-btn-request') }}
+                </button>
 
                 @if ($company->description)
                     <p style="color: #222;">{!! str_limit(strip_tags($company->description), 250)  !!}</p>

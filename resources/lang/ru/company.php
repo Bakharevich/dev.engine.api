@@ -36,4 +36,9 @@ return [
     'company-review-photo' => 'Фото',
     'company-review-send' => 'Отправить отзыв',
     'company-review-success' => 'Ваш отзыв успешно отправлен!',
+
+    /* QUOTES */
+    'quote-btn-request' => 'Оставить заявку',
+    'quote-success-title' => 'Спасибо!',
+    'quote-success-text' => 'Ваш запрос успешно отправлен и будет обработан в самое ближайшее время.'
 ];
