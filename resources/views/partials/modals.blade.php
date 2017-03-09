@@ -53,8 +53,13 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                     <button type="submit" class="btn btn-primary btn-send-quote">Отправить</button>
+                    <div></div>
                 </div>
             </div>
         </div>
     </form>
+</div>
+
+<div class="overlay">
+    ...
 </div>

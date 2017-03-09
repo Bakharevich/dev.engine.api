@@ -18,30 +18,6 @@ class CompanyQuoteRepository {
             'state' => !empty($request['state']) ? $request['state'] : 1
         ]);
 
-        // send email
-
         return $quote;
-
-        return $quote;
-    }
-
-    public function getByCategory($categoryId, $selectedOptions = [])
-    {
-        $query = Company::query();
-
-        $query->join('category_company', 'category_company.company_id', '=', 'companies.id');
-        $query->where('category_company.category_id', $categoryId);
-
-        /* Selected options case */
-        if (!empty($selectedOptions)) {
-            $query->join('company_option', 'company_option.company_id', '=', 'companies.id');
-            $query->whereIn('company_option.option_id', $selectedOptions);
-        }
-
-        $query->orderBy('is_premium', 'desc')->orderBy('pos', 'asc');
-
-        $companies = $query->paginate(20);
-
-        return $companies;
     }
 }

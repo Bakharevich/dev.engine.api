@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
 use DB;
+use Mail;
 
 class CompanyQuoteController extends Controller
 {
@@ -54,7 +55,20 @@ class CompanyQuoteController extends Controller
             return response()->json( ['status' => 0, 'error' => $validator->errors()->all()], 406 );
         }
 
+        // add quote
         $quote = \App\Repositories\CompanyQuoteRepository::create($request);
+
+        // get company
+        $company = \App\Company::find($request['company_id']);
+
+        // get site
+        $site = \App\Site::find($company->site_id);
+
+        // send email
+        Mail::send('emails.notification-company-quote', ['request' => $request, 'site' => $site, 'company' => $company], function ($m) use ($request, $site) {
+            $m->from('ilya@bakharevich.by', $site->domain);
+            $m->to('ilya@bakharevich.by')->subject('New quote at ' . $site->domain);
+        });
 
         return [
             'status' => 1,

@@ -50,6 +50,8 @@
                     {{ trans('company.quote-btn-request') }}
                 </button>
 
+                <button id="showSpinner">Show modal spinner</button>
+
                 @if ($company->description)
                     <p style="color: #222;">{!! str_limit(strip_tags($company->description), 250)  !!}</p>
                 @endif

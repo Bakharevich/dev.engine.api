@@ -51,7 +51,12 @@ $(function(){
                 });
             }
         );
-    })
+    });
+
+    $("#showSpinner").click(function(){
+        //$("DIV.modal.loading").show();
+        $("DIV.overlay").fadeIn(500);
+    });
 })
 
 
@@ -62,6 +67,9 @@ function createQuote(params, callback) {
         dataType: 'json',
         data: params,
         type: 'post',
+        beforeSend: function() {
+            console.log('Before send');
+        },
         success: function (result) {
             if (result.status == 1) {
                 callback(result);
@@ -69,6 +77,9 @@ function createQuote(params, callback) {
             else {
                 alert('Error during adding new quote');
             }
+        },
+        complete: function() {
+            console.log('Complete');
         },
         error: function () {
             alert('API COMPANIES_QUOTES ERROR: Error during adding new quote');
@@ -86,3 +97,16 @@ function createQuote(params, callback) {
 function trans(lang, keys, callback) {
 
 }
+
+/* Global Ajax preloader */
+$(document)
+    .ajaxStart(function () {
+        $("DIV.overlay").fadeIn(500);
+    })
+    .ajaxStop(function () {
+        $("DIV.overlay").fadeOut(500);
+    })
+    .ajaxError(function () {
+        $("DIV.overlay").fadeOut(500);
+    })
+;
