@@ -1,7 +1,7 @@
 <div class="jumbotron" style="z-index: 1;padding-top: 30px; padding-bottom: 30px; background: #f5f5f5;">
     <h3>{{ trans('company.company-review-write-review') }}</h3>
 
-    <form action="/reviews" method="post" class="form-post-review">
+    <form action="/reviews" method="post" class="form-post-review validation">
         {{ csrf_field() }}
 
         <div class="row">

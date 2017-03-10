@@ -1,6 +1,6 @@
 
 
-<form action="{{ url('/companies/create') }}" method="post" class="form-create-company">
+<form action="{{ url('/companies/create') }}" method="post" class="form-create-company validation">
     @include('errors.formerrors')
 
     {{ csrf_field() }}
