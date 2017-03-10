@@ -38,7 +38,14 @@ return [
     'company-review-success' => 'Your review is now live!',
 
     /* QUOTES */
-    'quote-btn-request' => 'Request a Quote',
+    'quote-btn-request' => 'Send a Request',
+    'quote-company' => 'Company',
+    'quote-text' => 'Text',
+    'quote-text-placeholder' => 'Hi! I\'d like to know ... ',
+    'quote-phone' => 'Phone number',
+    'quote-email' => 'Email',
+    'quote-btn-send' => 'Request',
+    'quote-btn-close' => 'Close',
     'quote-success-title' => 'Thank you!',
     'quote-success-text' => 'Your request has been sent. It will be processed soon.'
 ];

@@ -11,6 +11,7 @@ return [
     'registration' => 'Регистрация',
     'reset-password' => 'Забыли пароль?',
     'logout' => 'Выход',
+    'cancel' => 'Отмена',
 
     'alert-not-done' => 'Данная функция в данный момент недоступна'
 ];

@@ -31,28 +31,29 @@
                     <h4 class="modal-title">Заявка</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="quote-status"></div>
+                    <div class="status"></div>
+
                     <div class="form-group">
                         <p>
-                            <label for="exampleInputEmail1">Для:</label> Название компании
+                            <label for="exampleInputEmail1">{{ trans('company.quote-company') }}:</label> <span class="modal-quote-company-name"></span>
                         </p>
                     </div>
                     <div class="form-group">
-                        <label for="quote_text">Текст заявки:</label>
-                        <textarea id="quote_text" name="quote" class="form-control" rows="6" placeholder="Добрый день! Интересует следующий вопрос... Как быстро вы сможете и сколько стоит... ? Спасибо!"></textarea>
+                        <label for="quote_text">{{ trans('company.quote-text') }}:</label>
+                        <textarea id="quote_text" name="quote" class="form-control" rows="6" placeholder="{{ trans('company.quote-text-placeholder') }}"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="quote_tel">Телефон:</label>
+                        <label for="quote_tel">{{ trans('company.quote-phone') }}:</label>
                         <input type="text" class="form-control" id="quote_tel" name="tel" placeholder="Telephone">
                     </div>
                     <div class="form-group">
-                        <label for="quote_email">Email:</label>
+                        <label for="quote_email">{{ trans('company.quote-email') }}:</label>
                         <input type="text" class="form-control" id="quote_email" name="email" placeholder="Email">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                    <button type="submit" class="btn btn-primary btn-send-quote">Отправить</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('common.cancel') }}</button>
+                    <button type="submit" class="btn btn-primary btn-send-quote">{{ trans('company.quote-btn-send') }}</button>
                     <div></div>
                 </div>
             </div>
@@ -61,5 +62,5 @@
 </div>
 
 <div class="overlay">
-    ...
+
 </div>

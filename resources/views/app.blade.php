@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="{{ Request::get('site')->locale }}" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     @include('partials.meta')
@@ -22,6 +22,7 @@
     <meta name="google-site-verification" content="aFNFfQ9ZfnEtfYIV2_Q1FGjANTOr08KgMxB8AjNfOng" />
     <meta name="msvalidate.01" content="0154515FE32C8F8EF4F3F250CFB1AF24" />
     <meta name="site_id" content="{{ Request::get('site')->id }}" />
+    <meta name="site_locale" content="{{ Request::get('site')->locale }}" />
 </head>
 <body>
     @if (Route::currentRouteName() != "index")
@@ -40,6 +41,7 @@
     <script src="http://<?= Request::get('site')->domain ?>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="http://<?= Request::get('site')->domain ?>/bower_components/jquery-ui/jquery-ui.min.js"></script>
     <script src="http://<?= Request::get('site')->domain ?>/js/main.js"></script>
+    <script src="http://<?= Request::get('site')->domain ?>/js/functions.js"></script>
     <script src="http://<?= Request::get('site')->domain ?>/js/ajax.js"></script>
 
     @yield('scripts')
@@ -84,14 +86,16 @@
         });
 
         // global form validation
-        if (typeof formName === 'undefined') formName = 'FORM';
+        if (typeof formName === 'undefined') formName = 'FORM.validation';
 
         $(formName).submit(function(e){
             e.preventDefault();
 
             var isSubmit = true;
 
-            $(formName + " .required").each(function(index, val){
+            console.log($(this));
+
+            $(this).find(".required").each(function(index, val){
                 var res = $(val).val();
 
                 if (!res) {
