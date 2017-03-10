@@ -68,7 +68,7 @@ class CompanyQuoteController extends Controller
         Mail::send('emails.notification-company-quote', ['request' => $request, 'site' => $site, 'company' => $company], function ($m) use ($request, $site) {
             $m->from('ilya@bakharevich.by', $site->domain);
             $m->cc('bond@chatoff.by', 'Natalia Bondarenko');
-            $m->cc('ib@gogo.by', 'Anastasia Nasilovskaya');
+            $m->cc('nasilovskaya@chatoff.by', 'Anastasia Nasilovskaya');
             $m->to('ilya@bakharevich.by')->subject('New quote at ' . $site->domain);
         });
 
