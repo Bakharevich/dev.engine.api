@@ -34,6 +34,13 @@ Route::get('companies/getByDomain', 'Api\CompanyController@getByDomain')->name('
 Route::get('companies/search', 'Api\CompanyController@search')->name('companies.search');
 Route::resource('companies', \Api\CompanyController::class);
 
+/* COMPANIES_QUOTE */
+Route::resource('companies_quotes', \Api\CompanyQuoteController::class);
+
+/* LANGUAGES */
+Route::get('languages/keys', 'Api\LanguageController@keys')->name('languages.keys');
+Route::resource('languages', \Api\LanguageController::class);
+
 
 
 /*

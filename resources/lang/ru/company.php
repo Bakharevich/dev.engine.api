@@ -36,4 +36,16 @@ return [
     'company-review-photo' => 'Фото',
     'company-review-send' => 'Отправить отзыв',
     'company-review-success' => 'Ваш отзыв успешно отправлен!',
+
+    /* QUOTES */
+    'quote-btn-request' => 'Оставить заявку',
+    'quote-company' => 'Компания',
+    'quote-text' => 'Текст',
+    'quote-text-placeholder' => 'Добрый день! Интересует следующий вопрос... Как быстро вы сможете и сколько стоит... ? Спасибо!',
+    'quote-phone' => 'Телефонный номер',
+    'quote-email' => 'Email',
+    'quote-btn-send' => 'Отправить',
+    'quote-btn-close' => 'Закрыть',
+    'quote-success-title' => 'Спасибо!',
+    'quote-success-text' => 'Ваш запрос успешно отправлен и будет обработан в самое ближайшее время.'
 ];

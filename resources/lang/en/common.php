@@ -11,6 +11,7 @@ return [
     'registration' => 'Signup',
     'reset-password' => 'Forgot password?',
     'logout' => 'Log out',
+    'cancel' => 'Cancel',
 
     'alert-not-done' => 'Functionality has not been implemented yet'
 ];

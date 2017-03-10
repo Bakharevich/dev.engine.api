@@ -43,4 +43,9 @@ class Company extends Model
     {
         return $this->belongsToMany('App\Category', 'category_company', 'company_id', 'category_id');
     }
+
+    public function quotes()
+    {
+        return $this->belongsToMany('App\CompanyQuote');
+    }
 }

@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\CategoryCompany;
 use App\Company;
+use App\CompanyQuote;
 use App\Site;
 
 class CompanyRepository {
@@ -74,5 +75,21 @@ class CompanyRepository {
         $companies = $query->paginate(20);
 
         return $companies;
+    }
+
+    public static function createQuote($request)
+    {
+        // add quote to DB
+        $quote = CompanyQuote::create([
+            'company_id' => $request[''],
+            'tel' => $request['tel'],
+            'email' => $request['email'],
+            'quote' => $request['quote'],
+            'state' => !empty($request['state']) ? $request['state'] : 1
+        ]);
+
+        // send email
+
+        return $quote;
     }
 }

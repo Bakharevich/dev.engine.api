@@ -1,6 +1,8 @@
 @extends('app')
 
 @section('content')
+    <meta itemprop="company-name" id="company-name" content="{{ $company->name }}" />
+
     <div style="background-color: #fafafa; font-size: 0.85em;">
         <div class="container">
             <ol class="breadcrumb" style="margin-bottom: 0px; background: #fafafa;">
@@ -45,6 +47,12 @@
                 </div>
 
                 <div class="clearfix"></div>
+
+                <div style="margin-bottom: 20px;">
+                    <button type="button" class="btn btn-success btn-lg" onclick='modalQuote({{ $company->id }}, "{!! addslashes($company->name) !!}")'>
+                        {{ trans('company.quote-btn-request') }}
+                    </button>
+                </div>
 
                 @if ($company->description)
                     <p style="color: #222;">{!! str_limit(strip_tags($company->description), 250)  !!}</p>

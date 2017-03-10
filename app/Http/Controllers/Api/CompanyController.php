@@ -10,6 +10,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
 use DB;
+
 class CompanyController extends Controller
 {
     public function __construct()
