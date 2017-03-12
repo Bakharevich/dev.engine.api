@@ -24,6 +24,7 @@ Route::resource('cities', \Api\CityController::class);
 /* CATEGORIES */
 Route::get('categories/getAllBySiteId', 'Api\CategoryController@getAllBySiteId')->name('categories.getAllBySiteId');
 Route::get('categories/getByDomain', 'Api\CategoryController@getByDomain')->name('categories.getByDomain');
+Route::get('categories/getByCategoryGroup', 'Api\CategoryController@getByCategoryGroup')->name('categories.getByCategoryGroup');
 Route::resource('categories', \Api\CategoryController::class);
 
 /* COMPANIES */

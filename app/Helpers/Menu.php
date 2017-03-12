@@ -28,29 +28,34 @@ class Menu {
         return $menu;
     }
 
-    public static function formatSubcategories($categories)
+    public static function formatSubcategories($categories, $params)
     {
-        // define columns
-        if (count($categories) <= 10) {
-            $columns = 1;
-            $colClass = 'col-sm-12';
-            $width = '';
+        // define columns if there is no param
+        if (empty($params['columns'])) {
+            if (count($categories) <= 10) {
+                $columns = 1;
+            } elseif (count($categories) > 10 && count($categories) < 20) {
+                $columns = 2;
+            } elseif (count($categories) >= 20 && count($categories) < 40) {
+                $columns = 3;
+            } elseif (count($categories) >= 40) {
+                $columns = 4;
+            }
         }
-        elseif (count($categories) > 10 && count($categories) < 20) {
-            $columns = 2;
-            $colClass = 'col-sm-6';
-        }
-        elseif (count($categories) >= 20 && count($categories) < 40) {
-            $columns = 3;
-            $colClass = 'col-sm-4';
-        }
-        elseif (count($categories) >= 40) {
-            $columns = 4;
-            $colClass = 'col-sm-3';
+        else {
+            $columns = $params['columns'];
         }
 
+        // define class for number of columns
+        $class = [
+            1 => 'col-sm-12',
+            2 => 'col-sm-6',
+            3 => 'col-sm-4',
+            4 => 'col-sm-3',
+        ];
+
         // init
-        $html       = '<ul class="dropdown-menu subcategories"><div class="row custom-dropdown-' . $colClass . '">';
+        $html       = '<ul class="' . $params['ulMainClass'] . '"><div class="row custom-dropdown-' . $class[$columns] . '">';
         $i          = 0;
         $menu       = [];
 
@@ -58,7 +63,8 @@ class Menu {
         foreach ($categories as $category) {
             $menu[$i][] = [
                 'name'      => $category->name,
-                'url'       => $category->url
+                'url'       => $category->url,
+                'icon'      => !empty($category->icon) ? $category->icon : ''
             ];
 
             // iterate
@@ -72,10 +78,22 @@ class Menu {
 
         // generate html
         foreach ($menu as $col) {
-            $html .= "<ul class=\"list-unstyled {$colClass}\">";
+            $html .= "<ul class=\"list-unstyled {$class[$columns]}\">";
 
             foreach ($col as $cat) {
-                $html .= "<li><a href=\"{$cat['url']}\">{$cat['name']}</a></li>";
+                // if icon param is enabled
+                $icon = '';
+
+                if (!empty($params['icon'])) {
+                    if (!empty($cat['icon'])) {
+                        $icon = "<span class='index-modal-menu-icon {$cat['icon']}' style='width: 17px;'></span>";
+                    }
+                    else {
+                        $icon = "<i class='fa fa-chevron-circle-right'></i>";
+                    }
+                }
+
+                $html .= "<li>{$icon} <a href=\"{$cat['url']}\">{$cat['name']}</a></li>";
             }
 
             $html .= "</ul>";

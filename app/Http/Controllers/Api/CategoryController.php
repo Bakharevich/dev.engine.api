@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\CategoryGroup;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -100,6 +101,52 @@ class CategoryController extends Controller
 
         return response()->json([
             $category
+        ]);
+    }
+
+    public function getByCategoryGroup(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'category_group_id' => 'required|integer',
+            'columns' => 'array',
+            'format' => 'string|in:html,json'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 0,
+                'errors' => $validator->errors()->all()
+            ], 406);
+        }
+
+        $format = $request->input('format', 'json');
+
+        // if empty columns, set default
+        if (empty($request->input('columns'))) {
+            $columns = ['id', 'name', 'icon', 'url'];
+        }
+        else {
+            $columns = $request->input('columns');
+        }
+
+        // get categories
+        $categories = Category::where('category_group_id', $request->input('category_group_id'))->orderBy('name')->get($columns);
+
+        // result according format
+        if ($format == "html") {
+            $result = \App\Helpers\Menu::formatSubcategories($categories, [
+                'ulMainClass' => 'index-modal-menu-subcategories',
+                'columns' => 4,
+                'icon' => false
+            ]);
+        }
+        else  {
+            $result = $categories;
+        }
+
+        return response()->json([
+            'status' => 1,
+            'result' => $result,
         ]);
     }
 

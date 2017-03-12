@@ -12,6 +12,7 @@ return [
     'reset-password' => 'Forgot password?',
     'logout' => 'Log out',
     'cancel' => 'Cancel',
+    'close' => 'Close',
 
     'alert-not-done' => 'Functionality has not been implemented yet'
 ];

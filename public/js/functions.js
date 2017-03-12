@@ -33,6 +33,35 @@ function createQuote(params, callbackSuccess, callbackError) {
     });
 }
 
+function getCategoriesByCategoryGroup(params, callbackSuccess, callbackError, element) {
+    $.ajax({
+        url: '/api/categories/getByCategoryGroup',
+        dataType: 'json',
+        data: params,
+        type: 'get',
+        beforeSend: function() {
+            element.find('.status').append('<img src="/img/ajax-loader.gif" />');
+        },
+        success: function (result) {
+            if (result.status == 1) {
+                callbackSuccess(result);
+            }
+            else {
+                alert('Error during getting categories by category group');
+            }
+        },
+        complete: function() {
+            element.find('.status IMG').remove('IMG');
+        },
+        error: function (result) {
+            element.find('.status IMG').remove('IMG');
+
+            // set status
+            callbackError(result.responseJSON);
+        }
+    });
+}
+
 /**
  * Show modal to post quote
  *

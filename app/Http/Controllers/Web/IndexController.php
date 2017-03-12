@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\CategoryGroup;
 use App\Http\Controllers\Controller;
 
 use App\News;
@@ -17,6 +18,10 @@ class IndexController extends Controller
 {
     public function index(Request $request)
     {
+        // get categories groups
+        $categoriesGroups = CategoryGroup::where('site_id', $request->site->id)->where('city_id', $request->site->city_id)->get();
+        //dd($categoriesGroups);
+
         // get categories
         $categories = Category::where('site_id', $request->site->id)->where('city_id', $request->site->city_id)->get();
 
@@ -49,6 +54,7 @@ class IndexController extends Controller
         return view('index', [
             'categories'       => $categories,
             'categoriesRandom' => $categoriesRandom,
+            'categoriesGroups' => $categoriesGroups,
             'meta'             => $meta,
             'news'             => $news,
             'colours'          => $colours
