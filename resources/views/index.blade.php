@@ -9,10 +9,6 @@
                 rgba(30, 0, 0, 0.4),
                 rgba(30, 0, 0, 0.4)
             ), url({{ Request::get('site')->media_url }}/backgrounds/index.jpg);
-
-
-
-
             background-size: cover;
             background-position: left top !important;
             /*-webkit-filter: blur(5px);  -moz-filter: blur(5px);  -o-filter: blur(5px);  -ms-filter: blur(5px);  filter: blur(5px);*/
@@ -102,27 +98,33 @@
             </div>
         </div>
 
-        <div class="container" style="margin: 0 auto; padding-top: 20px;">
-            @if (count($categories) > 0)
-                <div class="row" style="margin-bottom: 20px;">
-                    @foreach ($categories as $category)
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 text-center" style="margin-bottom: 25px; ">
-                            <a href="{{ $category->url }}" class="index-link-category" style="line-height: 1.2em; color: #1a65a5;" data-colour="<?php echo \App\Helpers\Helper::getRandom($colours) ?>">
-                                <div style="border: 1px solid #CCC; background: #FFF; border-radius: 5px; box-shadow: 0 1px 3px rgba(48, 53, 64, .3);">
-                                    <div style="margin-bottom: 10px; height: 110px; border-bottom: 1px solid #e4e4e4; padding: 20px 0px 20px 0px; margin: 0 auto;" class="text-center">
-                                        @if (!empty($category->icon))
-                                            <i class="{{ $category->icon }}" aria-hidden="true" style="font-size: 64px; color: #8a8f9a;"></i>
-                                        @else
-                                            <i class="fa fa-chevron-circle-right" aria-hidden="true" style="font-size: 64px; color: #8a8f9a;"></i>
-                                        @endif
-                                    </div>
-                                    <div style="height: 65px; padding: 0px 10px 0px 10px; font-weight: bold; padding-top: 10px;">
-                                        {{ $category->name }}
-                                    </div>
+        <div class="container text-center">
+
+            <h2 class="index-subtitle margin-bottom-30">{{ trans('index.categories-title') }}</h2>
+
+            @if (count($categoriesGroups) > 0)
+                <div class="row margin-bottom-20">
+                @foreach ($categoriesGroups as $group)
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 text-center margin-bottom-30" >
+                        <a href="#" class="index-link-category" data-colour="<?php echo \App\Helpers\Helper::getRandom($colours) ?>" data-id="{{ $group->id }}">
+                            <div class="index-link-box">
+                                <div class="index-link-box-top">
+                                    @if (!empty($group->icon))
+                                        <i class="{{ $group->icon }}" aria-hidden="true" style="font-size: 64px; color: #8a8f9a;"></i>
+                                    @else
+                                        <i class="fa fa-chevron-circle-right" aria-hidden="true" style="font-size: 64px; color: #8a8f9a;"></i>
+                                    @endif
                                 </div>
-                            </a>
-                        </div>
-                    @endforeach
+                                <div class="index-link-box-bottom">
+                                    {{ $group->name1 }}
+                                    @if ($group->name2)
+                                        {{ $group->name2 }}
+                                    @endif
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
                 </div>
             @else
                 {{ trans('index.index-no-categories') }}
@@ -133,21 +135,21 @@
 
                 <div class="row index-news">
                     @foreach ($news as $post)
-                    <div class="col-md-3">
-                        <div class="index-news-block">
-                            <a href="{{ $post->url }}">
-                                @if ($post->photo)
-                                <img src="{{ $post->photo }}" class="img-responsive" />
-                                @endif
+                        <div class="col-md-3">
+                            <div class="index-news-block">
+                                <a href="{{ $post->url }}">
+                                    @if ($post->photo)
+                                        <img src="{{ $post->photo }}" class="img-responsive" />
+                                    @endif
 
-                                <div class="index-news-block-description">
-                                    <p class="title"><b>{{ $post->title }}</b></p>
+                                    <div class="index-news-block-description">
+                                        <p class="title"><b>{{ $post->title }}</b></p>
 
-                                    <p>{{ str_limit($post->description, 100) }}</p>
-                                </div>
-                            </a>
+                                        <p>{{ str_limit($post->description, 100) }}</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
                 <!-- /News -->
@@ -158,6 +160,23 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal for categories -->
+    <div class="modal fade index-modal-categories" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" style="float: left; margin-right: 7px;"></h4> <div class="status" style="padding-top: 3px;"></div>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('common.close') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Modal for categories -->
 @stop
 
 @section('scripts')
@@ -165,6 +184,7 @@
         $(document).ready(function(){
             var returnColour = '';
 
+            // change colour for category on hover
             $(".index-link-category").hover(function(){
                 var colour = $(this).attr('data-colour');
                 returnColour = $(this).find('I').css('color');
@@ -173,6 +193,44 @@
             }, function() {
                 $(this).find('I').css('color', returnColour);
             });
+
+            // open modal
+            $("A.index-link-category").click(function(e) {
+                e.preventDefault();
+
+                // init vars
+                var name    = $(this).find('DIV.index-link-box-bottom').html();
+                var id      = $(this).data('id');
+                var params  = {
+                    category_group_id: id,
+                    format: 'html'
+                };
+                var modal   = $(".index-modal-categories");
+
+                // clear before values
+                modal.find('.modal-body').html('');
+
+                // success function
+                function success(data) {
+                    modal.find('DIV.modal-body').html(data.result);
+                    modal.find('DIV.modal-body UL').show();
+                }
+
+                function error(data) {
+                    console.log(data);
+                }
+
+                // error function
+
+                // get categories for group
+                getCategoriesByCategoryGroup(params, success, error, modal);
+
+                // set in modal
+                modal.find('H4.modal-title').html(name);
+
+                // show modal
+                modal.modal('show');
+            })
         })
     </script>
 @stop

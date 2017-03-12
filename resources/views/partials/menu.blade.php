@@ -87,7 +87,7 @@ $menu = \App\Helpers\Menu::menu(
                                     @endif
                                 </a>
 
-                                <?php echo \App\Helpers\Menu::formatSubcategories($value->categories); ?>
+                                <?php echo \App\Helpers\Menu::formatSubcategories($value->categories, ['ulMainClass' => 'dropdown-menu subcategories', 'icon' => false]); ?>
                             </li>
                         @endforeach
                     </ul>

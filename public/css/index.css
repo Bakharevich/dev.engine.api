@@ -1,9 +1,27 @@
+/* Texts */
+.index-subtitle {
+    color: #e34d37;
+}
+
 /* Main styles */
 A {
     /*color: #00928c;*/
 }
+A.index-link-category {
+    line-height: 1.2em;
+    color: #1a65a5;
+}
 .index-link-category:hover {
     text-decoration: none;
+}
+.index-link-box {
+    border: 1px solid #CCC; background: #FFF; border-radius: 5px; box-shadow: 0 1px 3px rgba(48, 53, 64, .3);
+}
+.index-link-box-top {
+    margin-bottom: 10px; height: 110px; border-bottom: 1px solid #e4e4e4; padding: 20px 0px 20px 0px; margin: 0 auto;
+}
+.index-link-box-bottom {
+    height: 65px; padding: 0px 10px 0px 10px; font-weight: bold; padding-top: 10px;
 }
 .navbar-default {
     background: #f53118;
@@ -17,6 +35,27 @@ A {
 .blur {
     -webkit-filter: blur(10px); filter: blur(10px);
 }
+
+/* Modal menu */
+.index-modal-categories .modal-body {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+.index-modal-menu-subcategories {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+.index-modal-menu-subcategories DIV.row {
+    width: 100% !important;
+}
+.index-modal-menu-subcategories LI {
+    margin-bottom: 15px;
+    color: #1a65a5;
+}
+.index-modal-menu-icon {
+    color: #333;
+}
+
 
 /* News */
 .index-news {
