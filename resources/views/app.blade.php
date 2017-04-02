@@ -46,7 +46,9 @@
 
     @yield('scripts')
 
-    {!! Request::get('site')->html_code !!}
+    @if (Request::get('nohtml') != 1)
+        {!! Request::get('site')->html_code !!}
+    @endif
 
     <script>
         // autocomplete search
