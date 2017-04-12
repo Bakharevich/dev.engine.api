@@ -114,11 +114,13 @@ class CompanyController extends Controller
         $result = [];
 
         // first check if such categories exist
-        $categories = Category::select(['id', 'name', 'url'])->
+        $categories = Category::select()->
+                                with('city')->
                                 where('name', 'like', '%' . $request->input('keyword') . '%')->
                                 where('site_id', $request->input('site_id'))->
                                 limit(5)->
                                 get();
+        //dd($categories);
 
         if ($categories) {
             foreach ($categories as $category) {
@@ -127,7 +129,7 @@ class CompanyController extends Controller
                     'type' => 'category',
                     'title' => $category->name,
                     'url' => $category->url,
-                    'subtitle' => ''
+                    'address' => $category->city->name
                 ];
             }
         }
@@ -142,12 +144,19 @@ class CompanyController extends Controller
 //dd($companies);
         if ($companies) {
             foreach ($companies as $company) {
+                $address = $company->address;
+
+                if (strlen($address) > 50) {
+                    $address = mb_substr($address, 0, 50) . "...";
+                }
+
                 $result[] = [
                     'id' => $company->id,
                     'type' => 'company',
                     'title' => $company->name,
-                    'subtitle' => $company->category->name,
-                    'url' => $company->url
+                    'category' => $company->category->name,
+                    'url' => $company->url,
+                    'address' => $address
                 ];
             }
         }

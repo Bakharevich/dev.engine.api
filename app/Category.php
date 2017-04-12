@@ -20,7 +20,7 @@ class Category extends Model
 
     public function city()
     {
-        return $this->hasOne(City::class);
+        return $this->hasOne(City::class, 'id', 'city_id');
     }
 
     public function companies_()

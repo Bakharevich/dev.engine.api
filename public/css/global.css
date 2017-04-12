@@ -52,13 +52,19 @@ P.autosearch-title.category {
     font-weight: bold;
 }
 P.autosearch-subtitle {
-    font-size: 0.9em;
+    font-size: 0.8em;
     margin: 0px !important;
     color: #bb2002 !important;
+}
+SPAN.autosearch-address {
+    color: #888 !important;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-state-active.ui-button:hover
 {
     border: 1px solid #CCC;
     background: #e0e0e0;
     color: #000;
+}
+.ui-menu-item {
+    padding-bottom: 5px !important;
 }

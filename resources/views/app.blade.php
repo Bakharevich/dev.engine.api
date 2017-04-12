@@ -72,9 +72,10 @@
                                 return {
                                     id: item.id,
                                     title: item.title,
-                                    subtitle: item.subtitle,
+                                    category: item.category,
                                     type: item.type,
-                                    url: item.url
+                                    url: item.url,
+                                    address: item.address
                                 }
                             }));
                         }
@@ -86,13 +87,25 @@
                     window.location.href = ui.item.url;
                 }
             } ).autocomplete( "instance" )._renderItem = function( ul, item ) {
-                var additionalClass;
+                var subtitle, line;
 
-                if (!item.subtitle) additionalClass = 'category';
+                if (item.type == "company") {
+                    subtitle = '' + item.category + ' &middot; <span class="autosearch-address">' + item.address + '</span>';
 
-                return $( "<li>" )
-                        .append( "<div><p class='autosearch-title " + additionalClass + "'>" + item.title + "</p><p class='autosearch-subtitle'>" + item.subtitle + "</p></div>" )
+                    line = "<div><p class='autosearch-title " + item.type + "'>" + item.title + "</p><p class='autosearch-subtitle'>" + subtitle + "</p></div>";
+                }
+                else {
+                    subtitle = '<span class="">' + item.address + '</span>';
+
+                    line = "<div><p class='autosearch-title " + item.type + "'>" + item.title + " (" + subtitle + ")</p></div>";
+                }
+
+
+                var res = $( "<li>" )
+                        .append( line )
                         .appendTo( ul );
+
+                return res;
             }
         });
 
