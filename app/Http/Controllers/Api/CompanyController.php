@@ -126,24 +126,27 @@ class CompanyController extends Controller
                     'id' => $category->id,
                     'type' => 'category',
                     'title' => $category->name,
-                    'url' => $category->url
+                    'url' => $category->url,
+                    'subtitle' => ''
                 ];
             }
         }
 
         // then check if such companies exist
-        $companies = Company::select(['id', 'name', 'url'])->
+        $companies = Company::select()->
+                              with('category')->
                               where('name', 'like', '%' . $request->input('keyword') . '%')->
                               where('site_id', $request->input('site_id'))->
                               limit(10)->
                               get();
-
+//dd($companies);
         if ($companies) {
             foreach ($companies as $company) {
                 $result[] = [
                     'id' => $company->id,
                     'type' => 'company',
                     'title' => $company->name,
+                    'subtitle' => $company->category->name,
                     'url' => $company->url
                 ];
             }
