@@ -71,7 +71,8 @@
                             response($.map(data, function(item) {
                                 return {
                                     id: item.id,
-                                    label: item.title,
+                                    title: item.title,
+                                    subtitle: item.subtitle,
                                     type: item.type,
                                     url: item.url
                                 }
@@ -84,7 +85,15 @@
                     //console.log( "Selected: " + ui.item.type + " aka " + ui.item.url );
                     window.location.href = ui.item.url;
                 }
-            } );
+            } ).autocomplete( "instance" )._renderItem = function( ul, item ) {
+                var additionalClass;
+
+                if (!item.subtitle) additionalClass = 'category';
+
+                return $( "<li>" )
+                        .append( "<div><p class='autosearch-title " + additionalClass + "'>" + item.title + "</p><p class='autosearch-subtitle'>" + item.subtitle + "</p></div>" )
+                        .appendTo( ul );
+            }
         });
 
         // global form validation

@@ -63,11 +63,13 @@
                     <div class="col-sm-6">
 
                         @if ($company->address)
-                            <p><p><i class="fa fa-map-marker" aria-hidden="true"></i> {!! $company->address  !!}</p>
+                            <p><i class="fa fa-map-marker" aria-hidden="true"></i> {!! $company->address  !!}</p>
                         @endif
 
                         @if ($company->tel)
-                            <p><p><i class="fa fa-phone-square" aria-hidden="true"></i> {{ $company->tel }}</p>
+                            <p>
+                                <i class="fa fa-phone-square" aria-hidden="true"></i> {{ $company->tel }}
+                            </p>
                         @endif
                     </div>
                     @if ($company->description)
