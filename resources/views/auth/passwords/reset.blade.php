@@ -1,8 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.service')
 
 @section('content')
 <div class="container">
     <div class="row">
+        <div style="margin-bottom: 30px;">
+            <h1 class="index-page-title text-center">{{ Request::get('site')->name }}</h1>
+        </div>
+
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Reset Password</div>
