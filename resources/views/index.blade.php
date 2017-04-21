@@ -67,12 +67,12 @@
                         <a href="/login" class="btn btn-default btn-white no-border">{{ trans('common.login') }}</a>
                         <a href="/register" class="btn btn-default btn-white">{{ trans('common.registration') }}</a>
                     @else
-                        <a href="/logout">{{ trans('common.logout') }}</a>
+                        <a href="/logout" class="btn btn-default btn-white">{{ trans('common.logout') }}</a>
                     @endif
                 </div>
             </div>
 
-            <h1 style="color: #FFF; font-size: 4em; margin-bottom: 35px; text-shadow: 1px 1px #000;">{{ Request::get('site')->name }}</h1>
+            <h1 class="index-page-title">{{ Request::get('site')->name }}</h1>
 
             <div style="max-width: 900px; margin: 0 auto; padding: 0px 30px 0px 30px; margin-bottom: 20px;">
                 <div class="input-group input-group-lg">

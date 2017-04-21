@@ -25,7 +25,7 @@
     <meta name="site_locale" content="{{ Request::get('site')->locale }}" />
 </head>
 <body>
-    @if (Route::currentRouteName() != "index")
+    @if (Route::currentRouteName() != "index" && Route::currentRouteName() != "login" && Route::currentRouteName() != "password")
         @include('partials.header-inner')
         @include('partials.menu')
     @else

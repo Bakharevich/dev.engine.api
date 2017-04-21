@@ -4,6 +4,12 @@
 }
 
 /* Main styles */
+.index-page-title {
+    color: #FFF;
+    font-size: 4em;
+    margin-bottom: 35px;
+    text-shadow: 1px 1px #000;
+}
 A {
     /*color: #00928c;*/
 }
