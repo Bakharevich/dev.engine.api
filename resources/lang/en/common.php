@@ -14,6 +14,7 @@ return [
     'cancel' => 'Cancel',
     'close' => 'Close',
     'admin' => 'Admin',
+    'send' => 'Send',
 
     'alert-not-done' => 'Functionality has not been implemented yet'
 ];

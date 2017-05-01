@@ -7,6 +7,13 @@ use App\CompanyQuote;
 use App\Site;
 
 class CompanyRepository {
+    public static function find($id)
+    {
+        $company = Company::with('categories')->find($id);
+
+        return $company;
+    }
+
     public static function create($request)
     {
         // get site info
@@ -53,6 +60,14 @@ class CompanyRepository {
             'category_id' => $request['category_id'],
             'company_id' => $company->id
         ]);
+
+        return $company;
+    }
+
+    public static function update($companyId, $data)
+    {
+        // @todo: Update geo position when update address
+        $company = Company::where('id', $companyId)->update($data);
 
         return $company;
     }

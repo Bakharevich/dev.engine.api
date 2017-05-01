@@ -8,7 +8,17 @@ Route::get('/companies/success', 'Web\CompanyController@success');
 Route::get('/page/{slug}', 'Web\PageController@show');
 Route::get('/blog/{slug}', 'Web\NewsController@show');
 Route::get('/logout', 'Auth\LoginController@logout');
-Route::get('/admin/companies', 'Admin\CompanyController@index');
+
+// admin
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/admin/', 'Admin\IndexController@index');
+    Route::get('/admin/companies', 'Admin\CompanyController@index');
+    Route::get('/admin/companies/{id}', 'Admin\CompanyController@edit');
+    Route::put('/admin/companies/{id}', 'Admin\CompanyController@update');
+    Route::get('/admin/companies_photos/{id}', 'Admin\CompanyPhotoController@edit');
+    Route::post('/admin/companies_photos/{id}', 'Api\CompanyPhotoController@store');
+});
+
 
 Auth::routes();
 
@@ -24,6 +34,10 @@ foreach ($domains as $domain) {
         Route::get('/reviews', 'Web\CompanyController@reviewsGet');
     });
 }
+
+//Route::get('/admin/companies', function() {
+//    //echo "Admin";
+//});
 
 // test route
 //Route::get('/infoisinfo', function () {
