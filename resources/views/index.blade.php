@@ -67,6 +67,10 @@
                         <a href="/login" class="btn btn-default btn-white no-border">{{ trans('common.login') }}</a>
                         <a href="/register" class="btn btn-default btn-white">{{ trans('common.registration') }}</a>
                     @else
+                        @if ($companies)
+                            <a href="/admin" class="btn btn-default btn-white" style="border: 2px solid #ff6666;">{{ trans('common.admin') }}</a>
+                        @endif
+
                         <a href="/logout" class="btn btn-default btn-white">{{ trans('common.logout') }}</a>
                     @endif
                 </div>

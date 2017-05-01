@@ -6,9 +6,12 @@ use App\CategoryGroup;
 use App\Http\Controllers\Controller;
 
 use App\News;
+use App\User;
+use App\UserCompany;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Cache;
+use Auth;
 use App\Category;
 use Route;
 use App\Meta;
@@ -20,7 +23,6 @@ class IndexController extends Controller
     {
         // get categories groups
         $categoriesGroups = CategoryGroup::where('site_id', $request->site->id)->where('city_id', $request->site->city_id)->get();
-        //dd($categoriesGroups);
 
         // get categories
         $categories = Category::where('site_id', $request->site->id)->where('city_id', $request->site->city_id)->get();
@@ -34,6 +36,12 @@ class IndexController extends Controller
         // get random category
         $countCategories = Category::where('site_id', $request->site->id)->where('city_id', $request->site->city_id)->count();
         $rand = rand(1, $countCategories - 5);
+
+        $companies = '';
+        if (Auth::check()) {
+            // check if user has any companies
+            $companies = UserCompany::where('user_id', Auth::id())->first();
+        }
 
         $categoriesRandom = Category::where('site_id', $request->site->id)->
             where('city_id', $request->site->city_id)->
@@ -52,12 +60,13 @@ class IndexController extends Controller
         ];
 
         return view('index', [
-            'categories'       => $categories,
-            'categoriesRandom' => $categoriesRandom,
-            'categoriesGroups' => $categoriesGroups,
-            'meta'             => $meta,
-            'news'             => $news,
-            'colours'          => $colours
+            'categories'        => $categories,
+            'categoriesRandom'  => $categoriesRandom,
+            'categoriesGroups'  => $categoriesGroups,
+            'meta'              => $meta,
+            'news'              => $news,
+            'colours'           => $colours,
+            'companies'         => $companies
         ]);
     }
 }
