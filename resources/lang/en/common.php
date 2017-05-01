@@ -13,6 +13,7 @@ return [
     'logout' => 'Log out',
     'cancel' => 'Cancel',
     'close' => 'Close',
+    'admin' => 'Admin',
 
     'alert-not-done' => 'Functionality has not been implemented yet'
 ];
