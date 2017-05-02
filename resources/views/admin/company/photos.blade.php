@@ -29,10 +29,10 @@
 
     <div class="row photos sortable">
         @foreach ($photos as $photo)
-            <div class="col-sm-3 img" data-id="{{ $photo->id }}">
+            <div class="col-sm-2 img" data-id="{{ $photo->id }}">
                 <img src="{{ $photo->url }}" class="img-responsive img-rounded" style="margin-bottom: 7px;" />
                 <button type="button" class="btn btn-default btn-xs delete-photo" data-id="{{ $photo->id }}">
-                    <span class="glyphicon glyphicon-remove"></span> Delete {{ $photo->id }}
+                    <span class="glyphicon glyphicon-remove"></span> Delete
                 </button>
             </div>
         @endforeach
