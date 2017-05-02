@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/css/custom_resolutions.css" />
     <link rel="stylesheet" href="http://<?= Request::get('site')->domain ?>/css/admin/simple-sidebar.css" />
 
+
+    <!-- Include Editor style. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+
+
     <meta name="site_id" content="{{ Request::get('site')->id }}" />
     <meta name="site_locale" content="{{ Request::get('site')->locale }}" />
 </head>
@@ -96,6 +102,9 @@
 <script src="http://<?= Request::get('site')->domain ?>/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="http://<?= Request::get('site')->domain ?>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="http://<?= Request::get('site')->domain ?>/bower_components/jquery-ui/jquery-ui.min.js"></script>
+<!-- Include Editor JS files. -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1//js/froala_editor.pkgd.min.js"></script>
+
 
 @yield('scripts')
 
