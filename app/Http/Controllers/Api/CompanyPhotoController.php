@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Company;
+use App\CompanyPhoto;
+use App\Repositories\CompanyPhotoRepository;
 use App\Repositories\CompanyRepository;
 use Illuminate\Http\Request;
 
@@ -130,6 +133,35 @@ class CompanyPhotoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // remove photo from DB
+        CompanyPhotoRepository::destroy($id);
+    }
+
+    public function updatePositions(Request $request)
+    {
+        $positions = $request->input('positions');
+
+        if (!empty($positions)) {
+            foreach ($positions as $position => $photoId) {
+                // get photo
+                $photo = \App\CompanyPhoto::find($photoId);
+
+                // update main photo
+                if ($position == 0) {
+                    $company = \App\Company::find($photo->company_id);
+
+                    // get site
+                    $site = \App\Site::find($company->site_id);
+
+                    // set new main photo
+                    $company->main_photo_url = $site->media_url . "companies/500/" . $photo->filename;
+                    $company->save();
+                }
+
+                // update photo position
+                $photo->pos = $position;
+                $photo->save();
+            }
+        }
     }
 }
