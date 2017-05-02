@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Repositories\CompanyPhotoRepository;
 use App\Repositories\CompanyRepository;
 use Illuminate\Http\Request;
 
@@ -130,6 +131,7 @@ class CompanyPhotoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // remove photo from DB
+        CompanyPhotoRepository::destroy($id);
     }
 }

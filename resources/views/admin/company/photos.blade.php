@@ -30,7 +30,10 @@
     <div class="row photos">
         @foreach ($photos as $photo)
             <div class="col-sm-3 img">
-                <img src="{{ $photo->url }}" class="img-responsive img-rounded" />
+                <img src="{{ $photo->url }}" class="img-responsive img-rounded" style="margin-bottom: 10px;" />
+                <button type="button" class="btn btn-default btn-xs delete-photo" data-id="{{ $photo->id }}">
+                    <span class="glyphicon glyphicon-remove"></span> Delete
+                </button>
             </div>
         @endforeach
     </div>
@@ -40,6 +43,7 @@
 @section('scripts')
     <script>
         $(function(){
+            // submit upload
             $('.upload-photos').submit(function(e) {
                 e.preventDefault();
 
@@ -64,6 +68,29 @@
                     }
                 });
 
+            });
+
+            // delete photo
+            $(".delete-photo").click(function(e) {
+                var photoId = $(this).data('id');
+
+                $.ajax({
+                    url: '/api/companies_photos/' + photoId,
+                    type: "DELETE",
+                    data: {id: photoId},
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        alert('success');
+                        //console.log(data);
+                        //location.reload();
+                    },
+                    error: function (data) {
+                        alert('error');
+                        //console.log(data);
+                    }
+                });
             });
         });
     </script>

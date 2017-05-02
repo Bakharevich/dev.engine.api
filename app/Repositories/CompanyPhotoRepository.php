@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\CompanyPhoto;
+use File;
 
 class CompanyPhotoRepository {
     public static function create($data)
@@ -32,5 +33,24 @@ class CompanyPhotoRepository {
 
 
         return $photos;
+    }
+
+    public static function destroy($photoId)
+    {
+        // get photo
+        $photo = \App\CompanyPhoto::find($photoId);
+
+        // get company
+        $company = \App\Company::find($photo->company_id);
+
+        // get site
+        $site = \App\Site::find($company->site_id);
+
+        // remove from DB
+        \App\CompanyPhoto::destroy($photoId);
+
+        // remove from filesystem
+        unlink($site->media_path . 'companies/500/' . $photo->filename);
+        unlink($site->media_path . 'companies/' . $photo->filename);
     }
 }

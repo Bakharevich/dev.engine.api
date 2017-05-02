@@ -17,6 +17,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::put('/admin/companies/{id}', 'Admin\CompanyController@update');
     Route::get('/admin/companies_photos/{id}', 'Admin\CompanyPhotoController@edit');
     Route::post('/admin/companies_photos/{id}', 'Api\CompanyPhotoController@store');
+    Route::delete('/admin/companies_photos/{id}', 'Api\CompanyPhotoController@destroy');
 });
 
 

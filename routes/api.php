@@ -38,6 +38,9 @@ Route::resource('companies', \Api\CompanyController::class);
 /* COMPANIES_QUOTE */
 Route::resource('companies_quotes', \Api\CompanyQuoteController::class);
 
+/* COMPANIES_PHOTOS */
+Route::resource('companies_photos', \Api\CompanyPhotoController::class);
+
 /* LANGUAGES */
 Route::get('languages/keys', 'Api\LanguageController@keys')->name('languages.keys');
 Route::resource('languages', \Api\LanguageController::class);
