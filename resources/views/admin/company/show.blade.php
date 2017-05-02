@@ -40,7 +40,9 @@
 @section('scripts')
     <script>
         $(function(){
-
+            $('#description').froalaEditor({
+                height: 300
+            });
         });
     </script>
 @stop
