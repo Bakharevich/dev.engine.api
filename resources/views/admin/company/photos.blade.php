@@ -63,7 +63,7 @@
                         location.reload();
                     },
                     error: function (data) {
-                        alert('error');
+                        alert('Error during uploading photo');
                         console.log(data);
                     }
                 });
@@ -72,8 +72,10 @@
 
             // delete photo
             $(".delete-photo").click(function(e) {
+                // get photo id
                 var photoId = $(this).data('id');
 
+                // send ajax request
                 $.ajax({
                     url: '/api/companies_photos/' + photoId,
                     type: "DELETE",
@@ -82,15 +84,18 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        alert('success');
+                        //alert('success');
                         //console.log(data);
                         //location.reload();
                     },
                     error: function (data) {
-                        alert('error');
+                        //alert('error');
                         //console.log(data);
                     }
                 });
+
+                // remove element from dom
+                $(this).parent().remove();
             });
         });
     </script>
