@@ -39,6 +39,7 @@ Route::resource('companies', \Api\CompanyController::class);
 Route::resource('companies_quotes', \Api\CompanyQuoteController::class);
 
 /* COMPANIES_PHOTOS */
+Route::post('companies_photos/updatepositions', 'Api\CompanyPhotoController@updatePositions');
 Route::resource('companies_photos', \Api\CompanyPhotoController::class);
 
 /* LANGUAGES */

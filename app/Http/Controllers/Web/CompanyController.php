@@ -66,7 +66,7 @@ class CompanyController extends Controller
                                 $query->orderBy('created_at', 'desc');
                             }])->
                             with(['photos' => function($query) {
-                                $query->limit(6);
+                                $query->limit(6)->orderBy('pos');
                             }])->
                             with('hours')->
                             where('domain', $companyDomain)->where('site_id', $request->get('site')->id)->first();

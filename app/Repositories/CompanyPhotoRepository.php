@@ -29,7 +29,7 @@ class CompanyPhotoRepository {
 
     public static function getByCompanyId($companyId)
     {
-        $photos = \App\CompanyPhoto::where('company_id', $companyId)->get();
+        $photos = \App\CompanyPhoto::where('company_id', $companyId)->orderBy('pos')->get();
 
 
         return $photos;

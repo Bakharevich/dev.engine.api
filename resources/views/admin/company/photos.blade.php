@@ -27,12 +27,12 @@
         <button class="btn btn-primary upload-image" type="submit">{{ trans('common.send') }}</button>
     </div>
 
-    <div class="row photos">
+    <div class="row photos sortable">
         @foreach ($photos as $photo)
-            <div class="col-sm-3 img">
-                <img src="{{ $photo->url }}" class="img-responsive img-rounded" style="margin-bottom: 10px;" />
+            <div class="col-sm-3 img" data-id="{{ $photo->id }}">
+                <img src="{{ $photo->url }}" class="img-responsive img-rounded" style="margin-bottom: 7px;" />
                 <button type="button" class="btn btn-default btn-xs delete-photo" data-id="{{ $photo->id }}">
-                    <span class="glyphicon glyphicon-remove"></span> Delete
+                    <span class="glyphicon glyphicon-remove"></span> Delete {{ $photo->id }}
                 </button>
             </div>
         @endforeach
@@ -97,6 +97,47 @@
                 // remove element from dom
                 $(this).parent().remove();
             });
+
+
+            $( ".sortable" ).sortable({
+                revert: true,
+                tolerance: 'pointer',
+                start: function(event, ui) {
+                    console.log("Old position: " + ui.placeholder.index());
+                },
+                update: function(event, ui) {
+                    //console.log("Update: " + ui.placeholder.index());
+                },
+                stop: function(event, ui) {
+                    console.log("Stop: ");
+                    var positions = [];
+
+                    $(".photos DIV.img").each(function() {
+                        positions.push($(this).data('id'));
+                    });
+
+                    console.log(positions);
+
+                    $.ajax({
+                        url: '/api/companies_photos/updatepositions',
+                        type: "POST",
+                        data: {positions: positions},
+                        //cache: false,
+                        //contentType: false,
+                        //processData: false,
+                        success: function (data) {
+                            //alert('success');
+                            //console.log(data);
+                            //location.reload();
+                        },
+                        error: function (data) {
+                            //alert('error');
+                            //console.log(data);
+                        }
+                    });
+                }
+            });
+            $( ".sortable" ).disableSelection();
         });
     </script>
 @stop
