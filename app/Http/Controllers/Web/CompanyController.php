@@ -45,7 +45,8 @@ class CompanyController extends Controller
 
         Mail::send('emails.notification-company', ['request' => $request->all(), 'site' => $request->site, 'company' => $company], function ($m) use ($request) {
             $m->from('ilya@bakharevich.by', $request->site->domain);
-
+            $m->cc('bond@chatoff.by', 'Natalia Bondarenko');
+            $m->cc('nasilovskaya@chatoff.by', 'Anastasia Nasilovskaya');
             $m->to('ilya@bakharevich.by')->subject('New company at ' . $request->site->domain);
         });
 
@@ -239,7 +240,8 @@ class CompanyController extends Controller
 
         Mail::send('emails.notification-comment', ['request' => $request->all(), 'site' => $request->site, 'company' => $company], function ($m) use ($request) {
             $m->from('ilya@bakharevich.by', $request->site->domain);
-
+            $m->cc('bond@chatoff.by', 'Natalia Bondarenko');
+            $m->cc('nasilovskaya@chatoff.by', 'Anastasia Nasilovskaya');
             $m->to('ilya@bakharevich.by')->subject('New comment at ' . $request->site->domain);
         });
 
