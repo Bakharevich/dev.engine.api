@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\CategoryCompany;
 use App\Company;
 use App\CompanyQuote;
+use App\CompanyContact;
 use App\Site;
 
 class CompanyRepository {
@@ -27,6 +28,7 @@ class CompanyRepository {
         // check if company with such URL exists
         $ifExists = Company::where('site_id', $request['site_id'])->where('url', $request['url'])->first();
 
+        // add company
         if ($ifExists) {
             for ($i = 1; $i <= 300; $i++) {
                 // set new domain and url
@@ -40,14 +42,34 @@ class CompanyRepository {
                     $request['domain'] = $newDomain;
                     $request['url'] = $newUrl;
 
-                    $company = Company::create($request);
+                    // add company
+                    $company = Company::create([
+                        'category_id' => $request['category_id'],
+                        'name' => $request['name'],
+                        'address' => $request['name'],
+                        'tel' => $request['tel'],
+                        'website' => $request['website'],
+                        'description' => $request['description'],
+                        'price_range' => $request['price_range']
+                    ]);
+
                     break;
                 }
             }
         }
         else {
-            $company = Company::create($request);
+            $company = Company::create([
+                'category_id' => $request['category_id'],
+                'name' => $request['name'],
+                'address' => $request['name'],
+                'tel' => $request['tel'],
+                'website' => $request['website'],
+                'description' => $request['description'],
+                'price_range' => $request['price_range']
+            ]);
         }
+        //dd($company);
+
 
         // update company position
         $company->pos = $company->id;

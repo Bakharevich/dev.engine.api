@@ -15,6 +15,7 @@ use App\Http\Requests;
 
 use App\Category;
 use App\Company;
+use App\CompanyContact;
 use App\City;
 use Mail;
 use App\Http\Requests\CompanyCreate;
@@ -36,12 +37,27 @@ class CompanyController extends Controller
     {
         // prepare params
         $params = $request->only([
-            'category_id', 'name', 'address', 'tel', 'website', 'description', 'price_range'
+            'category_id', 'name', 'address', 'tel', 'website', 'description', 'price_range', 'contact_name',
+            'contact_surname', 'contact_tel', 'contact_email'
         ]);
         $params['site_id'] = $request->site->id;
 
+        // add company
         $company = CompanyRepository::create($params);
-        //dd($company);
+
+        // add contact person
+        $companyContact = [];
+        if (!empty($params['contact_name'])) {
+            $companyContact = CompanyContact::create([
+                'company_id'    => $company->id,
+                'name'          => $params['contact_name'],
+                'surname'       => $params['contact_surname'],
+                'position'      => 'Sent application',
+                'tel'           => $params['contact_tel'],
+                'email'         => $params['contact_email']
+            ]);
+        }
+//        dd($companyContact);
 
         Mail::send('emails.notification-company', ['request' => $request->all(), 'site' => $request->site, 'company' => $company], function ($m) use ($request) {
             $m->from('ilya@bakharevich.by', $request->site->domain);
@@ -49,7 +65,7 @@ class CompanyController extends Controller
             $m->cc('nasilovskaya@chatoff.by', 'Anastasia Nasilovskaya');
             $m->to('ilya@bakharevich.by')->subject('New company at ' . $request->site->domain);
         });
-
+//
         return redirect('/companies/success');
     }
 

@@ -11,6 +11,8 @@ return [
     'hours_today' => 'Today',
 
     /* ADD A BUSINESS */
+    'create-about-company' => 'About Company',
+    'create-contact_person' => 'Contact Person',
     'create-heading' => 'Add a Business',
     'create-category' => 'Category',
     'create-name' => 'Name',
@@ -20,6 +22,12 @@ return [
     'create-description' => 'Description',
     'create-price-range' => 'Price range',
     'create-photos' => 'Photos',
+
+    'create-contact_name' => 'Name',
+    'create-contact_surname' => 'Surname',
+    'create-contact_tel' => 'Telephone number',
+    'create-contact_email' => 'Email',
+
     'create-btn-create' => 'Add',
 
     'create-success-heading' => 'Success!',

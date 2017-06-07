@@ -11,6 +11,8 @@ return [
     'hours_today' => 'Открыто',
 
     /* ADD A BUSINESS */
+    'create-about-company' => 'О компании',
+    'create-contact_person' => 'Контактное лицо',
     'create-heading' => 'Добавить компанию',
     'create-category' => 'Выберите категорию',
     'create-name' => 'Название компании',
@@ -20,6 +22,12 @@ return [
     'create-description' => 'Описание',
     'create-price-range' => 'Уровень цен',
     'create-photos' => 'Фотографии',
+
+    'create-contact_name' => 'Имя',
+    'create-contact_surname' => 'Фамилия',
+    'create-contact_tel' => 'Телефон',
+    'create-contact_email' => 'Email',
+
     'create-btn-create' => 'Добавить',
 
     'create-success-heading' => 'Заявка отправлена!',
