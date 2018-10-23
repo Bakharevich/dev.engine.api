@@ -47,12 +47,12 @@ class PageController extends Controller
                 return Redirect::back()->withErrors($validator->errors())->withInput($request->all());
             }
 
-            Mail::send('emails.contact', ['request' => $request->all(), 'site' => $request->site], function ($m) use ($request) {
-                $m->from('ilya@bakharevich.by', $request->site->domain);
-                $m->replyTo($request->input('email'), $request->input('name'));
-
-                $m->to('ilya@bakharevich.by')->subject('Message from ' . $request->site->domain);
-            });
+//            Mail::send('emails.contact', ['request' => $request->all(), 'site' => $request->site], function ($m) use ($request) {
+//                $m->from('ilya@bakharevich.by', $request->site->domain);
+//                $m->replyTo($request->input('email'), $request->input('name'));
+//
+//                $m->to('ilya@bakharevich.by')->subject('Message from ' . $request->site->domain);
+//            });
 
             // set flash message
             $request->session()->flash('message', 1);
